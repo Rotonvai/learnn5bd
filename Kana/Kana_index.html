@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Kana | Japanese N5</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/N5" href="./N5.jpg">
   <style>
     :root {
       --primary-color: #4361ee;
@@ -33,6 +32,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
     
     body {
@@ -48,18 +48,19 @@
     .header {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 90;
     }
     
     .container {
-      width: 90%;
+      width: 92%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1rem;
+      padding: 0 0.5rem;
     }
     
     .header-content {
@@ -69,7 +70,7 @@
     }
     
     .logo {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--primary-color);
       text-decoration: none;
@@ -81,8 +82,8 @@
     .logo-icon {
       background-color: var(--hiragana-color);
       color: white;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -98,6 +99,8 @@
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
+      padding: 0.5rem;
+      font-size: 0.9rem;
     }
     
     .back-button:hover {
@@ -106,16 +109,16 @@
     
     .main {
       flex: 1;
-      padding: 3rem 0;
+      padding: 1.5rem 0;
     }
     
     .page-title {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     
     .title-text {
-      font-size: 2.5rem;
+      font-size: 2rem;
       background: linear-gradient(90deg, var(--hiragana-color), var(--katakana-color));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -126,18 +129,19 @@
     }
     
     .subtitle-text {
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: var(--dark-color);
       opacity: 0.8;
       font-weight: 400;
       max-width: 600px;
       margin: 0 auto;
+      padding: 0 1rem;
     }
     
     .kana-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 1.5rem;
       max-width: 1000px;
       margin: 0 auto;
     }
@@ -145,6 +149,36 @@
     @media (min-width: 768px) {
       .kana-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+      
+      .main {
+        padding: 2.5rem 0;
+      }
+      
+      .title-text {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle-text {
+        font-size: 1.2rem;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .back-button {
+        font-size: 1rem;
+      }
+      
+      .container {
+        padding: 0 1rem;
       }
     }
     
@@ -159,11 +193,8 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-    }
-    
-    .kana-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      touch-action: manipulation;
     }
     
     .kana-card:active {
@@ -171,7 +202,7 @@
     }
     
     .card-header {
-      padding: 2.5rem 1.5rem;
+      padding: 2rem 1.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -208,7 +239,7 @@
     }
     
     .kana-script {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 700;
       color: white;
       margin-bottom: 0.5rem;
@@ -218,7 +249,7 @@
     }
     
     .romaji {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       font-weight: 600;
       color: rgba(255, 255, 255, 0.9);
       position: relative;
@@ -226,14 +257,14 @@
     }
     
     .card-body {
-      padding: 1.5rem;
+      padding: 1.25rem;
       flex: 1;
       display: flex;
       flex-direction: column;
     }
     
     .description {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--dark-color);
       opacity: 0.8;
       margin-bottom: 1.5rem;
@@ -249,7 +280,7 @@
       align-items: center;
       gap: 0.75rem;
       margin-bottom: 0.75rem;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
     
     .feature-icon {
@@ -273,7 +304,7 @@
     }
     
     .card-footer {
-      padding: 1.5rem;
+      padding: 1.25rem;
       border-top: 1px solid var(--gray-light);
       display: flex;
       justify-content: center;
@@ -310,7 +341,7 @@
     
     .footer {
       background: white;
-      padding: 2rem 0;
+      padding: 1.5rem 0;
       text-align: center;
       margin-top: auto;
       box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.05);
@@ -319,7 +350,29 @@
     .footer-text {
       color: var(--dark-color);
       opacity: 0.7;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+    
+    @media (min-width: 768px) {
+      .kana-script {
+        font-size: 3.5rem;
+      }
+      
+      .romaji {
+        font-size: 1.5rem;
+      }
+      
+      .description {
+        font-size: 1rem;
+      }
+      
+      .feature {
+        font-size: 0.95rem;
+      }
+      
+      .footer-text {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>

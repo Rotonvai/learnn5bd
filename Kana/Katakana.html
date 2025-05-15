@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Katakana Chart | Japanese N5</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/N5" href="./N5.jpg">
   <style>
     :root {
       --primary-color: #4361ee;
@@ -30,6 +29,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
     
     body {
@@ -45,18 +45,19 @@
     .header {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 90;
     }
     
     .container {
-      width: 90%;
+      width: 92%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1rem;
+      padding: 0 0.5rem;
     }
     
     .header-content {
@@ -66,7 +67,7 @@
     }
     
     .logo {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--primary-color);
       text-decoration: none;
@@ -78,8 +79,8 @@
     .logo-icon {
       background-color: var(--kana-color);
       color: white;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -95,6 +96,8 @@
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
+      padding: 0.5rem;
+      font-size: 0.9rem;
     }
     
     .back-button:hover {
@@ -103,42 +106,43 @@
     
     .main {
       flex: 1;
-      padding: 3rem 0;
+      padding: 1.5rem 0;
     }
     
     .page-title {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     
     .title-text {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: var(--kana-color);
       margin-bottom: 0.5rem;
       font-weight: 700;
     }
     
     .subtitle-text {
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: var(--dark-color);
       opacity: 0.8;
       font-weight: 400;
       max-width: 600px;
       margin: 0 auto;
+      padding: 0 1rem;
     }
     
     .grid-container {
       background: white;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      padding: 2rem;
-      margin-bottom: 2rem;
+      padding: 1.25rem 0.75rem;
+      margin-bottom: 1.5rem;
     }
     
     .section-title {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       color: var(--kana-color);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       font-weight: 600;
       text-align: left;
       padding-left: 0.5rem;
@@ -147,10 +151,10 @@
     
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+      gap: 0.5rem;
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     
     .card {
@@ -162,11 +166,12 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      padding: 1rem 0.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 0.75rem 0.25rem;
       aspect-ratio: 1;
       position: relative;
       overflow: hidden;
+      touch-action: manipulation;
     }
     
     .card::before {
@@ -181,24 +186,24 @@
       transition: var(--transition);
     }
     
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    .card:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
     
-    .card:hover::before {
+    .card:active::before {
       opacity: 1;
     }
     
     .kana {
-      font-size: 1.8rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: var(--dark-color);
       margin-bottom: 0.25rem;
     }
     
     .romaji {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 500;
       color: var(--kana-color);
     }
@@ -211,6 +216,7 @@
       bottom: 0;
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 1000;
       display: none;
       align-items: center;
@@ -219,9 +225,9 @@
     
     #popup-container {
       background: white;
-      padding: 3rem 2rem;
+      padding: 2.5rem 1.5rem;
       width: 90%;
-      max-width: 400px;
+      max-width: 320px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       border-radius: 20px;
       text-align: center;
@@ -229,29 +235,29 @@
     }
     
     #popup-kana {
-      font-size: 5rem;
+      font-size: 4rem;
       color: var(--kana-color);
       margin-bottom: 1rem;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     
     #popup-romaji {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       color: var(--dark-color);
       font-weight: 600;
     }
     
     #popup-pronunciation {
       margin-top: 1.5rem;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--dark-color);
       opacity: 0.7;
     }
     
     #popup-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      top: 0.75rem;
+      right: 0.75rem;
       background: var(--gray-light);
       border: none;
       width: 36px;
@@ -270,7 +276,7 @@
     
     .footer {
       background: white;
-      padding: 2rem 0;
+      padding: 1.5rem 0;
       text-align: center;
       margin-top: auto;
       box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.05);
@@ -279,13 +285,13 @@
     .footer-text {
       color: var(--dark-color);
       opacity: 0.7;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     
     .section-divider {
       height: 1px;
       background: var(--gray-medium);
-      margin: 2rem 0;
+      margin: 1.5rem 0;
     }
     
     .fade-in {
@@ -306,37 +312,10 @@
       to { transform: scale(1); opacity: 1; }
     }
     
-    @media (max-width: 768px) {
-      .title-text {
-        font-size: 2rem;
-      }
-      
-      .subtitle-text {
-        font-size: 1rem;
-      }
-      
-      .grid-container {
-        padding: 1.5rem 1rem;
-      }
-      
+    @media (min-width: 480px) {
       .grid {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
         gap: 0.75rem;
-      }
-      
-      .kana {
-        font-size: 1.5rem;
-      }
-      
-      .romaji {
-        font-size: 0.8rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .grid {
-        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-        gap: 0.5rem;
       }
       
       .card {
@@ -344,11 +323,77 @@
       }
       
       .kana {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
+      }
+      
+      .romaji {
+        font-size: 0.85rem;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .title-text {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle-text {
+        font-size: 1.2rem;
+      }
+      
+      .grid-container {
+        padding: 2rem;
+      }
+      
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 1rem;
+      }
+      
+      .kana {
+        font-size: 1.8rem;
+      }
+      
+      .romaji {
+        font-size: 0.9rem;
+      }
+      
+      .section-title {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
       }
       
       #popup-kana {
-        font-size: 4rem;
+        font-size: 5rem;
+      }
+      
+      #popup-romaji {
+        font-size: 1.5rem;
+      }
+      
+      #popup-container {
+        padding: 3rem 2rem;
+        max-width: 400px;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .back-button {
+        font-size: 1rem;
+      }
+      
+      .main {
+        padding: 3rem 0;
+      }
+      
+      .footer-text {
+        font-size: 0.9rem;
       }
     }
   </style>
