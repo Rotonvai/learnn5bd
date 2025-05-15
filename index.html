@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale:1.0, maximum-scale:1.0, user-scalable=no"/>
   <title>Learn N5 Japanese</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +76,15 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: translateY(-2px);
+    }
+    
+    .logo:active {
+      transform: translateY(0);
     }
     
     .logo-icon {
@@ -88,6 +97,12 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .logo:hover .logo-icon {
+      transform: rotate(10deg);
+      background-color: var(--secondary-color);
     }
     
     .greeting {
@@ -104,6 +119,18 @@
     .page-title {
       text-align: center;
       margin-bottom: 2rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .title-text {
@@ -123,7 +150,7 @@
     
     .grid {
       display: grid;
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
     
@@ -175,7 +202,8 @@
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                  box-shadow 0.4s ease;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
       position: relative;
       display: flex;
@@ -183,10 +211,17 @@
       height: 100%;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       touch-action: manipulation;
+      cursor: pointer;
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
     }
     
     .card:active {
-      transform: scale(0.98);
+      transform: translateY(-2px) scale(0.98);
+      transition: transform 0.1s ease;
     }
     
     .card-header {
@@ -197,6 +232,12 @@
       position: relative;
       overflow: hidden;
       min-height: 100px;
+      transition: all 0.5s ease;
+    }
+    
+    .card:hover .card-header {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
     }
     
     .card-header::before {
@@ -208,6 +249,11 @@
       height: 80px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
+      transition: transform 0.5s ease;
+    }
+    
+    .card:hover .card-header::before {
+      transform: scale(1.2) translate(-10px, 10px);
     }
     
     .card-header::after {
@@ -219,6 +265,11 @@
       height: 60px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
+      transition: transform 0.5s ease;
+    }
+    
+    .card:hover .card-header::after {
+      transform: scale(1.2) translate(10px, -10px);
     }
     
     .kana-header { background: linear-gradient(135deg, var(--kana-color), #66bb6a); }
@@ -229,20 +280,33 @@
     .quiz-header { background: linear-gradient(135deg, var(--quiz-color), #7e57c2); }
     
     .japanese {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: white;
       text-align: center;
       position: relative;
       z-index: 1;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 0.4s ease, text-shadow 0.4s ease;
+    }
+
+    @media (min-width: 640px) {
+      .japanese {
+        font-size: 3rem;
+      }
     }
     
     .card-body {
-      padding: 1.25rem;
+      padding: 1rem;
       flex: 1;
       display: flex;
       flex-direction: column;
+    }
+
+    @media (min-width: 640px) {
+      .card-body {
+        padding: 1.25rem;
+      }
     }
     
     .card-title {
@@ -250,6 +314,11 @@
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: var(--dark-color);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    
+    .card:hover .card-title {
+      transform: translateX(5px);
     }
     
     .kana-title { color: var(--kana-color); }
@@ -260,10 +329,15 @@
     .quiz-title { color: var(--quiz-color); }
     
     .card-description {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--dark-color);
       opacity: 0.7;
       margin-bottom: 1rem;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .card-description {
+      opacity: 0.9;
     }
     
     .card-footer {
@@ -279,8 +353,32 @@
       display: flex;
       align-items: center;
       gap: 0.25rem;
-      transition: var(--transition);
+      transition: all 0.3s ease;
       padding: 0.5rem 0;
+      position: relative;
+    }
+    
+    .card-button svg {
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card-button svg {
+      transform: translateX(5px);
+    }
+    
+    .card-button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+    }
+    
+    .card:hover .card-button::after {
+      width: 100%;
     }
     
     .kana-button { color: var(--kana-color); }
@@ -302,19 +400,22 @@
       background: var(--gray-medium);
       border-radius: 2px;
       overflow: hidden;
+      position: relative;
     }
     
     .progress-fill {
       height: 100%;
       border-radius: 2px;
+      transition: width 1s cubic-bezier(0.19, 1, 0.22, 1);
+      width: 0;
     }
     
-    .kana-progress { background-color: var(--kana-color); width: 85%; }
-    .vocab-progress { background-color: var(--vocab-color); width: 60%; }
-    .grammar-progress { background-color: var(--grammar-color); width: 45%; }
-    .kanji-progress { background-color: var(--kanji-color); width: 30%; }
-    .listening-progress { background-color: var(--listening-color); width: 50%; }
-    .quiz-progress { background-color: var(--quiz-color); width: 70%; }
+    .kana-progress { background-color: var(--kana-color); }
+    .vocab-progress { background-color: var(--vocab-color); }
+    .grammar-progress { background-color: var(--grammar-color); }
+    .kanji-progress { background-color: var(--kanji-color); }
+    .listening-progress { background-color: var(--listening-color); }
+    .quiz-progress { background-color: var(--quiz-color); }
     
     .progress-text {
       font-size: 0.8rem;
@@ -322,6 +423,11 @@
       white-space: nowrap;
       color: var(--dark-color);
       opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .progress-text {
+      opacity: 1;
     }
     
     .footer {
@@ -336,6 +442,131 @@
       color: var(--dark-color);
       opacity: 0.7;
       font-size: 0.85rem;
+      transition: opacity 0.3s ease;
+    }
+    
+    .footer-text:hover {
+      opacity: 1;
+    }
+    
+    /* Animation for cards on page load */
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card {
+      animation: cardAppear 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* View Toggle Button Styles */
+    .view-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+      display: flex;
+      background-color: white;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .view-toggle:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .toggle-option {
+      position: relative;
+      z-index: 2;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 24px;
+      text-decoration: none;
+    }
+
+    .toggle-option.active {
+      color: white;
+    }
+
+    .toggle-option:not(.active) {
+      color: var(--dark-color);
+      opacity: 0.7;
+    }
+
+    .toggle-option:not(.active):hover {
+      opacity: 1;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      height: calc(100% - 8px);
+      width: calc(50% - 4px);
+      background-color: var(--primary-color);
+      border-radius: 24px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+    }
+
+    .toggle-slider.mobile {
+      transform: translateX(100%);
+    }
+
+    .toggle-icon {
+      display: inline-flex;
+    }
+
+    @media (max-width: 640px) {
+      .view-toggle {
+        top: 12px;
+        right: 12px;
+        transform: scale(0.9);
+      }
+      
+      .toggle-option {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-toggle {
+      animation: fadeInDown 0.5s ease-out forwards;
     }
   </style>
 </head>
@@ -351,6 +582,30 @@
       </div>
     </div>
   </header>
+  
+  <!-- View Toggle Button -->
+  <div class="view-toggle">
+    <div class="toggle-slider"></div>
+    <a href="https://example.com/desktop" class="toggle-option active" data-view="desktop">
+      <span class="toggle-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+      </span>
+      <span>Desktop</span>
+    </a>
+    <a href="https://rotonvai.github.io/learnn5bd/" class="toggle-option" data-view="mobile">
+      <span class="toggle-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+          <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+      </span>
+      <span>Mobile</span>
+    </a>
+  </div>
   
   <main class="main">
     <div class="container">
@@ -411,7 +666,7 @@
         </a>
         
         <!-- Grammar Card -->
-        <a href="#grammar" class="card">
+        <a href="./Grammar/Grammar_index.html" class="card">
           <div class="card-header grammar-header">
             <div class="japanese">文法</div>
           </div>
@@ -436,7 +691,7 @@
         </a>
         
         <!-- Kanji Card -->
-        <a href="#kanji" class="card">
+        <a href="./Kanji/Kanji_index.html" class="card">
           <div class="card-header kanji-header">
             <div class="japanese">漢字</div>
           </div>
@@ -461,7 +716,7 @@
         </a>
         
         <!-- Listening Card -->
-        <a href="#listening" class="card">
+        <a href="./Listening/Listening_index.html" class="card">
           <div class="card-header listening-header">
             <div class="japanese">▶</div>
           </div>
@@ -518,5 +773,109 @@
       <p class="footer-text">&copy;2025 Hafizur R Manik. All rights reserved</p>
     </div>
   </footer>
+
+  <script>
+    // Animate progress bars on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all progress fill elements
+      const progressBars = document.querySelectorAll('.progress-fill');
+      
+      // Set a small delay to ensure DOM is fully loaded
+      setTimeout(() => {
+        // Set the width for each progress bar based on the text percentage
+        progressBars.forEach(bar => {
+          // Find the parent card
+          const card = bar.closest('.card');
+          // Find the progress text in the same card
+          const progressText = card.querySelector('.progress-text');
+          // Get the percentage from the text
+          const percentage = progressText.textContent.replace('%', '');
+          // Set the width of the progress bar
+          bar.style.width = percentage + '%';
+        });
+      }, 500);
+    });
+
+    // Add smooth scrolling for all links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Add ripple effect to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.style.position = 'absolute';
+        ripple.style.width = '1px';
+        ripple.style.height = '1px';
+        ripple.style.borderRadius = '50%';
+        ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.transition = 'transform 0.6s, opacity 0.6s';
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.style.transform = 'scale(150)';
+          ripple.style.opacity = '0';
+        }, 10);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // View Toggle Button Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleOptions = document.querySelectorAll('.toggle-option');
+      const toggleSlider = document.querySelector('.toggle-slider');
+      
+      toggleOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+          // Only handle the click if it's not already active
+          if (!this.classList.contains('active')) {
+            // Remove active class from all options
+            toggleOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Add active class to clicked option
+            this.classList.add('active');
+            
+            // Move the slider
+            if (this.dataset.view === 'mobile') {
+              toggleSlider.classList.add('mobile');
+            } else {
+              toggleSlider.classList.remove('mobile');
+            }
+            
+            // Prevent default only if we're just toggling the view without navigating
+            // e.preventDefault();
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
