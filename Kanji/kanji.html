@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Basic Kanji 120 - Mobile Flashcard System</title>
+    <title>Basic Kanji 120 - Enhanced Flashcard System</title>
     
-    <!-- Optimized Font Loading for Mobile -->
+    <!-- Enhanced Smart Font Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=Kalpurush:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -17,6 +17,8 @@
             --card-shadow-hover: 0 12px 35px rgba(0,0,0,0.18);
             --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-flip: cubic-bezier(0.23, 1, 0.320, 1);
+            --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --transition-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --border-radius: 16px;
             --spacing-xs: 4px;
             --spacing-sm: 8px;
@@ -39,10 +41,10 @@
         }
 
         body {
-            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--primary-gradient);
             min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -63,18 +65,20 @@
         }
 
         .english-text {
-            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-feature-settings: "kern" 1, "liga" 1;
+            font-optical-sizing: auto;
         }
 
         .bangla-text {
-            font-family: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif;
+            font-family: 'Kalpurush', 'Noto Sans Bengali', 'SolaimanLipi', sans-serif;
             font-feature-settings: "kern" 1, "liga" 1;
             line-height: 1.6;
             font-variant-numeric: proportional-nums;
+            font-optical-sizing: auto;
         }
 
-        /* Mobile-First Header */
+        /* Header */
         .header {
             text-align: center;
             margin-bottom: var(--spacing-lg);
@@ -103,7 +107,7 @@
             line-height: 1.4;
         }
 
-        /* Mobile-Optimized Study Mode */
+        /* Study Mode */
         .study-mode {
             background: rgba(255,255,255,0.12);
             padding: var(--spacing-md) var(--spacing-lg);
@@ -151,7 +155,7 @@
             transform: scale(0.98);
         }
 
-        /* Mobile-Optimized Progress */
+        /* Progress */
         .progress-container {
             width: 100%;
             max-width: 400px;
@@ -186,7 +190,7 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Mobile-Optimized Navigation */
+        /* Navigation */
         .navigation {
             display: flex;
             gap: var(--spacing-sm);
@@ -229,7 +233,7 @@
             transform: none;
         }
 
-        /* Mobile-Optimized Flashcard Container */
+        /* Enhanced Flashcard Container with Animation Support */
         .flashcard-container {
             perspective: 1200px;
             margin-bottom: var(--spacing-xl);
@@ -238,6 +242,7 @@
             max-width: 400px;
             display: flex;
             justify-content: center;
+            position: relative;
         }
 
         .flashcard {
@@ -247,11 +252,9 @@
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.6s var(--transition-flip);
-            cursor: pointer;
             user-select: none;
         }
 
-        /* Fixed: Prevent automatic flipping */
         .flashcard.flipped {
             transform: rotateY(180deg);
         }
@@ -260,7 +263,56 @@
             pointer-events: none;
         }
 
-        /* Mobile-Optimized Card Faces */
+        /* Card Transition Animations */
+        .flashcard.slide-left {
+            animation: slideLeft 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.slide-right {
+            animation: slideRight 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.slide-up {
+            animation: slideUp 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.slide-down {
+            animation: slideDown 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.fade-scale {
+            animation: fadeScale 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.rotate-in {
+            animation: rotateIn 0.6s var(--transition-elastic);
+        }
+
+        .flashcard.bounce-in {
+            animation: bounceIn 0.6s var(--transition-bounce);
+        }
+
+        .flashcard.flip-horizontal {
+            animation: flipHorizontal 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.flip-vertical {
+            animation: flipVertical 0.6s var(--transition-smooth);
+        }
+
+        .flashcard.zoom-rotate {
+            animation: zoomRotate 0.6s var(--transition-elastic);
+        }
+
+        .flashcard.elastic-bounce {
+            animation: elasticBounce 0.7s var(--transition-bounce);
+        }
+
+        .flashcard.wave-in {
+            animation: waveIn 0.6s var(--transition-smooth);
+        }
+
+        /* Card Faces */
         .card-face {
             position: absolute;
             width: 100%;
@@ -289,7 +341,7 @@
             border-color: #dee2e6;
         }
 
-        /* Mobile-Optimized Kanji Display */
+        /* Kanji Display */
         .kanji-character {
             font-size: clamp(4rem, 20vw, 7rem);
             font-weight: 900;
@@ -318,7 +370,7 @@
             z-index: 2;
         }
 
-        /* Mobile-Optimized Content Sections */
+        /* Content Sections */
         .reading-section, .meaning-section {
             margin-bottom: var(--spacing-md);
             text-align: center;
@@ -338,7 +390,7 @@
 
         .reading-text {
             font-size: clamp(1.125rem, 5vw, 1.5rem);
-            color: #2c3e50;
+            color: #2b72b9;
             margin-bottom: var(--spacing-sm);
             font-weight: 600;
             line-height: 1.3;
@@ -346,83 +398,76 @@
         }
 
         .meaning-text {
-            font-size: clamp(1rem, 4vw, 1.25rem);
-            color: #495057;
+            font-size: 20px;
+            color: #32587e;
             line-height: 1.5;
             font-weight: 500;
             word-break: break-word;
         }
 
         .bangla-meaning {
-            font-size: clamp(0.875rem, 4vw, 1.125rem);
-            color: #6c757d;
+            font-size: 20px;
+            color: #163c5e;
             line-height: 1.7;
             font-weight: 500;
             word-break: break-word;
         }
 
-        /* Mobile-Optimized Controls */
+        /* Enhanced Single-Row Controls */
         .controls {
             display: flex;
-            gap: var(--spacing-md);
+            gap: var(--spacing-sm);
             margin-bottom: var(--spacing-lg);
-            flex-wrap: wrap;
-            justify-content: center;
             animation: slideInFromBottom 0.6s ease-out 0.7s both;
             width: 100%;
             max-width: 400px;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+            padding: 0;
         }
 
         .btn {
-            padding: var(--spacing-md) var(--spacing-xl);
+            padding: var(--spacing-md) var(--spacing-lg);
             border: none;
             border-radius: var(--border-radius);
-            font-size: clamp(0.875rem, 3.5vw, 1rem);
+            font-size: clamp(0.75rem, 3.2vw, 0.875rem);
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s var(--transition-smooth);
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             position: relative;
             overflow: hidden;
-            min-width: 120px;
+            min-width: 85px;
+            max-width: 130px;
             min-height: 48px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             user-select: none;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex: 1;
+            white-space: nowrap;
+            text-align: center;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             color: white;
+            flex: 1.2;
         }
 
         .btn-secondary {
             background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
             color: white;
+            flex: 0.9;
         }
 
         .btn:active {
             transform: scale(0.95);
         }
 
-        /* Click-to-flip indicator */
-        .flip-indicator {
-            position: absolute;
-            bottom: var(--spacing-md);
-            left: 50%;
-            transform: translateX(-50%);
-            color: #6c757d;
-            font-size: clamp(0.75rem, 3vw, 0.875rem);
-            font-weight: 500;
-            opacity: 0.7;
-            animation: pulseGlow 2s infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Mobile-specific styles */
+        /* Mobile Responsive Styles */
         @media (max-width: 480px) {
             body {
                 padding: var(--spacing-sm);
@@ -441,14 +486,20 @@
             }
             
             .controls {
-                flex-direction: column;
-                align-items: center;
-                gap: var(--spacing-sm);
+                gap: 6px;
+                max-width: 100%;
+                padding: 0 var(--spacing-xs);
             }
             
             .btn {
-                width: 100%;
-                max-width: 280px;
+                padding: var(--spacing-sm) var(--spacing-md);
+                min-width: 75px;
+                max-width: 110px;
+                font-size: clamp(0.7rem, 3vw, 0.8rem);
+            }
+            
+            .btn-primary {
+                max-width: 120px;
             }
             
             .navigation {
@@ -466,7 +517,24 @@
             }
         }
 
-        /* Landscape orientation for mobile */
+        @media (max-width: 360px) {
+            .controls {
+                gap: 4px;
+            }
+            
+            .btn {
+                min-width: 65px;
+                max-width: 95px;
+                padding: var(--spacing-sm) 8px;
+                font-size: 0.7rem;
+            }
+            
+            .btn-primary {
+                max-width: 105px;
+            }
+        }
+
+        /* Landscape Orientation */
         @media (orientation: landscape) and (max-height: 500px) {
             body {
                 padding: var(--spacing-sm);
@@ -499,7 +567,7 @@
             }
         }
 
-        /* Tablet optimizations */
+        /* Tablet and Desktop */
         @media (min-width: 481px) and (max-width: 768px) {
             .flashcard {
                 max-width: 420px;
@@ -507,23 +575,221 @@
             }
             
             .controls {
-                flex-direction: row;
+                gap: var(--spacing-md);
             }
             
             .btn {
-                min-width: 140px;
+                min-width: 100px;
+                padding: var(--spacing-md) var(--spacing-lg);
+            }
+            
+            .btn-primary {
+                max-width: 150px;
             }
         }
 
-        /* Large mobile and small tablet */
         @media (min-width: 769px) {
             .flashcard {
                 max-width: 450px;
                 height: 350px;
             }
+            
+            .controls {
+                gap: var(--spacing-lg);
+            }
+            
+            .btn {
+                min-width: 120px;
+                max-width: 160px;
+            }
+            
+            .btn-primary {
+                max-width: 180px;
+            }
         }
 
-        /* Animations */
+        /* Card Transition Animation Keyframes */
+        @keyframes slideLeft {
+            0% {
+                transform: translateX(100%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideRight {
+            0% {
+                transform: translateX(-100%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(100%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-100%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeScale {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotateIn {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            70% {
+                transform: scale(0.9);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes flipHorizontal {
+            0% {
+                transform: rotateY(-90deg) scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: rotateY(0deg) scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: rotateY(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes flipVertical {
+            0% {
+                transform: rotateX(-90deg) scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: rotateX(0deg) scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: rotateX(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomRotate {
+            0% {
+                transform: scale(0.1) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) rotate(-90deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes elasticBounce {
+            0% {
+                transform: scale(0.1) translateY(-100px);
+                opacity: 0;
+            }
+            30% {
+                transform: scale(1.2) translateY(0px);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(0.9) translateY(-20px);
+                opacity: 0.9;
+            }
+            70% {
+                transform: scale(1.05) translateY(0px);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(0px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes waveIn {
+            0% {
+                transform: scale(0.8) rotateZ(-5deg) translateX(-50px);
+                opacity: 0;
+            }
+            25% {
+                transform: scale(1.1) rotateZ(2deg) translateX(0px);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(0.95) rotateZ(-1deg) translateX(10px);
+                opacity: 0.8;
+            }
+            75% {
+                transform: scale(1.02) rotateZ(0.5deg) translateX(-5px);
+                opacity: 0.95;
+            }
+            100% {
+                transform: scale(1) rotateZ(0deg) translateX(0px);
+                opacity: 1;
+            }
+        }
+
+        /* Base Animations */
         @keyframes slideInFromTop {
             from {
                 opacity: 0;
@@ -590,18 +856,7 @@
             }
         }
 
-        @keyframes pulseGlow {
-            0%, 100% {
-                opacity: 0.5;
-                transform: translateX(-50%) scale(1);
-            }
-            50% {
-                opacity: 0.8;
-                transform: translateX(-50%) scale(1.02);
-            }
-        }
-
-        /* Accessibility and reduced motion */
+        /* Accessibility and Performance */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
@@ -614,7 +869,6 @@
             }
         }
 
-        /* High contrast mode */
         @media (prefers-contrast: high) {
             .card-face {
                 border-width: 3px;
@@ -630,7 +884,6 @@
             }
         }
 
-        /* Dark mode support */
         @media (prefers-color-scheme: dark) {
             .card-front {
                 background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
@@ -655,13 +908,11 @@
             }
         }
 
-        /* Loading state */
         .loading {
             opacity: 0.7;
             pointer-events: none;
         }
 
-        /* Focus styles for accessibility */
         .btn:focus,
         .nav-btn:focus,
         .mode-btn:focus,
@@ -673,8 +924,8 @@
 </head>
 <body>
     <div class="header">
-        <h1 class="english-text">Basic Kanji</h1>
-        <p class="english-text">JLPT N5 Level</p>
+        <h1 class="english-text">Basic Kanji 120</h1>
+        <p class="english-text">Japanese Language Proficiency Test N5 Level</p>
     </div>
 
     <div class="study-mode">
@@ -692,21 +943,20 @@
 
     <div class="navigation">
         <button class="nav-btn english-text" id="prevBtn" onclick="previousCard()">← Prev</button>
-        <button class="nav-btn english-text" onclick="goToCard()">Go to Kanji</button>
+        <button class="nav-btn english-text" onclick="goToCard()">Go to kanji</button>
         <button class="nav-btn english-text" id="nextBtn" onclick="nextCard()">Next →</button>
     </div>
 
     <div class="flashcard-container">
-        <div class="flashcard" id="flashcard" onclick="flipCard()" tabindex="0" role="button" aria-label="Click to flip card">
+        <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Kanji flashcard">
             <div class="card-face card-front">
                 <div class="card-number english-text" id="cardNumber">1</div>
                 <div class="kanji-character japanese-text" id="kanjiCharacter">人</div>
-                <div class="flip-indicator english-text">Tap to flip</div>
             </div>
             <div class="card-face card-back">
                 <div class="card-number english-text" id="cardNumberBack">1</div>
                 <div class="reading-section">
-                    <div class="reading-label english-text">Reading</div>
+                    <div class="reading-label english-text">Japanese</div>
                     <div class="reading-text japanese-text" id="hiraganaReading">ひと、ジン、ニン</div>
                 </div>
                 <div class="meaning-section">
@@ -714,7 +964,7 @@
                     <div class="meaning-text english-text" id="englishMeaning">person; people</div>
                 </div>
                 <div class="meaning-section">
-                    <div class="reading-label english-text">বাংলা</div>
+                    <div class="reading-label english-text">bangla</div>
                     <div class="meaning-text bangla-text bangla-meaning" id="banglaMeaning">ব্যক্তি; মানুষ</div>
                 </div>
             </div>
@@ -722,15 +972,15 @@
     </div>
 
     <div class="controls">
+        <button class="btn btn-secondary english-text" onclick="previousCard()">Previous</button>
         <button class="btn btn-primary english-text" onclick="flipCard()">
             <span id="flipButtonText">Show Meaning</span>
         </button>
-        <button class="btn btn-secondary english-text" onclick="previousCard()">Previous</button>
         <button class="btn btn-secondary english-text" onclick="nextCard()">Next</button>
     </div>
 
     <script>
-        // Kanji data with optimized content
+        // Kanji data
         const kanjiData = [
             { kanji: "人", reading: "ひと、ジン、ニン", english: "person; people", bangla: "ব্যক্তি; মানুষ" },
             { kanji: "日", reading: "ひ、か、ニチ", english: "day; sun", bangla: "দিন; সূর্য" },
@@ -854,13 +1104,41 @@
             { kanji: "駅", reading: "エキ", english: "station", bangla: "স্টেশন" }
         ];
 
+        // Animation collection for random selection
+        const cardAnimations = [
+            'slide-left',
+            'slide-right', 
+            'slide-up',
+            'slide-down',
+            'fade-scale',
+            'rotate-in',
+            'bounce-in',
+            'flip-horizontal',
+            'flip-vertical',
+            'zoom-rotate',
+            'elastic-bounce',
+            'wave-in'
+        ];
+
         let currentCardIndex = 0;
         let isFlipped = false;
         let studyMode = 'sequential';
         let reviewCards = [];
         let isTransitioning = false;
+        let lastAnimation = '';
 
-        // Fixed: Controlled card update without automatic flipping
+        // Get random animation (avoid repeating the same animation)
+        function getRandomAnimation() {
+            let availableAnimations = cardAnimations.filter(anim => anim !== lastAnimation);
+            if (availableAnimations.length === 0) {
+                availableAnimations = cardAnimations;
+            }
+            const randomIndex = Math.floor(Math.random() * availableAnimations.length);
+            lastAnimation = availableAnimations[randomIndex];
+            return lastAnimation;
+        }
+
+        // Enhanced card update with random animations
         function updateCard() {
             if (isTransitioning) return;
             
@@ -869,6 +1147,10 @@
             
             isTransitioning = true;
             flashcard.classList.add('transitioning');
+            
+            // Apply random animation
+            const randomAnimation = getRandomAnimation();
+            flashcard.classList.add(randomAnimation);
             
             setTimeout(() => {
                 // Update card content
@@ -883,16 +1165,23 @@
                 updateNavigationButtons();
                 updateFlipButtonText();
                 
-                // Reset to front side only if currently flipped
+                // Reset to front side if currently flipped
                 if (isFlipped) {
                     flashcard.classList.remove('flipped');
                     isFlipped = false;
                     updateFlipButtonText();
                 }
                 
-                flashcard.classList.remove('transitioning');
-                isTransitioning = false;
-            }, 200);
+                // Clean up animation classes
+                setTimeout(() => {
+                    cardAnimations.forEach(anim => {
+                        flashcard.classList.remove(anim);
+                    });
+                    flashcard.classList.remove('transitioning');
+                    isTransitioning = false;
+                }, 100);
+                
+            }, 300);
         }
 
         function updateProgress() {
@@ -920,7 +1209,6 @@
             flipButtonText.textContent = isFlipped ? 'Show Kanji' : 'Show Meaning';
         }
 
-        // Fixed: Controlled flip functionality
         function flipCard() {
             if (isTransitioning) return;
             
@@ -929,7 +1217,6 @@
             isFlipped = !isFlipped;
             updateFlipButtonText();
             
-            // Add haptic feedback for mobile devices
             if (navigator.vibrate) {
                 navigator.vibrate(30);
             }
@@ -984,14 +1271,12 @@
             
             studyMode = mode;
             
-            // Update active button
             document.querySelectorAll('.mode-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             buttonElement.classList.add('active');
             
             if (mode === 'review') {
-                // Create review deck (for demo, using random subset)
                 reviewCards = [];
                 for (let i = 0; i < Math.min(30, kanjiData.length); i++) {
                     reviewCards.push(Math.floor(Math.random() * kanjiData.length));
@@ -1005,7 +1290,7 @@
             updateNavigationButtons();
         }
 
-        // Enhanced touch gesture support for mobile
+        // Touch gesture support (swipe only, no tap-to-flip)
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
@@ -1038,12 +1323,7 @@
             touchEndY = e.changedTouches[0].clientY;
             const touchDuration = Date.now() - touchStartTime;
             
-            // Handle tap vs swipe
-            if (!isSwiping && touchDuration < 300) {
-                // This is a tap, flip the card
-                flipCard();
-            } else if (isSwiping && touchDuration < 500) {
-                // This is a swipe, handle navigation
+            if (isSwiping && touchDuration < 500) {
                 handleSwipe();
             }
         }, { passive: true });
@@ -1054,28 +1334,27 @@
             const minSwipeDistance = 50;
             const maxVerticalDeviation = 80;
 
-            // Horizontal swipes for navigation
             if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < maxVerticalDeviation) {
                 if (deltaX > 0) {
-                    previousCard(); // Swipe right
+                    previousCard();
                 } else {
-                    nextCard(); // Swipe left
+                    nextCard();
                 }
             }
         }
 
-        // Enhanced keyboard navigation
+        // Keyboard navigation
         document.addEventListener('keydown', function(event) {
             if (isTransitioning) return;
             
-            const handledKeys = [' ', 'Enter', 'ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D', 'r', 'R', 's', 'S', 'Escape', 'g', 'G'];
+            const handledKeys = ['ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D', 'r', 'R', 's', 'S', 'Escape', 'g', 'G', 'f', 'F'];
             if (handledKeys.includes(event.key)) {
                 event.preventDefault();
             }
 
             switch(event.key) {
-                case ' ':
-                case 'Enter':
+                case 'f':
+                case 'F':
                     flipCard();
                     break;
                 case 'ArrowLeft':
@@ -1108,22 +1387,19 @@
             }
         });
 
-        // Mobile-optimized initialization
+        // Initialize
         function initialize() {
-            // Check if fonts are loaded
             if (document.fonts) {
                 document.fonts.ready.then(() => {
                     updateCard();
                     console.log('Fonts loaded successfully');
                 });
             } else {
-                // Fallback for browsers without font loading API
                 setTimeout(() => {
                     updateCard();
                 }, 100);
             }
             
-            // Set initial viewport height for mobile
             const setVH = () => {
                 const vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -1134,7 +1410,6 @@
             window.addEventListener('orientationchange', setVH);
         }
 
-        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', initialize);
 
         // Prevent zoom on double tap for iOS
@@ -1146,14 +1421,6 @@
             }
             lastTouchEnd = now;
         }, false);
-
-        // Add focus management for accessibility
-        flashcard.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                flipCard();
-            }
-        });
     </script>
 </body>
 </html>
