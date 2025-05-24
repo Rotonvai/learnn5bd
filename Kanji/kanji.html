@@ -2,53 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KanjiMaster Pro - 120 Essential Kanji for JLPT N5</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>N5 Japanese Kanji</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            
-            --primary-color: #6366f1;
+            --primary: #6366f1;
+            --primary-light: #818cf8;
             --primary-dark: #4f46e5;
-            --secondary-color: #f59e0b;
-            --accent-color: #06b6d4;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
+            --secondary: #f59e0b;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
             
-            --background: #fafbfc;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
             --surface: #ffffff;
             --surface-elevated: #f8fafc;
-            --surface-hover: #f1f5f9;
+            
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --text-muted: #94a3b8;
+            --text-inverse: #ffffff;
+            
             --border: #e2e8f0;
             --border-light: #f1f5f9;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            
-            --radius-sm: 6px;
             --radius: 12px;
             --radius-lg: 16px;
-            --radius-xl: 24px;
-            --radius-2xl: 32px;
+            --radius-xl: 20px;
+            
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            
+            --touch-target: 44px;
+            --header-height: 60px;
+            --bottom-nav-height: 70px;
         }
 
         [data-theme="dark"] {
-            --background: #0f172a;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
             --surface: #1e293b;
             --surface-elevated: #334155;
-            --surface-hover: #475569;
             --text-primary: #f1f5f9;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
@@ -60,169 +65,141 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--background);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.6;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.5;
             overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header */
-        .header {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding-bottom: var(--bottom-nav-height);
             transition: all 0.3s ease;
+        }
+
+        /* Mobile-First Container */
+        .container {
+            width: 100%;
+            max-width: 100vw;
+            padding: 0 var(--spacing-md);
+            margin: 0 auto;
+        }
+
+        /* Header - Mobile Optimized */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            justify-content: space-between;
+            height: 100%;
+            padding: 0 var(--spacing-md);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: var(--spacing-sm);
         }
 
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-gradient);
-            border-radius: var(--radius-lg);
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900;
-            color: white;
-            font-size: 1.5rem;
             font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 900;
+            color: var(--text-inverse);
+            font-size: 1.2rem;
         }
 
         .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-subtitle {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .control-btn {
-            width: 44px;
-            height: 44px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--surface);
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--text-primary);
-            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-icon {
+            width: var(--touch-target);
+            height: var(--touch-target);
+            border: none;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            transition: all 0.2s ease;
             font-size: 1.1rem;
+            touch-action: manipulation;
         }
 
-        .control-btn:hover {
-            border-color: var(--primary-color);
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .btn-icon:active {
+            transform: scale(0.95);
+            background: var(--primary);
+            color: var(--text-inverse);
         }
 
-        /* Hero Section */
+        /* Main Content */
+        .main {
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
+        }
+
+        /* Hero Section - Mobile Optimized */
         .hero {
-            background: var(--surface);
-            padding: 4rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--primary-gradient);
-            opacity: 0.05;
-            z-index: 0;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--text-inverse);
+            padding: var(--spacing-xl) 0;
             text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
         }
 
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-sm);
             line-height: 1.2;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: var(--spacing-lg);
             font-weight: 500;
         }
 
-        .hero-description {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
         .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            max-width: 300px;
+            margin: 0 auto;
         }
 
         .stat-item {
@@ -230,228 +207,174 @@
         }
 
         .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary-color);
             display: block;
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+            font-size: 0.75rem;
+            opacity: 0.8;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-top: var(--spacing-xs);
         }
 
         /* Search Section */
         .search-section {
-            padding: 3rem 0;
-            background: var(--surface-elevated);
+            padding: var(--spacing-lg) 0;
+            background: var(--bg-secondary);
         }
 
         .search-container {
             position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .search-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 24px;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            z-index: 2;
         }
 
         .search-input {
             width: 100%;
-            padding: 20px 24px 20px 64px;
+            height: 48px;
+            padding: 0 var(--spacing-md) 0 48px;
             border: 2px solid var(--border);
             border-radius: var(--radius-xl);
-            font-size: 1.1rem;
             background: var(--surface);
             color: var(--text-primary);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-sm);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
         }
 
         .search-input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-md);
-            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        .search-stats {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            pointer-events: none;
         }
 
-        .stats-highlight {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        /* Filters */
-        .filters-section {
-            padding: 2rem 0;
-            background: var(--background);
-        }
-
+        /* Filter Chips - Mobile Optimized */
         .filters {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
+            padding: var(--spacing-md) 0;
+            background: var(--bg-primary);
         }
 
-        .filter-btn {
-            padding: 12px 24px;
+        .filter-scroll {
+            display: flex;
+            gap: var(--spacing-sm);
+            overflow-x: auto;
+            padding: 0 var(--spacing-md);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .filter-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            flex-shrink: 0;
+            padding: var(--spacing-sm) var(--spacing-md);
             border: 2px solid var(--border);
             border-radius: var(--radius-xl);
             background: var(--surface);
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
             font-weight: 600;
-            font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            white-space: nowrap;
         }
 
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-gradient);
-            transition: left 0.3s ease;
-            z-index: 0;
+        .filter-chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-inverse);
         }
 
-        .filter-btn span {
-            position: relative;
-            z-index: 1;
+        .filter-chip:active {
+            transform: scale(0.95);
         }
 
-        .filter-btn:hover::before,
-        .filter-btn.active::before {
-            left: 0;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            border-color: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Progress Section */
-        .progress-section {
+        /* Progress Card */
+        .progress-card {
+            margin: var(--spacing-lg) var(--spacing-md);
+            padding: var(--spacing-lg);
             background: var(--surface);
-            padding: 2rem;
-            border-radius: var(--radius-2xl);
-            margin-bottom: 3rem;
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
         }
 
         .progress-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: var(--spacing-lg);
         }
 
         .progress-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
         }
 
         .progress-subtitle {
             color: var(--text-secondary);
-            font-weight: 500;
+            font-size: 0.875rem;
         }
 
         .progress-bar-container {
-            position: relative;
-            width: 100%;
-            height: 12px;
-            background: var(--border-light);
-            border-radius: 6px;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
             overflow: hidden;
-            margin: 1.5rem 0;
+            margin: var(--spacing-md) 0;
         }
 
         .progress-bar {
             height: 100%;
-            background: var(--success-gradient);
-            border-radius: 6px;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, var(--success), var(--accent));
+            border-radius: 4px;
+            transition: width 0.8s ease;
             position: relative;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
 
         .progress-stats {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.875rem;
             font-weight: 600;
         }
 
         .progress-percentage {
-            font-size: 1.1rem;
-            color: var(--success-color);
+            color: var(--success);
         }
 
-        /* Kanji Grid */
-        .kanji-section {
-            padding: 2rem 0;
-        }
-
+        /* Kanji Grid - Mobile Optimized */
         .kanji-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            margin-bottom: 3rem;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+            padding: 0 var(--spacing-md) var(--spacing-xl);
         }
 
         .kanji-card {
             background: var(--surface);
-            border-radius: var(--radius-2xl);
-            padding: 2rem;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
             box-shadow: var(--shadow);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
             border: 1px solid var(--border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            touch-action: manipulation;
             position: relative;
             overflow: hidden;
         }
@@ -462,18 +385,18 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
             transform: scaleX(0);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease;
         }
 
-        .kanji-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
+        .kanji-card:active {
+            transform: translateY(1px);
+            box-shadow: var(--shadow-md);
         }
 
-        .kanji-card:hover::before {
+        .kanji-card:active::before {
             transform: scaleX(1);
         }
 
@@ -481,44 +404,43 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 2rem;
+            margin-bottom: var(--spacing-lg);
         }
 
         .kanji-character {
             font-family: 'Noto Sans JP', sans-serif;
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            color: var(--primary-color);
-            animation: breathe 3s ease-in-out infinite;
-            text-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+            color: var(--primary);
             line-height: 1;
+            text-shadow: 0 2px 4px rgba(99, 102, 241, 0.1);
         }
 
         .kanji-number {
-            background: var(--surface-elevated);
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            padding: 0.5rem 0.75rem;
+            padding: var(--spacing-xs) var(--spacing-sm);
             border-radius: var(--radius);
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
+        /* Pronunciation Section */
         .pronunciation-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--spacing-lg);
         }
 
-        .pronunciation-row {
+        .pronunciation-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .pronunciation-item:last-child {
+            border-bottom: none;
         }
 
         .pronunciation-label {
@@ -527,359 +449,535 @@
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            min-width: 80px;
+            min-width: 70px;
         }
 
         .pronunciation-text {
             font-family: 'Noto Sans JP', sans-serif;
             font-size: 1rem;
-            color: var(--text-primary);
             font-weight: 600;
-            flex: 1;
+            color: var(--text-primary);
             text-align: right;
         }
 
+        /* Meanings Section */
         .meanings-section {
-            margin-bottom: 2rem;
+            margin-bottom: var(--spacing-lg);
         }
 
-        .meaning-row {
+        .meaning-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            padding: 0.75rem;
-            background: var(--surface-elevated);
+            align-items: flex-start;
+            padding: var(--spacing-sm);
+            background: var(--bg-secondary);
             border-radius: var(--radius);
-            border-left: 3px solid var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+            border-left: 3px solid var(--primary);
+        }
+
+        .meaning-item:last-child {
+            margin-bottom: 0;
         }
 
         .meaning-label {
             font-size: 0.75rem;
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            min-width: 70px;
+            min-width: 60px;
+            margin-top: 2px;
         }
 
         .meaning-text {
-            font-size: 1rem;
-            color: var(--text-primary);
+            font-size: 0.875rem;
             font-weight: 500;
-            flex: 1;
+            color: var(--text-primary);
             text-align: right;
+            flex: 1;
+            margin-left: var(--spacing-sm);
         }
 
         .bangla-text {
-            font-size: 0.95rem;
             color: var(--text-secondary);
-            font-weight: 500;
-            flex: 1;
-            text-align: right;
         }
 
+        /* Action Buttons */
         .kanji-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-sm);
         }
 
         .action-btn {
-            width: 44px;
-            height: 44px;
+            height: var(--touch-target);
             border: none;
             border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            z-index: 0;
-        }
-
-        .action-btn:hover::before {
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border-radius: var(--radius);
-        }
-
-        .action-btn span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .favorite-btn {
-            background: var(--surface-elevated);
-            color: var(--text-muted);
-        }
-
-        .favorite-btn::before {
-            background: var(--secondary-gradient);
-        }
-
-        .favorite-btn:hover,
-        .favorite-btn.active {
-            color: white;
-        }
-
-        .audio-btn {
-            background: var(--surface-elevated);
-            color: var(--text-muted);
-        }
-
-        .audio-btn::before {
-            background: var(--accent-gradient);
-        }
-
-        .audio-btn:hover {
-            color: white;
-        }
-
-        .details-btn {
-            background: var(--surface-elevated);
-            color: var(--text-muted);
-            width: auto;
-            padding: 0 16px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
+            touch-action: manipulation;
         }
 
-        .details-btn::before {
-            background: var(--primary-gradient);
+        .action-btn:active {
+            transform: scale(0.95);
         }
 
-        .details-btn:hover {
-            color: white;
+        .action-btn.favorite.active {
+            background: var(--secondary);
+            color: var(--text-inverse);
         }
 
-        .study-btn {
-            background: var(--surface-elevated);
+        .action-btn.audio:active {
+            background: var(--accent);
+            color: var(--text-inverse);
+        }
+
+        .action-btn.details:active {
+            background: var(--primary);
+            color: var(--text-inverse);
+        }
+
+        .action-btn.study.studied {
+            background: var(--success);
+            color: var(--text-inverse);
+        }
+
+        /* Bottom Navigation - Updated for 3 items */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-height);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .bottom-nav-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            height: 100%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
             color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            cursor: pointer;
         }
 
-        .study-btn::before {
-            background: var(--success-gradient);
+        .nav-item.active {
+            color: var(--primary);
         }
 
-        .study-btn:hover,
-        .study-btn.studied {
-            color: white;
+        .nav-item:active {
+            transform: scale(0.95);
         }
 
-        /* Modal */
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modal - Mobile Optimized */
         .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .modal-content {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 5%;
+            left: var(--spacing-md);
+            right: var(--spacing-md);
+            bottom: 5%;
             background: var(--surface);
-            border-radius: var(--radius-2xl);
-            padding: 3rem;
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
+            border-radius: var(--radius-lg);
             overflow-y: auto;
-            box-shadow: var(--shadow-xl);
-            animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes slideIn {
-            from { 
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-            to { 
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
+            box-shadow: var(--shadow-lg);
         }
 
         .modal-header {
+            position: sticky;
+            top: 0;
+            background: var(--surface);
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            z-index: 1;
         }
 
         .modal-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text-primary);
         }
 
         .close-btn {
-            width: 44px;
-            height: 44px;
-            background: var(--surface-elevated);
+            width: var(--touch-target);
+            height: var(--touch-target);
             border: none;
             border-radius: var(--radius);
-            cursor: pointer;
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
+            touch-action: manipulation;
         }
 
-        .close-btn:hover {
-            background: var(--danger-color);
-            color: white;
-            transform: scale(1.1);
+        .close-btn:active {
+            background: var(--danger);
+            color: var(--text-inverse);
+        }
+
+        .modal-body {
+            padding: var(--spacing-lg);
         }
 
         .modal-kanji-display {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: var(--spacing-xl);
         }
 
         .modal-kanji {
             font-family: 'Noto Sans JP', sans-serif;
-            font-size: 8rem;
+            font-size: 6rem;
             font-weight: 900;
-            color: var(--primary-color);
-            animation: pulse 2s ease-in-out infinite;
-            text-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
-            margin-bottom: 1rem;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: var(--spacing-md);
         }
 
         .modal-number {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--text-inverse);
+            padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--radius-lg);
             font-size: 0.875rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             display: inline-block;
         }
 
+        /* Detail Sections */
         .detail-section {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: var(--surface-elevated);
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
             border-radius: var(--radius-lg);
-            border-left: 4px solid var(--primary-color);
+            border-left: 4px solid var(--primary);
         }
 
         .detail-title {
+            font-size: 1rem;
             font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: var(--spacing-md);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .detail-content {
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
             color: var(--text-primary);
         }
 
         .readings-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
         }
 
         .reading-card {
             background: var(--surface);
-            padding: 1rem;
+            padding: var(--spacing-md);
             border-radius: var(--radius);
             border: 1px solid var(--border);
         }
 
-        .stroke-animation {
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .stroke-btn {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: var(--radius-lg);
-            cursor: pointer;
+        .reading-label {
+            font-size: 0.75rem;
             font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Action Buttons in Modal */
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .btn-primary {
+            height: 48px;
+            border: none;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--text-inverse);
             font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin: 0 8px;
-            box-shadow: var(--shadow);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
         }
 
-        .stroke-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .stroke-btn:active {
-            transform: translateY(0);
+        .btn-primary:active {
+            transform: scale(0.98);
         }
 
         /* No Results */
         .no-results {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: var(--spacing-xl);
             color: var(--text-secondary);
         }
 
         .no-results-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
             opacity: 0.5;
         }
 
         .no-results h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
             color: var(--text-primary);
         }
 
-        /* Loading */
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: calc(var(--header-height) + var(--spacing-md));
+            left: var(--spacing-md);
+            right: var(--spacing-md);
+            background: var(--success);
+            color: var(--text-inverse);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            font-weight: 600;
+            animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Pagination */
+        .pagination-container {
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .pagination-btn {
+            width: var(--touch-target);
+            height: var(--touch-target);
+            border: none;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            touch-action: manipulation;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn:not(:disabled):active {
+            transform: scale(0.95);
+            background: var(--primary);
+            color: var(--text-inverse);
+        }
+
+        .pagination-info {
+            text-align: center;
+            flex: 1;
+            margin: 0 var(--spacing-md);
+        }
+
+        .page-info {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .items-info {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 480px) {
+            .container {
+                padding: 0 var(--spacing-lg);
+            }
+            
+            .kanji-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 var(--spacing-lg) var(--spacing-xl);
+            }
+            
+            .hero-stats {
+                max-width: 400px;
+            }
+            
+            .modal-content {
+                left: 10%;
+                right: 10%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .kanji-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .readings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                left: 15%;
+                right: 15%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1200px;
+            }
+            
+            .kanji-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .modal-content {
+                left: 20%;
+                right: 20%;
+            }
+        }
+
+        /* Touch Improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .kanji-card:hover {
+                transform: none;
+            }
+            
+            .btn-icon:hover {
+                transform: none;
+            }
+            
+            .filter-chip:hover {
+                transform: none;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for keyboard navigation */
+        .btn-icon:focus,
+        .filter-chip:focus,
+        .action-btn:focus,
+        .nav-item:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        /* Loading States */
         .loading {
             display: flex;
             justify-content: center;
@@ -888,10 +986,10 @@
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary-color);
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -901,257 +999,95 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .kanji-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 20px;
+        /* Safe Area Support for iOS */
+        @supports (padding: max(0px)) {
+            .header {
+                padding-top: max(0px, env(safe-area-inset-top));
             }
             
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .hero-stats {
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-            
-            .kanji-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            
-            .kanji-character {
-                font-size: 3.5rem;
-            }
-            
-            .modal-kanji {
-                font-size: 5rem;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .filters {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
+            .bottom-nav {
+                padding-bottom: max(0px, env(safe-area-inset-bottom));
             }
             
             .modal-content {
-                padding: 2rem;
-                margin: 20px;
-                width: calc(100% - 40px);
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .readings-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pronunciation-row,
-            .meaning-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .pronunciation-text,
-            .meaning-text,
-            .bangla-text {
-                text-align: left;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .kanji-character {
-                font-size: 3rem;
-            }
-            
-            .modal-kanji {
-                font-size: 4rem;
-            }
-            
-            .hero {
-                padding: 2rem 0;
-            }
-            
-            .search-section {
-                padding: 2rem 0;
-            }
-
-            .logo-text {
-                display: none;
-            }
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Focus styles for accessibility */
-        .search-input:focus,
-        .filter-btn:focus,
-        .action-btn:focus,
-        .control-btn:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        /* Notification styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--success-color);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            z-index: 10000;
-            font-weight: 600;
-            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
-            max-width: 300px;
-            word-wrap: break-word;
-        }
-
-        .notification.error {
-            background: var(--danger-color);
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
+                top: max(5%, env(safe-area-inset-top) + 20px);
+                bottom: max(5%, env(safe-area-inset-bottom) + 20px);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">漢字</div>
-                    <div class="logo-text">
-                        <div class="logo-title">N5 Kanji</div>
-                        <div class="logo-subtitle">JLPT N5 Essential</div>
-                    </div>
-                </div>
-                <div class="header-controls">
-                    <button class="control-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light theme">
-                        <span id="themeIcon">🌙</span>
-                    </button>
-                    <button class="control-btn" onclick="showStats()" title="View statistics" aria-label="View learning statistics">
-                        <span>📊</span>
-                    </button>
-                    <button class="control-btn" onclick="resetProgress()" title="Reset progress" aria-label="Reset learning progress">
-                        <span>🔄</span>
-                    </button>
-                </div>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">漢</div>
+                <div class="logo-text">N5 Japanese</div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <button class="btn-icon" onclick="showStats()" aria-label="View statistics">
+                    <span>📊</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Essential N5 Kanji</h1>
-                <p class="hero-subtitle">Complete JLPT N5 Kanji Collection with Hafizur R Manik</p>
-                <p class="hero-description">Master 120 essential kanji characters with pronunciation, meanings in English and Bangla</p>
-                
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Learn N5 basic Kanji</h1>
+                <p class="hero-subtitle">Learn essential JLPT N5 kanji characters</p>
                 <div class="hero-stats">
                     <div class="stat-item">
                         <span class="stat-number">120</span>
-                        <span class="stat-label">Essential Kanji</span>
+                        <span class="stat-label">Kanji</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-number">500+</span>
-                        <span class="stat-label">Example Words</span>
+                        <span class="stat-label">Examples</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">JLPT N5</span>
-                        <span class="stat-label">Level Ready</span>
+                        <span class="stat-number">N5</span>
+                        <span class="stat-label">Level</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="search-section">
-        <div class="container">
-            <div class="search-container">
-                <div class="search-wrapper">
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="container">
+                <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" class="search-input" placeholder="Search kanji by character, reading, or meaning..." id="searchInput" aria-label="Search kanji">
-                </div>
-                <div class="search-stats" id="searchStats">
-                    Showing <span class="stats-highlight" id="resultCount">0</span> of <span class="stats-highlight" id="totalCount">0</span> kanji
+                    <input type="text" class="search-input" placeholder="Search kanji..." id="searchInput" aria-label="Search kanji">
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="filters-section">
-        <div class="container">
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all"><span>All Kanji</span></button>
-                <button class="filter-btn" data-filter="numbers"><span>Numbers</span></button>
-                <button class="filter-btn" data-filter="time"><span>Time & Date</span></button>
-                <button class="filter-btn" data-filter="directions"><span>Directions</span></button>
-                <button class="filter-btn" data-filter="colors"><span>Colors</span></button>
-                <button class="filter-btn" data-filter="family"><span>Family</span></button>
-                <button class="filter-btn" data-filter="school"><span>School</span></button>
-                <button class="filter-btn" data-filter="favorites"><span>Favorites ❤️</span></button>
+        <!-- Filters -->
+        <section class="filters">
+            <div class="filter-scroll">
+                <button class="filter-chip active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="numbers">Numbers</button>
+                <button class="filter-chip" data-filter="time">Time</button>
+                <button class="filter-chip" data-filter="directions">Directions</button>
+                <button class="filter-chip" data-filter="colors">Colors</button>
+                <button class="filter-chip" data-filter="family">Family</button>
+                <button class="filter-chip" data-filter="school">School</button>
+                <button class="filter-chip" data-filter="favorites">❤️ Favorites</button>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <main class="container">
-        <div class="progress-section">
+        <!-- Progress Card -->
+        <div class="progress-card">
             <div class="progress-header">
                 <h3 class="progress-title">Learning Progress</h3>
-                <p class="progress-subtitle">Track your journey through all 120 essential kanji</p>
+                <p class="progress-subtitle">Track your kanji mastery journey</p>
             </div>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progressBar" style="width: 0%"></div>
@@ -1162,75 +1098,104 @@
             </div>
         </div>
 
-        <section class="kanji-section">
-            <div class="kanji-grid" id="kanjiGrid">
-                <!-- Kanji cards will be generated here -->
-            </div>
-
-            <div class="no-results" id="noResults" style="display: none;">
-                <div class="no-results-icon">🔍</div>
-                <h3>No kanji found</h3>
-                <p>Try adjusting your search or filter criteria</p>
-            </div>
+        <!-- Kanji Grid -->
+        <section class="kanji-grid" id="kanjiGrid">
+            <!-- Kanji cards will be generated here -->
         </section>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-container" id="paginationContainer" style="display: none;">
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" onclick="goToPage(currentPage - 1)" aria-label="Previous page">
+                    <span>‹</span>
+                </button>
+                <div class="pagination-info">
+                    <span class="page-info" id="pageInfo">Page 1 of 1</span>
+                    <span class="items-info" id="itemsInfo">Showing 1-10 of 10</span>
+                </div>
+                <button class="pagination-btn" id="nextBtn" onclick="goToPage(currentPage + 1)" aria-label="Next page">
+                    <span>›</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>No kanji found</h3>
+            <p>Try adjusting your search or filter</p>
+        </div>
     </main>
 
+    <!-- Bottom Navigation - Updated to 3 items -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-content">
+            <a href="../index.html" class="nav-item active" data-tab="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="favorites">
+                <span class="nav-icon">❤️</span>
+                <span class="nav-label">Favorites</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="practice">
+                <span class="nav-icon">📝</span>
+                <span class="nav-label">Practice</span>
+            </a>
+        </div>
+    </nav>
+
     <!-- Modal -->
-    <div class="modal" id="kanjiModal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal" id="kanjiModal" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">Kanji Details</h2>
-                <button class="close-btn" onclick="closeModal()" aria-label="Close modal">
-                    <span>×</span>
-                </button>
+                <h2 class="modal-title">Kanji Details</h2>
+                <button class="close-btn" onclick="closeModal()" aria-label="Close modal">×</button>
             </div>
-            
-            <div class="modal-kanji-display">
-                <div class="modal-kanji" id="modalKanji" aria-label="Kanji character"></div>
-                <div class="modal-number" id="modalNumber"></div>
-            </div>
-            
-            <div class="detail-section">
-                <div class="detail-title">Readings</div>
-                <div class="readings-grid">
-                    <div class="reading-card">
-                        <div class="reading-label">Kun'yomi (Japanese)</div>
-                        <div class="detail-content" id="modalKunyomi"></div>
-                    </div>
-                    <div class="reading-card">
-                        <div class="reading-label">On'yomi (Chinese)</div>
-                        <div class="detail-content" id="modalOnyomi"></div>
+            <div class="modal-body">
+                <div class="modal-kanji-display">
+                    <div class="modal-kanji" id="modalKanji"></div>
+                    <div class="modal-number" id="modalNumber"></div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">Reading</div>
+                    <div class="readings-grid">
+                        <div class="reading-card">
+                            <div class="reading-label">Kun'yomi</div>
+                            <div class="detail-content" id="modalKunyomi"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="detail-section">
-                <div class="detail-title">English Meaning</div>
-                <div class="detail-content" id="modalEnglish"></div>
-            </div>
-            
-            <div class="detail-section">
-                <div class="detail-title">Bangla Meaning</div>
-                <div class="detail-content" id="modalBangla"></div>
-            </div>
-            
-            <div class="detail-section">
-                <div class="detail-title">Example Words</div>
-                <div class="detail-content" id="modalExamples"></div>
-            </div>
-            
-            <div class="stroke-animation">
-                <button class="stroke-btn" onclick="playStrokeAnimation()" aria-label="Play stroke order animation">
-                    ▶️ Stroke Animation
-                </button>
-                <button class="stroke-btn" onclick="playPronunciation()" aria-label="Play pronunciation">
-                    🔊 Pronunciation
-                </button>
+                
+                <div class="detail-section">
+                    <div class="detail-title">English Meaning</div>
+                    <div class="detail-content" id="modalEnglish"></div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">Bangla Meaning</div>
+                    <div class="detail-content" id="modalBangla"></div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">Example Words</div>
+                    <div class="detail-content" id="modalExamples"></div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="playPronunciation()">
+                        🔊 Pronunciation
+                    </button>
+                    <button class="btn-primary" onclick="playStrokeAnimation()">
+                        ✏️ Stroke Order
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
+<script>
         // Complete 120 Kanji data with Bangla meanings
         const kanjiData = [
             { 
@@ -1592,11 +1557,6 @@
                     { word: "男性", reading: "だんせい", meaning: "male" },
                     { word: "男の子", reading: "おとこのこ", meaning: "boy" }
                 ]
-            },
-            { 
-                id: 41, kanji: "女", kunyomi: "おんな", onyomi: "", 
-                
-            
             },
             { 
                 id: 41, kanji: "女", kunyomi: "おんな", onyomi: "", 
@@ -2322,11 +2282,11 @@
 
         // Filter categories
         const filterCategories = {
-            numbers: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '百', '千', '万'],
-            time: ['時', '間', '分', '半', '毎', '年', '前', '後', '午', '朝', '昼', '夕', '夜', '今', '日', '月', '週'],
-            directions: ['上', '下', '中', '右', '左', '東', '西', '南', '北', '前', '後'],
+            numbers: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
+            time: ['時', '間', '分', '半', '毎', '年', '前', '後', '午', '朝', '昼', '夕', '夜'],
+            directions: ['上', '下', '中', '右', '左', '東', '西', '南', '北'],
             colors: ['白', '赤'],
-            family: ['父', '母', '子', '男', '女', '友', '先', '生'],
+            family: ['父', '母', '子', '男', '女', '友'],
             school: ['学', '校', '先', '生', '読', '書', '聞']
         };
 
@@ -2336,12 +2296,118 @@
         let studiedKanji = JSON.parse(localStorage.getItem('kanjiMasterStudied') || '[]');
         let currentKanji = null;
 
+        // Pagination state
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        // Pagination functions
+        function updatePaginationInfo() {
+            const totalPages = Math.ceil(filteredKanji.length / itemsPerPage);
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, filteredKanji.length);
+            
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('itemsInfo').textContent = `Showing ${startItem}-${endItem} of ${filteredKanji.length}`;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredKanji.length / itemsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderKanjiGrid();
+            }
+        }
+
+        function resetPagination() {
+            currentPage = 1;
+        }
+
+        // Render kanji grid with pagination
+        function renderKanjiGrid() {
+            const grid = document.getElementById('kanjiGrid');
+            const noResults = document.getElementById('noResults');
+            const paginationContainer = document.getElementById('paginationContainer');
+            
+            if (filteredKanji.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                paginationContainer.style.display = 'none';
+                return;
+            }
+
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredKanji.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentPageKanji = filteredKanji.slice(startIndex, endIndex);
+
+            // Show grid and pagination
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+            paginationContainer.style.display = totalPages > 1 ? 'block' : 'none';
+            
+            // Render current page kanji - REMOVED ON'YOMI SECTION
+            grid.innerHTML = currentPageKanji.map(kanji => `
+                <div class="kanji-card" onclick="openModal('${kanji.kanji}')" role="button" tabindex="0">
+                    <div class="kanji-header">
+                        <div class="kanji-character">${kanji.kanji}</div>
+                        <div class="kanji-number">#${kanji.id}</div>
+                    </div>
+                    
+                    <div class="pronunciation-section">
+                        ${kanji.kunyomi ? `
+                            <div class="pronunciation-item">
+                                <div class="pronunciation-label">Kun'yomi</div>
+                                <div class="pronunciation-text">${kanji.kunyomi}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="meanings-section">
+                        <div class="meaning-item">
+                            <div class="meaning-label">EN</div>
+                            <div class="meaning-text">${kanji.english}</div>
+                        </div>
+                        <div class="meaning-item">
+                            <div class="meaning-label">BN</div>
+                            <div class="meaning-text bangla-text">${kanji.bangla}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanji-actions">
+                        <button class="action-btn favorite ${favorites.includes(kanji.kanji) ? 'active' : ''}" 
+                                onclick="event.stopPropagation(); toggleFavorite('${kanji.kanji}')" 
+                                aria-label="Toggle favorite">❤️</button>
+                        <button class="action-btn audio" 
+                                onclick="event.stopPropagation(); playPronunciation('${kanji.kanji}')" 
+                                aria-label="Play pronunciation">🔊</button>
+                        <button class="action-btn details" 
+                                onclick="event.stopPropagation(); openModal('${kanji.kanji}')" 
+                                aria-label="View details">📖</button>
+                        <button class="action-btn study ${studiedKanji.includes(kanji.kanji) ? 'studied' : ''}" 
+                                onclick="event.stopPropagation(); markAsStudied('${kanji.kanji}')" 
+                                aria-label="Mark as studied">✓</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update pagination info
+            updatePaginationInfo();
+            
+            // Scroll to top of grid
+            document.querySelector('.kanji-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         // Initialize the app
         function init() {
             renderKanjiGrid();
             setupEventListeners();
-            updateStats();
             updateProgress();
+            loadTheme();
         }
 
         // Setup event listeners
@@ -2349,9 +2415,14 @@
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', handleSearch);
             
-            // Filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', handleFilter);
+            // Filter chips
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', handleFilter);
+            });
+
+            // Bottom navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', handleNavigation);
             });
 
             // Modal close on outside click
@@ -2366,127 +2437,49 @@
                 if (e.key === 'Escape') {
                     closeModal();
                 }
-                if (e.key === '/' && !e.target.matches('input')) {
+            });
+
+            // Touch events for better mobile interaction
+            let touchStartY = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].clientY;
+                const touchDiff = touchStartY - touchY;
+                
+                // Prevent overscroll on iOS
+                if (touchDiff > 0 && window.scrollY === 0) {
                     e.preventDefault();
-                    document.getElementById('searchInput').focus();
                 }
-            });
+            }, { passive: false });
         }
 
-        // Render kanji grid
-        function renderKanjiGrid() {
-            const grid = document.getElementById('kanjiGrid');
-            const noResults = document.getElementById('noResults');
-            
-            if (filteredKanji.length === 0) {
-                grid.style.display = 'none';
-                noResults.style.display = 'block';
-                return;
-            }
-
-            grid.style.display = 'grid';
-            noResults.style.display = 'none';
-            
-            grid.innerHTML = filteredKanji.map(kanji => `
-                <div class="kanji-card" role="button" tabindex="0" aria-label="View details for kanji ${kanji.kanji}">
-                    <div class="kanji-header">
-                        <div class="kanji-character">${kanji.kanji}</div>
-                        <div class="kanji-number">#${kanji.id}</div>
-                    </div>
-                    
-                    <div class="pronunciation-section">
-                        ${kanji.kunyomi ? `
-                            <div class="pronunciation-row">
-                                <div class="pronunciation-label">Kun'yomi</div>
-                                <div class="pronunciation-text">${kanji.kunyomi}</div>
-                            </div>
-                        ` : ''}
-                        ${kanji.onyomi ? `
-                            <div class="pronunciation-row">
-                                <div class="pronunciation-label">On'yomi</div>
-                                <div class="pronunciation-text">${kanji.onyomi}</div>
-                            </div>
-                        ` : ''}
-                    </div>
-                    
-                    <div class="meanings-section">
-                        <div class="meaning-row">
-                            <div class="meaning-label">English</div>
-                            <div class="meaning-text">${kanji.english}</div>
-                        </div>
-                        <div class="meaning-row">
-                            <div class="meaning-label">Bangla</div>
-                            <div class="bangla-text">${kanji.bangla}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="kanji-actions">
-                        <button class="action-btn favorite-btn ${favorites.includes(kanji.kanji) ? 'active' : ''}" 
-                                onclick="event.stopPropagation(); toggleFavorite('${kanji.kanji}')" 
-                                title="Add to favorites" aria-label="Toggle favorite">
-                            <span>❤️</span>
-                        </button>
-                        <button class="action-btn audio-btn" 
-                                onclick="event.stopPropagation(); playPronunciation('${kanji.kanji}')" 
-                                title="Play pronunciation" aria-label="Play pronunciation">
-                            <span>🔊</span>
-                        </button>
-                        <button class="action-btn details-btn" 
-                                onclick="event.stopPropagation(); openModal('${kanji.kanji}')" 
-                                title="View details" aria-label="View details">
-                            <span>Details</span>
-                        </button>
-                        <button class="action-btn study-btn ${studiedKanji.includes(kanji.kanji) ? 'studied' : ''}" 
-                                onclick="event.stopPropagation(); markAsStudied('${kanji.kanji}')" 
-                                title="Mark as studied" aria-label="Mark as studied">
-                            <span>✓</span>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Add keyboard navigation for cards
-            document.querySelectorAll('.kanji-card').forEach(card => {
-                card.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const kanjiChar = card.querySelector('.kanji-character').textContent;
-                        openModal(kanjiChar);
-                    }
-                });
-            });
-        }
-
-        // Handle search
+        // Handle search - add resetPagination() call
         function handleSearch(e) {
             const query = e.target.value.toLowerCase();
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const activeFilter = document.querySelector('.filter-chip.active').dataset.filter;
             
             filteredKanji = kanjiData.filter(kanji => {
                 const matchesSearch = !query || 
                     kanji.kanji.includes(query) ||
                     kanji.kunyomi.toLowerCase().includes(query) ||
-                    kanji.onyomi.toLowerCase().includes(query) ||
                     kanji.english.toLowerCase().includes(query) ||
-                    kanji.bangla.toLowerCase().includes(query) ||
-                    kanji.examples.some(example => 
-                        example.word.includes(query) ||
-                        example.reading.toLowerCase().includes(query) ||
-                        example.meaning.toLowerCase().includes(query)
-                    );
+                    kanji.bangla.toLowerCase().includes(query);
                 
                 const matchesFilter = applyFilter(kanji, activeFilter);
                 
                 return matchesSearch && matchesFilter;
             });
             
+            resetPagination();
             renderKanjiGrid();
-            updateStats();
         }
 
-        // Handle filter
+        // Handle filter - add resetPagination() call
         function handleFilter(e) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
             e.target.classList.add('active');
             
             const filter = e.target.dataset.filter;
@@ -2496,22 +2489,16 @@
                 const matchesSearch = !query || 
                     kanji.kanji.includes(query) ||
                     kanji.kunyomi.toLowerCase().includes(query) ||
-                    kanji.onyomi.toLowerCase().includes(query) ||
                     kanji.english.toLowerCase().includes(query) ||
-                    kanji.bangla.toLowerCase().includes(query) ||
-                    kanji.examples.some(example => 
-                        example.word.includes(query) ||
-                        example.reading.toLowerCase().includes(query) ||
-                        example.meaning.toLowerCase().includes(query)
-                    );
+                    kanji.bangla.toLowerCase().includes(query);
                 
                 const matchesFilter = applyFilter(kanji, filter);
                 
                 return matchesSearch && matchesFilter;
             });
             
+            resetPagination();
             renderKanjiGrid();
-            updateStats();
         }
 
         // Apply filter logic
@@ -2521,19 +2508,36 @@
                     return true;
                 case 'favorites':
                     return favorites.includes(kanji.kanji);
-                case 'numbers':
-                case 'time':
-                case 'directions':
-                case 'colors':
-                case 'family':
-                case 'school':
-                    return filterCategories[filter].includes(kanji.kanji);
                 default:
-                    return true;
+                    return filterCategories[filter]?.includes(kanji.kanji) || false;
             }
         }
 
-        // Open modal
+        // Handle navigation - add resetPagination() calls
+        function handleNavigation(e) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            
+            const tab = e.currentTarget.dataset.tab;
+            
+            switch (tab) {
+                case 'home':
+                    // Reset to show all kanji
+                    document.querySelector('[data-filter="all"]').click();
+                    resetPagination();
+                    break;
+                case 'favorites':
+                    document.querySelector('[data-filter="favorites"]').click();
+                    resetPagination();
+                    break;
+                case 'practice':
+                    showNotification('Practice mode coming soon! 📚');
+                    break;
+            }
+        }
+
+        // Open modal - REMOVED ON'YOMI SECTION
         function openModal(kanjiChar) {
             currentKanji = kanjiData.find(k => k.kanji === kanjiChar);
             if (!currentKanji) return;
@@ -2541,18 +2545,17 @@
             document.getElementById('modalKanji').textContent = currentKanji.kanji;
             document.getElementById('modalNumber').textContent = `Kanji #${currentKanji.id}`;
             document.getElementById('modalKunyomi').textContent = currentKanji.kunyomi || 'None';
-            document.getElementById('modalOnyomi').textContent = currentKanji.onyomi || 'None';
             document.getElementById('modalEnglish').textContent = currentKanji.english;
             document.getElementById('modalBangla').textContent = currentKanji.bangla;
             
-            // Render examples in modal
+            // Render examples
             const examplesHtml = currentKanji.examples.map(example => `
-                <div class="example-item" style="margin-bottom: 1rem; padding: 1rem; background: var(--surface); border-radius: var(--radius); border-left: 3px solid var(--primary-color);">
+                <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius); border-left: 3px solid var(--primary);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <span style="font-family: 'Noto Sans JP', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--text-primary);">${example.word}</span>
-                        <button onclick="playPronunciation('${example.word}')" style="background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0.25rem;" title="Play pronunciation">🔊</button>
+                        <span style="font-family: 'Noto Sans JP', sans-serif; font-weight: 700; font-size: 1.1rem;">${example.word}</span>
+                        <button onclick="playPronunciation('${example.word}')" style="background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0.25rem;">🔊</button>
                     </div>
-                    <div style="font-family: 'Noto Sans JP', sans-serif; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 1rem;">${example.reading}</div>
+                    <div style="font-family: 'Noto Sans JP', sans-serif; color: var(--text-secondary); margin-bottom: 0.5rem;">${example.reading}</div>
                     <div style="color: var(--text-secondary); font-weight: 500;">${example.meaning}</div>
                 </div>
             `).join('');
@@ -2562,9 +2565,6 @@
             document.getElementById('kanjiModal').style.display = 'block';
             document.getElementById('kanjiModal').setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            
-            // Focus management for accessibility
-            document.querySelector('.close-btn').focus();
         }
 
         // Close modal
@@ -2586,8 +2586,6 @@
             
             localStorage.setItem('kanjiMasterFavorites', JSON.stringify(favorites));
             renderKanjiGrid();
-            
-            // Show feedback
             showNotification(`${kanjiChar} ${index > -1 ? 'removed from' : 'added to'} favorites!`);
         }
 
@@ -2602,13 +2600,12 @@
             }
         }
 
-        // Play pronunciation using Web Speech API
+        // Play pronunciation
         function playPronunciation(text = null) {
             const textToSpeak = text || (currentKanji ? currentKanji.kanji : null);
             if (!textToSpeak) return;
             
             if ('speechSynthesis' in window) {
-                // Stop any ongoing speech
                 speechSynthesis.cancel();
                 
                 const utterance = new SpeechSynthesisUtterance(textToSpeak);
@@ -2617,25 +2614,9 @@
                 utterance.pitch = 1;
                 utterance.volume = 1;
                 
-                // Add visual feedback
-                const audioButtons = document.querySelectorAll('.audio-btn, .stroke-btn');
-                audioButtons.forEach(btn => {
-                    if (btn.textContent.includes('🔊')) {
-                        btn.style.transform = 'scale(1.1)';
-                        btn.style.background = 'var(--accent-gradient)';
-                    }
-                });
-                
-                utterance.onend = () => {
-                    audioButtons.forEach(btn => {
-                        btn.style.transform = '';
-                        btn.style.background = '';
-                    });
-                };
-                
                 speechSynthesis.speak(utterance);
             } else {
-                showNotification('Speech synthesis not supported in your browser', 'error');
+                showNotification('Speech synthesis not supported', 'error');
             }
         }
 
@@ -2646,23 +2627,16 @@
             const kanjiElement = document.getElementById('modalKanji');
             kanjiElement.style.animation = 'none';
             
-            // Create stroke animation effect
             setTimeout(() => {
-                kanjiElement.style.animation = 'pulse 0.5s ease-in-out 3, breathe 2s ease-in-out infinite';
-                kanjiElement.style.color = 'var(--secondary-color)';
+                kanjiElement.style.animation = 'pulse 0.5s ease-in-out 3';
+                kanjiElement.style.color = 'var(--secondary)';
                 
                 setTimeout(() => {
-                    kanjiElement.style.color = 'var(--primary-color)';
+                    kanjiElement.style.color = 'var(--primary)';
                 }, 1500);
             }, 10);
             
             showNotification('Stroke animation played! ✨');
-        }
-
-        // Update statistics
-        function updateStats() {
-            document.getElementById('resultCount').textContent = filteredKanji.length;
-            document.getElementById('totalCount').textContent = kanjiData.length;
         }
 
         // Update progress
@@ -2709,28 +2683,13 @@
             alert(statsMessage);
         }
 
-        // Reset progress
-        function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
-                localStorage.removeItem('kanjiMasterFavorites');
-                localStorage.removeItem('kanjiMasterStudied');
-                favorites = [];
-                studiedKanji = [];
-                updateProgress();
-                renderKanjiGrid();
-                showNotification('Progress reset successfully!');
-            }
-        }
-
         // Show notification
         function showNotification(message, type = 'success') {
-            // Create notification element
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.textContent = message;
             document.body.appendChild(notification);
             
-            // Remove notification after 3 seconds
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.parentNode.removeChild(notification);
@@ -2745,27 +2704,28 @@
             document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
         }
 
-        // Initialize app when DOM is loaded
+        // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
-            loadTheme();
             init();
-            
-            // Show welcome message
-            setTimeout(() => {
-                showNotification('Welcome to KanjiMaster Pro! Master all 120 essential kanji for JLPT N5! 🎌');
-            }, 500);
+            showNotification('Welcome to KanjiMaster Mobile! 🎌');
         });
 
-        // Add service worker for offline functionality (optional)
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Service worker registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
             });
         }
     </script>
