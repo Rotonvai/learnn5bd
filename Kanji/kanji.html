@@ -2,1425 +2,2772 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Basic Kanji 120 - Enhanced Flashcard System</title>
-    
-    <!-- Enhanced Smart Font Loading -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=Kalpurush:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KanjiMaster Pro - 120 Essential Kanji for JLPT N5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 8px 25px rgba(0,0,0,0.12);
-            --card-shadow-hover: 0 12px 35px rgba(0,0,0,0.18);
-            --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-flip: cubic-bezier(0.23, 1, 0.320, 1);
-            --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --transition-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --border-radius: 16px;
-            --spacing-xs: 4px;
-            --spacing-sm: 8px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f59e0b;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            
+            --background: #fafbfc;
+            --surface: #ffffff;
+            --surface-elevated: #f8fafc;
+            --surface-hover: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            --radius-sm: 6px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-2xl: 32px;
+        }
+
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-elevated: #334155;
+            --surface-hover: #475569;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --border-light: #475569;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            font-size: 16px;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
         }
 
         body {
-            font-family: 'Inter', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--primary-gradient);
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: var(--spacing-md);
-            color: #333;
-            overflow-x: hidden;
-            touch-action: manipulation;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-        }
-
-        /* Enhanced Typography Classes */
-        .japanese-text {
-            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-            font-feature-settings: "kern" 1, "liga" 1;
-            font-variant-numeric: proportional-nums;
-        }
-
-        .english-text {
-            font-family: 'Inter', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-feature-settings: "kern" 1, "liga" 1;
-            font-optical-sizing: auto;
-        }
-
-        .bangla-text {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', 'SolaimanLipi', sans-serif;
-            font-feature-settings: "kern" 1, "liga" 1;
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
             line-height: 1.6;
-            font-variant-numeric: proportional-nums;
-            font-optical-sizing: auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
         /* Header */
         .header {
-            text-align: center;
-            margin-bottom: var(--spacing-lg);
-            color: white;
-            animation: slideInFromTop 0.6s ease-out;
-            z-index: 10;
-            width: 100%;
-            max-width: 100%;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
         }
 
-        .header h1 {
-            font-size: clamp(1.75rem, 8vw, 2.5rem);
-            margin-bottom: var(--spacing-sm);
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-            animation: fadeInScale 0.8s ease-out 0.2s both;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: white;
+            font-size: 1.5rem;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
+        }
+
+        .control-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--surface);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1.2;
         }
 
-        .header p {
-            font-size: clamp(0.875rem, 4vw, 1.125rem);
-            opacity: 0.95;
-            animation: fadeInScale 0.8s ease-out 0.4s both;
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
             font-weight: 500;
-            line-height: 1.4;
         }
 
-        /* Study Mode */
-        .study-mode {
-            background: rgba(255,255,255,0.12);
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-lg);
+        .hero-description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
             text-align: center;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.2);
-            animation: slideInFromTop 0.6s ease-out 0.3s both;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
         }
 
-        .mode-btn {
-            margin: var(--spacing-xs);
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: calc(var(--border-radius) + 4px);
-            cursor: pointer;
-            transition: all 0.3s var(--transition-smooth);
-            font-size: clamp(0.875rem, 3.5vw, 1rem);
-            font-weight: 600;
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 3rem 0;
+            background: var(--surface-elevated);
+        }
+
+        .search-container {
             position: relative;
-            overflow: hidden;
-            min-height: 48px;
-            min-width: 80px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .mode-btn.active {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.6);
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .mode-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Progress */
-        .progress-container {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: var(--spacing-lg);
-            animation: slideInFromLeft 0.6s ease-out 0.4s both;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
-            transition: width 0.6s var(--transition-smooth);
-            border-radius: 4px;
+        .search-wrapper {
             position: relative;
-        }
-
-        .progress-text {
-            text-align: center;
-            color: white;
-            margin-top: var(--spacing-sm);
-            font-weight: 600;
-            font-size: clamp(0.875rem, 3.5vw, 1rem);
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        /* Navigation */
-        .navigation {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
-            animation: slideInFromBottom 0.6s ease-out 0.5s both;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .nav-btn {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s var(--transition-smooth);
-            font-size: clamp(0.75rem, 3vw, 0.875rem);
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            min-height: 48px;
-            min-width: 48px;
-            position: relative;
-            overflow: hidden;
-            user-select: none;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
 
-        .nav-btn:active {
-            transform: scale(0.95);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Enhanced Flashcard Container with Animation Support */
-        .flashcard-container {
-            perspective: 1200px;
-            margin-bottom: var(--spacing-xl);
-            animation: slideInFromBottom 0.6s ease-out 0.6s both;
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            justify-content: center;
-            position: relative;
-        }
-
-        .flashcard {
-            width: 100%;
-            max-width: 380px;
-            height: 280px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s var(--transition-flip);
-            user-select: none;
-        }
-
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .flashcard.transitioning {
-            pointer-events: none;
-        }
-
-        /* Card Transition Animations */
-        .flashcard.slide-left {
-            animation: slideLeft 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.slide-right {
-            animation: slideRight 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.slide-up {
-            animation: slideUp 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.slide-down {
-            animation: slideDown 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.fade-scale {
-            animation: fadeScale 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.rotate-in {
-            animation: rotateIn 0.6s var(--transition-elastic);
-        }
-
-        .flashcard.bounce-in {
-            animation: bounceIn 0.6s var(--transition-bounce);
-        }
-
-        .flashcard.flip-horizontal {
-            animation: flipHorizontal 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.flip-vertical {
-            animation: flipVertical 0.6s var(--transition-smooth);
-        }
-
-        .flashcard.zoom-rotate {
-            animation: zoomRotate 0.6s var(--transition-elastic);
-        }
-
-        .flashcard.elastic-bounce {
-            animation: elasticBounce 0.7s var(--transition-bounce);
-        }
-
-        .flashcard.wave-in {
-            animation: waveIn 0.6s var(--transition-smooth);
-        }
-
-        /* Card Faces */
-        .card-face {
+        .search-icon {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: var(--spacing-lg);
-            transition: box-shadow 0.3s var(--transition-smooth);
-            border: 1px solid rgba(255,255,255,0.1);
-            overflow: hidden;
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border-color: #e9ecef;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            transform: rotateY(180deg);
-            border-color: #dee2e6;
-        }
-
-        /* Kanji Display */
-        .kanji-character {
-            font-size: clamp(4rem, 20vw, 7rem);
-            font-weight: 900;
-            color: #2c3e50;
-            margin-bottom: var(--spacing-md);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: kanjiReveal 0.8s ease-out;
-            transition: transform 0.2s var(--transition-smooth);
-            line-height: 0.9;
-            text-align: center;
-        }
-
-        .card-number {
-            position: absolute;
-            top: var(--spacing-md);
-            right: var(--spacing-md);
-            background: linear-gradient(135deg, #6c757d, #495057);
-            color: white;
-            padding: var(--spacing-sm) var(--spacing-md);
-            border-radius: calc(var(--border-radius) - 4px);
-            font-size: clamp(0.75rem, 3vw, 0.875rem);
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            animation: slideInFromRight 0.6s ease-out 0.8s both;
-            letter-spacing: 0.5px;
+            left: 24px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
             z-index: 2;
         }
 
-        /* Content Sections */
-        .reading-section, .meaning-section {
-            margin-bottom: var(--spacing-md);
-            text-align: center;
+        .search-input {
             width: 100%;
-            opacity: 1;
-            transform: translateY(0);
+            padding: 20px 24px 20px 64px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-xl);
+            font-size: 1.1rem;
+            background: var(--surface);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
         }
 
-        .reading-label {
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .search-stats {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stats-highlight {
+            color: var(--primary-color);
             font-weight: 700;
-            color: #495057;
-            margin-bottom: var(--spacing-xs);
-            font-size: clamp(0.75rem, 3vw, 0.875rem);
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .reading-text {
-            font-size: clamp(1.125rem, 5vw, 1.5rem);
-            color: #2b72b9;
-            margin-bottom: var(--spacing-sm);
+        /* Filters */
+        .filters-section {
+            padding: 2rem 0;
+            background: var(--background);
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--surface);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 600;
-            line-height: 1.3;
-            word-break: break-word;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: left 0.3s ease;
+            z-index: 0;
+        }
+
+        .filter-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .filter-btn:hover::before,
+        .filter-btn.active::before {
+            left: 0;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-2xl);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .progress-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .progress-subtitle {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .progress-bar-container {
+            position: relative;
+            width: 100%;
+            height: 12px;
+            background: var(--border-light);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success-gradient);
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .progress-percentage {
+            font-size: 1.1rem;
+            color: var(--success-color);
+        }
+
+        /* Kanji Grid */
+        .kanji-section {
+            padding: 2rem 0;
+        }
+
+        .kanji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 3rem;
+        }
+
+        .kanji-card {
+            background: var(--surface);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kanji-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .kanji-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .kanji-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .kanji-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .kanji-character {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            animation: breathe 3s ease-in-out infinite;
+            text-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+            line-height: 1;
+        }
+
+        .kanji-number {
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .pronunciation-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .pronunciation-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .pronunciation-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 80px;
+        }
+
+        .pronunciation-text {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            flex: 1;
+            text-align: right;
+        }
+
+        .meanings-section {
+            margin-bottom: 2rem;
+        }
+
+        .meaning-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.75rem;
+            background: var(--surface-elevated);
+            border-radius: var(--radius);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .meaning-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 70px;
         }
 
         .meaning-text {
-            font-size: 20px;
-            color: #32587e;
-            line-height: 1.5;
+            font-size: 1rem;
+            color: var(--text-primary);
             font-weight: 500;
-            word-break: break-word;
+            flex: 1;
+            text-align: right;
         }
 
-        .bangla-meaning {
-            font-size: 20px;
-            color: #163c5e;
-            line-height: 1.7;
+        .bangla-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
             font-weight: 500;
-            word-break: break-word;
+            flex: 1;
+            text-align: right;
         }
 
-        /* Enhanced Single-Row Controls */
-        .controls {
+        .kanji-actions {
             display: flex;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
-            animation: slideInFromBottom 0.6s ease-out 0.7s both;
-            width: 100%;
-            max-width: 400px;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: nowrap;
-            padding: 0;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 1.5rem;
         }
 
-        .btn {
-            padding: var(--spacing-md) var(--spacing-lg);
+        .action-btn {
+            width: 44px;
+            height: 44px;
             border: none;
-            border-radius: var(--border-radius);
-            font-size: clamp(0.75rem, 3.2vw, 0.875rem);
-            font-weight: 700;
+            border-radius: var(--radius);
             cursor: pointer;
-            transition: all 0.3s var(--transition-smooth);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            position: relative;
-            overflow: hidden;
-            min-width: 85px;
-            max-width: 130px;
-            min-height: 48px;
-            letter-spacing: 0.3px;
-            user-select: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1;
-            white-space: nowrap;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 0;
+        }
+
+        .action-btn:hover::before {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: var(--radius);
+        }
+
+        .action-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .favorite-btn {
+            background: var(--surface-elevated);
+            color: var(--text-muted);
+        }
+
+        .favorite-btn::before {
+            background: var(--secondary-gradient);
+        }
+
+        .favorite-btn:hover,
+        .favorite-btn.active {
+            color: white;
+        }
+
+        .audio-btn {
+            background: var(--surface-elevated);
+            color: var(--text-muted);
+        }
+
+        .audio-btn::before {
+            background: var(--accent-gradient);
+        }
+
+        .audio-btn:hover {
+            color: white;
+        }
+
+        .details-btn {
+            background: var(--surface-elevated);
+            color: var(--text-muted);
+            width: auto;
+            padding: 0 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .details-btn::before {
+            background: var(--primary-gradient);
+        }
+
+        .details-btn:hover {
+            color: white;
+        }
+
+        .study-btn {
+            background: var(--surface-elevated);
+            color: var(--text-muted);
+        }
+
+        .study-btn::before {
+            background: var(--success-gradient);
+        }
+
+        .study-btn:hover,
+        .study-btn.studied {
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--surface);
+            border-radius: var(--radius-2xl);
+            padding: 3rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .close-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--surface-elevated);
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: var(--danger-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .modal-kanji-display {
             text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        .modal-kanji {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .modal-number {
+            background: var(--primary-gradient);
             color: white;
-            flex: 1.2;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        .detail-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-elevated);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .detail-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .readings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .reading-card {
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .stroke-animation {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .stroke-btn {
+            background: var(--primary-gradient);
             color: white;
-            flex: 0.9;
+            border: none;
+            padding: 16px 32px;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0 8px;
+            box-shadow: var(--shadow);
         }
 
-        .btn:active {
-            transform: scale(0.95);
+        .stroke-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Mobile Responsive Styles */
-        @media (max-width: 480px) {
-            body {
-                padding: var(--spacing-sm);
-            }
-            
-            .header {
-                margin-bottom: var(--spacing-md);
-            }
-            
-            .flashcard {
-                height: 260px;
-            }
-            
-            .card-face {
-                padding: var(--spacing-md);
-            }
-            
-            .controls {
-                gap: 6px;
-                max-width: 100%;
-                padding: 0 var(--spacing-xs);
-            }
-            
-            .btn {
-                padding: var(--spacing-sm) var(--spacing-md);
-                min-width: 75px;
-                max-width: 110px;
-                font-size: clamp(0.7rem, 3vw, 0.8rem);
-            }
-            
-            .btn-primary {
-                max-width: 120px;
-            }
-            
-            .navigation {
-                gap: var(--spacing-xs);
-            }
-            
-            .nav-btn {
-                padding: var(--spacing-sm) var(--spacing-md);
-                font-size: 0.75rem;
-            }
-            
-            .mode-btn {
-                padding: var(--spacing-sm) var(--spacing-md);
-                margin: 2px;
-            }
+        .stroke-btn:active {
+            transform: translateY(0);
         }
 
-        @media (max-width: 360px) {
-            .controls {
-                gap: 4px;
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .kanji-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
             }
             
-            .btn {
-                min-width: 65px;
-                max-width: 95px;
-                padding: var(--spacing-sm) 8px;
-                font-size: 0.7rem;
+            .hero-title {
+                font-size: 2.5rem;
             }
-            
-            .btn-primary {
-                max-width: 105px;
+
+            .hero-stats {
+                gap: 1rem;
             }
         }
 
-        /* Landscape Orientation */
-        @media (orientation: landscape) and (max-height: 500px) {
-            body {
-                padding: var(--spacing-sm);
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
             }
             
-            .header {
-                margin-bottom: var(--spacing-sm);
-            }
-            
-            .header h1 {
-                font-size: clamp(1.5rem, 6vw, 2rem);
-                margin-bottom: 4px;
-            }
-            
-            .header p {
-                font-size: clamp(0.75rem, 3vw, 0.875rem);
-            }
-            
-            .flashcard {
-                height: 200px;
-            }
-            
-            .progress-container, .navigation, .controls, .study-mode {
-                margin-bottom: var(--spacing-sm);
+            .kanji-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
             
             .kanji-character {
-                font-size: clamp(3rem, 15vw, 5rem);
-                margin-bottom: var(--spacing-sm);
-            }
-        }
-
-        /* Tablet and Desktop */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .flashcard {
-                max-width: 420px;
-                height: 320px;
+                font-size: 3.5rem;
             }
             
-            .controls {
-                gap: var(--spacing-md);
+            .modal-kanji {
+                font-size: 5rem;
             }
             
-            .btn {
-                min-width: 100px;
-                padding: var(--spacing-md) var(--spacing-lg);
+            .hero-title {
+                font-size: 2rem;
             }
             
-            .btn-primary {
-                max-width: 150px;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .flashcard {
-                max-width: 450px;
-                height: 350px;
+            .hero-subtitle {
+                font-size: 1.1rem;
             }
             
-            .controls {
-                gap: var(--spacing-lg);
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
             }
             
-            .btn {
-                min-width: 120px;
-                max-width: 160px;
+            .filters {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
             }
             
-            .btn-primary {
-                max-width: 180px;
+            .modal-content {
+                padding: 2rem;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .readings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pronunciation-row,
+            .meaning-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .pronunciation-text,
+            .meaning-text,
+            .bangla-text {
+                text-align: left;
             }
         }
 
-        /* Card Transition Animation Keyframes */
-        @keyframes slideLeft {
-            0% {
-                transform: translateX(100%) scale(0.8);
-                opacity: 0;
+        @media (max-width: 480px) {
+            .kanji-character {
+                font-size: 3rem;
             }
-            100% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
+            
+            .modal-kanji {
+                font-size: 4rem;
+            }
+            
+            .hero {
+                padding: 2rem 0;
+            }
+            
+            .search-section {
+                padding: 2rem 0;
+            }
+
+            .logo-text {
+                display: none;
             }
         }
 
-        @keyframes slideRight {
-            0% {
-                transform: translateX(-100%) scale(0.8);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            0% {
-                transform: translateY(100%) scale(0.8);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideDown {
-            0% {
-                transform: translateY(-100%) scale(0.8);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeScale {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes rotateIn {
-            0% {
-                transform: rotate(-180deg) scale(0.5);
-                opacity: 0;
-            }
-            100% {
-                transform: rotate(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
-            70% {
-                transform: scale(0.9);
-                opacity: 0.9;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes flipHorizontal {
-            0% {
-                transform: rotateY(-90deg) scale(0.8);
-                opacity: 0;
-            }
-            50% {
-                transform: rotateY(0deg) scale(1.05);
-                opacity: 0.8;
-            }
-            100% {
-                transform: rotateY(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes flipVertical {
-            0% {
-                transform: rotateX(-90deg) scale(0.8);
-                opacity: 0;
-            }
-            50% {
-                transform: rotateX(0deg) scale(1.05);
-                opacity: 0.8;
-            }
-            100% {
-                transform: rotateX(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes zoomRotate {
-            0% {
-                transform: scale(0.1) rotate(-180deg);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1) rotate(-90deg);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes elasticBounce {
-            0% {
-                transform: scale(0.1) translateY(-100px);
-                opacity: 0;
-            }
-            30% {
-                transform: scale(1.2) translateY(0px);
-                opacity: 0.7;
-            }
-            50% {
-                transform: scale(0.9) translateY(-20px);
-                opacity: 0.9;
-            }
-            70% {
-                transform: scale(1.05) translateY(0px);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1) translateY(0px);
-                opacity: 1;
-            }
-        }
-
-        @keyframes waveIn {
-            0% {
-                transform: scale(0.8) rotateZ(-5deg) translateX(-50px);
-                opacity: 0;
-            }
-            25% {
-                transform: scale(1.1) rotateZ(2deg) translateX(0px);
-                opacity: 0.5;
-            }
-            50% {
-                transform: scale(0.95) rotateZ(-1deg) translateX(10px);
-                opacity: 0.8;
-            }
-            75% {
-                transform: scale(1.02) rotateZ(0.5deg) translateX(-5px);
-                opacity: 0.95;
-            }
-            100% {
-                transform: scale(1) rotateZ(0deg) translateX(0px);
-                opacity: 1;
-            }
-        }
-
-        /* Base Animations */
-        @keyframes slideInFromTop {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInFromBottom {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes kanjiReveal {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Accessibility and Performance */
+        /* Accessibility */
         @media (prefers-reduced-motion: reduce) {
-            * {
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-            
-            .flashcard {
-                transition: none;
-            }
         }
 
-        @media (prefers-contrast: high) {
-            .card-face {
-                border-width: 3px;
-            }
-            
-            .btn, .nav-btn, .mode-btn {
-                border-width: 3px;
-            }
-            
-            .kanji-character {
-                text-shadow: none;
-                font-weight: 900;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .card-front {
-                background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-                color: #e2e8f0;
-            }
-            
-            .card-back {
-                background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-                color: #e2e8f0;
-            }
-            
-            .kanji-character {
-                color: #f7fafc;
-            }
-            
-            .reading-text, .meaning-text {
-                color: #e2e8f0;
-            }
-            
-            .reading-label {
-                color: #cbd5e0;
-            }
-        }
-
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .btn:focus,
-        .nav-btn:focus,
-        .mode-btn:focus,
-        .flashcard:focus {
-            outline: 2px solid #007bff;
+        /* Focus styles for accessibility */
+        .search-input:focus,
+        .filter-btn:focus,
+        .action-btn:focus,
+        .control-btn:focus {
+            outline: 2px solid var(--primary-color);
             outline-offset: 2px;
+        }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            font-weight: 600;
+            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+
+        .notification.error {
+            background: var(--danger-color);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1 class="english-text">Basic Kanji 120</h1>
-        <p class="english-text">Japanese Language Proficiency Test N5 Level</p>
-    </div>
-
-    <div class="study-mode">
-        <button class="mode-btn active english-text" onclick="setStudyMode('sequential', this)">Sequential</button>
-        <button class="mode-btn english-text" onclick="setStudyMode('random', this)">Random</button>
-        <button class="mode-btn english-text" onclick="setStudyMode('review', this)">Review</button>
-    </div>
-
-    <div class="progress-container">
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <div class="progress-text english-text" id="progressText">1 / 120</div>
-    </div>
-
-    <div class="navigation">
-        <button class="nav-btn english-text" id="prevBtn" onclick="previousCard()">← Prev</button>
-        <button class="nav-btn english-text" onclick="goToCard()">Go to kanji</button>
-        <button class="nav-btn english-text" id="nextBtn" onclick="nextCard()">Next →</button>
-    </div>
-
-    <div class="flashcard-container">
-        <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Kanji flashcard">
-            <div class="card-face card-front">
-                <div class="card-number english-text" id="cardNumber">1</div>
-                <div class="kanji-character japanese-text" id="kanjiCharacter">人</div>
-            </div>
-            <div class="card-face card-back">
-                <div class="card-number english-text" id="cardNumberBack">1</div>
-                <div class="reading-section">
-                    <div class="reading-label english-text">Japanese</div>
-                    <div class="reading-text japanese-text" id="hiraganaReading">ひと、ジン、ニン</div>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">漢字</div>
+                    <div class="logo-text">
+                        <div class="logo-title">N5 Kanji</div>
+                        <div class="logo-subtitle">JLPT N5 Essential</div>
+                    </div>
                 </div>
-                <div class="meaning-section">
-                    <div class="reading-label english-text">English</div>
-                    <div class="meaning-text english-text" id="englishMeaning">person; people</div>
-                </div>
-                <div class="meaning-section">
-                    <div class="reading-label english-text">bangla</div>
-                    <div class="meaning-text bangla-text bangla-meaning" id="banglaMeaning">ব্যক্তি; মানুষ</div>
+                <div class="header-controls">
+                    <button class="control-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light theme">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    <button class="control-btn" onclick="showStats()" title="View statistics" aria-label="View learning statistics">
+                        <span>📊</span>
+                    </button>
+                    <button class="control-btn" onclick="resetProgress()" title="Reset progress" aria-label="Reset learning progress">
+                        <span>🔄</span>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="controls">
-        <button class="btn btn-secondary english-text" onclick="previousCard()">Previous</button>
-        <button class="btn btn-primary english-text" onclick="flipCard()">
-            <span id="flipButtonText">Show Meaning</span>
-        </button>
-        <button class="btn btn-secondary english-text" onclick="nextCard()">Next</button>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Essential N5 Kanji</h1>
+                <p class="hero-subtitle">Complete JLPT N5 Kanji Collection with Hafizur R Manik</p>
+                <p class="hero-description">Master 120 essential kanji characters with pronunciation, meanings in English and Bangla</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">120</span>
+                        <span class="stat-label">Essential Kanji</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Example Words</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">JLPT N5</span>
+                        <span class="stat-label">Level Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search kanji by character, reading, or meaning..." id="searchInput" aria-label="Search kanji">
+                </div>
+                <div class="search-stats" id="searchStats">
+                    Showing <span class="stats-highlight" id="resultCount">0</span> of <span class="stats-highlight" id="totalCount">0</span> kanji
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all"><span>All Kanji</span></button>
+                <button class="filter-btn" data-filter="numbers"><span>Numbers</span></button>
+                <button class="filter-btn" data-filter="time"><span>Time & Date</span></button>
+                <button class="filter-btn" data-filter="directions"><span>Directions</span></button>
+                <button class="filter-btn" data-filter="colors"><span>Colors</span></button>
+                <button class="filter-btn" data-filter="family"><span>Family</span></button>
+                <button class="filter-btn" data-filter="school"><span>School</span></button>
+                <button class="filter-btn" data-filter="favorites"><span>Favorites ❤️</span></button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="progress-section">
+            <div class="progress-header">
+                <h3 class="progress-title">Learning Progress</h3>
+                <p class="progress-subtitle">Track your journey through all 120 essential kanji</p>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-stats">
+                <span>Studied: <span id="studiedCount">0</span> / <span id="totalKanji">0</span></span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+        </div>
+
+        <section class="kanji-section">
+            <div class="kanji-grid" id="kanjiGrid">
+                <!-- Kanji cards will be generated here -->
+            </div>
+
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <h3>No kanji found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="kanjiModal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Kanji Details</h2>
+                <button class="close-btn" onclick="closeModal()" aria-label="Close modal">
+                    <span>×</span>
+                </button>
+            </div>
+            
+            <div class="modal-kanji-display">
+                <div class="modal-kanji" id="modalKanji" aria-label="Kanji character"></div>
+                <div class="modal-number" id="modalNumber"></div>
+            </div>
+            
+            <div class="detail-section">
+                <div class="detail-title">Readings</div>
+                <div class="readings-grid">
+                    <div class="reading-card">
+                        <div class="reading-label">Kun'yomi (Japanese)</div>
+                        <div class="detail-content" id="modalKunyomi"></div>
+                    </div>
+                    <div class="reading-card">
+                        <div class="reading-label">On'yomi (Chinese)</div>
+                        <div class="detail-content" id="modalOnyomi"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <div class="detail-title">English Meaning</div>
+                <div class="detail-content" id="modalEnglish"></div>
+            </div>
+            
+            <div class="detail-section">
+                <div class="detail-title">Bangla Meaning</div>
+                <div class="detail-content" id="modalBangla"></div>
+            </div>
+            
+            <div class="detail-section">
+                <div class="detail-title">Example Words</div>
+                <div class="detail-content" id="modalExamples"></div>
+            </div>
+            
+            <div class="stroke-animation">
+                <button class="stroke-btn" onclick="playStrokeAnimation()" aria-label="Play stroke order animation">
+                    ▶️ Stroke Animation
+                </button>
+                <button class="stroke-btn" onclick="playPronunciation()" aria-label="Play pronunciation">
+                    🔊 Pronunciation
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Kanji data
+        // Complete 120 Kanji data with Bangla meanings
         const kanjiData = [
-            { kanji: "人", reading: "ひと、ジン、ニン", english: "person; people", bangla: "ব্যক্তি; মানুষ" },
-            { kanji: "日", reading: "ひ、か、ニチ", english: "day; sun", bangla: "দিন; সূর্য" },
-            { kanji: "一", reading: "ひと(つ)、イチ、イッ", english: "one", bangla: "এক" },
-            { kanji: "二", reading: "ふた(つ)、ニ", english: "two", bangla: "দুই" },
-            { kanji: "三", reading: "みっ(つ)、サン", english: "three", bangla: "তিন" },
-            { kanji: "四", reading: "よっ(つ)、よん、よ、シ", english: "four", bangla: "চার" },
-            { kanji: "五", reading: "いつ(つ)、ゴ", english: "five", bangla: "পাঁচ" },
-            { kanji: "六", reading: "むっ(つ)、ロク", english: "six", bangla: "ছয়" },
-            { kanji: "七", reading: "なな(つ)、なな、シチ", english: "seven", bangla: "সাত" },
-            { kanji: "八", reading: "やっ(つ)、ハチ", english: "eight", bangla: "আট" },
-            { kanji: "九", reading: "ここの(つ)、キュウ、ク", english: "nine", bangla: "নয়" },
-            { kanji: "十", reading: "とお、ジュウ", english: "ten", bangla: "দশ" },
-            { kanji: "月", reading: "つき、ゲツ、ガツ", english: "moon; month", bangla: "চাঁদ; মাস" },
-            { kanji: "火", reading: "ひ、カ", english: "fire", bangla: "আগুন" },
-            { kanji: "水", reading: "みず、スイ", english: "water", bangla: "পানি" },
-            { kanji: "木", reading: "き、モク", english: "tree; wood", bangla: "গাছ; কাঠ" },
-            { kanji: "金", reading: "かね、キン", english: "money; gold", bangla: "টাকা; সোনা" },
-            { kanji: "土", reading: "ド", english: "earth; soil", bangla: "মাটি" },
-            { kanji: "百", reading: "ヒャク", english: "hundred", bangla: "একশত" },
-            { kanji: "千", reading: "セン", english: "thousand", bangla: "হাজার" },
-            { kanji: "万", reading: "マン", english: "ten thousand", bangla: "দশ হাজার" },
-            { kanji: "円", reading: "エン", english: "yen; circle", bangla: "ইয়েন; বৃত্ত" },
-            { kanji: "行", reading: "い(きます)、コウ", english: "go; conduct", bangla: "যাওয়া; পরিচালনা" },
-            { kanji: "来", reading: "き(ます)、ライ", english: "come", bangla: "আসা" },
-            { kanji: "休", reading: "やす(みます)", english: "rest; holiday", bangla: "বিশ্রাম; ছুটি" },
-            { kanji: "見", reading: "み(ます)、み(せます)", english: "see; look; watch", bangla: "দেখা" },
-            { kanji: "今", reading: "いま、コン", english: "now; present", bangla: "এখন; বর্তমান" },
-            { kanji: "大", reading: "おお(きい)、ダイ", english: "big; large", bangla: "বড়" },
-            { kanji: "小", reading: "ちい(さい)、ショウ", english: "small; little", bangla: "ছোট" },
-            { kanji: "上", reading: "うえ、ジョウ", english: "above; up; on", bangla: "উপরে" },
-            { kanji: "下", reading: "した、カ", english: "below; down; under", bangla: "নিচে" },
-            { kanji: "中", reading: "なか、チュウ", english: "middle; inside; center", bangla: "মাঝে; ভিতরে" },
-            { kanji: "右", reading: "みぎ", english: "right", bangla: "ডান" },
-            { kanji: "左", reading: "ひだり", english: "left", bangla: "বাম" },
-            { kanji: "山", reading: "やま、サン", english: "mountain", bangla: "পাহাড়" },
-            { kanji: "川", reading: "かわ", english: "river", bangla: "নদী" },
-            { kanji: "白", reading: "しろ(い)、しろ", english: "white", bangla: "সাদা" },
-            { kanji: "本", reading: "ホン", english: "book; origin", bangla: "বই; মূল" },
-            { kanji: "子", reading: "こ", english: "child", bangla: "শিশু" },
-            { kanji: "男", reading: "おとこ", english: "man; male", bangla: "পুরুষ" },
-            { kanji: "女", reading: "おんな", english: "woman; female", bangla: "মহিলা" },
-            { kanji: "父", reading: "ちち", english: "father", bangla: "বাবা" },
-            { kanji: "母", reading: "はは", english: "mother", bangla: "মা" },
-            { kanji: "友", reading: "とも", english: "friend", bangla: "বন্ধু" },
-            { kanji: "先", reading: "さき、セン", english: "previous; ahead", bangla: "আগে; সামনে" },
-            { kanji: "生", reading: "う(まれます)、セイ", english: "life; birth; student", bangla: "জীবন; জন্ম; ছাত্র" },
-            { kanji: "学", reading: "ガク", english: "study; learning", bangla: "অধ্যয়ন; শিক্ষা" },
-            { kanji: "校", reading: "コウ", english: "school", bangla: "স্কুল" },
-            { kanji: "何", reading: "なに、なん", english: "what", bangla: "কী" },
-            { kanji: "時", reading: "とき、ジ", english: "time; hour", bangla: "সময়; ঘন্টা" },
-            { kanji: "間", reading: "あいだ、カン", english: "interval; between", bangla: "ব্যবধান; মধ্যে" },
-            { kanji: "分", reading: "フン", english: "minute; part", bangla: "মিনিট; অংশ" },
-            { kanji: "半", reading: "ハン", english: "half", bangla: "অর্ধেক" },
-            { kanji: "毎", reading: "マイ", english: "every", bangla: "প্রতি" },
-            { kanji: "年", reading: "とし、ネン", english: "year", bangla: "বছর" },
-            { kanji: "前", reading: "まえ、ゼン", english: "before; front", bangla: "আগে; সামনে" },
-            { kanji: "後", reading: "うし(ろ)、あと、ゴ", english: "after; behind", bangla: "পরে; পিছনে" },
-            { kanji: "午", reading: "ゴ", english: "noon", bangla: "দুপুর" },
-            { kanji: "名", reading: "な、メイ", english: "name", bangla: "নাম" },
-            { kanji: "車", reading: "くるま、シャ", english: "car; vehicle", bangla: "গাড়ি; যানবাহন" },
-            { kanji: "天", reading: "テン", english: "heaven; sky", bangla: "আকাশ; স্বর্গ" },
-            { kanji: "気", reading: "キ", english: "spirit; mood", bangla: "মেজাজ; আত্মা" },
-            { kanji: "電", reading: "デン", english: "electricity", bangla: "বিদ্যুৎ" },
-            { kanji: "話", reading: "はな(します)、はなし、ワ", english: "talk; speak; story", bangla: "কথা বলা; গল্প" },
-            { kanji: "食", reading: "た(べます)、ショク", english: "eat; food", bangla: "খাওয়া; খাবার" },
-            { kanji: "聞", reading: "き(きます)、ブン", english: "hear; listen; ask", bangla: "শোনা; জিজ্ঞাসা" },
-            { kanji: "書", reading: "か(きます)", english: "write", bangla: "লেখা" },
-            { kanji: "読", reading: "よ(みます)", english: "read", bangla: "পড়া" },
-            { kanji: "国", reading: "くに、コク", english: "country", bangla: "দেশ" },
-            { kanji: "外", reading: "そと、ガイ", english: "outside; foreign", bangla: "বাইরে; বিদেশী" },
-            { kanji: "語", reading: "ゴ", english: "language", bangla: "ভাষা" },
-            { kanji: "入", reading: "い(れます)、はい(ります)", english: "enter; put in", bangla: "প্রবেশ; ঢোকানো" },
-            { kanji: "出", reading: "だ(します)、で(ます)", english: "exit; take out", bangla: "বের হওয়া; বের করা" },
-            { kanji: "雨", reading: "あめ", english: "rain", bangla: "বৃষ্টি" },
-            { kanji: "東", reading: "ひがし、トウ", english: "east", bangla: "পূর্ব" },
-            { kanji: "西", reading: "にし", english: "west", bangla: "পশ্চিম" },
-            { kanji: "南", reading: "みなみ", english: "south", bangla: "দক্ষিণ" },
-            { kanji: "北", reading: "きた", english: "north", bangla: "উত্তর" },
-            { kanji: "長", reading: "なが(い)", english: "long", bangla: "লম্বা" },
-            { kanji: "高", reading: "たか(い)", english: "high; expensive", bangla: "উঁচু; দামী" },
-            { kanji: "口", reading: "くち", english: "mouth", bangla: "মুখ" },
-            { kanji: "目", reading: "め", english: "eye", bangla: "চোখ" },
-            { kanji: "手", reading: "て", english: "hand", bangla: "হাত" },
-            { kanji: "足", reading: "あし", english: "foot; leg", bangla: "পা" },
-            { kanji: "近", reading: "ちか(い)", english: "near; close", bangla: "কাছে" },
-            { kanji: "有", reading: "あ(ります)、ユウ", english: "exist; have", bangla: "আছে; থাকা" },
-            { kanji: "花", reading: "はな", english: "flower", bangla: "ফুল" },
-            { kanji: "赤", reading: "あか(い)、あか", english: "red", bangla: "লাল" },
-            { kanji: "紙", reading: "かみ", english: "paper", bangla: "কাগজ" },
-            { kanji: "買", reading: "か(います)", english: "buy", bangla: "কেনা" },
-            { kanji: "朝", reading: "あさ", english: "morning", bangla: "সকাল" },
-            { kanji: "昼", reading: "ひる", english: "noon; daytime", bangla: "দুপুর; দিন" },
-            { kanji: "夕", reading: "ゆう", english: "evening", bangla: "সন্ধ্যা" },
-            { kanji: "夜", reading: "よる", english: "night", bangla: "রাত" },
-            { kanji: "私", reading: "わたし、わたくし", english: "I; me", bangla: "আমি" },
-            { kanji: "家", reading: "いえ、カ", english: "house; home", bangla: "ঘর; বাড়ি" },
-            { kanji: "会", reading: "あ(います)、カイ", english: "meet; meeting", bangla: "দেখা; সভা" },
-            { kanji: "社", reading: "シャ", english: "company; society", bangla: "কোম্পানি; সমাজ" },
-            { kanji: "店", reading: "みせ", english: "store; shop", bangla: "দোকান" },
-            { kanji: "飲", reading: "の(みます)", english: "drink", bangla: "পান করা" },
-            { kanji: "多", reading: "おお(い)", english: "many; much", bangla: "অনেক" },
-            { kanji: "少", reading: "すこ(し)、すく(ない)", english: "few; little", bangla: "কম; অল্প" },
-            { kanji: "古", reading: "ふる(い)", english: "old", bangla: "পুরানো" },
-            { kanji: "新", reading: "あたら(しい)、シン", english: "new", bangla: "নতুন" },
-            { kanji: "広", reading: "ひろ(い)", english: "wide; spacious", bangla: "প্রশস্ত" },
-            { kanji: "安", reading: "やす(い)", english: "cheap; safe", bangla: "সস্তা; নিরাপদ" },
-            { kanji: "立", reading: "た(ちます)", english: "stand", bangla: "দাঁড়ানো" },
-            { kanji: "知", reading: "し(ります)", english: "know", bangla: "জানা" },
-            { kanji: "言", reading: "い(います)、こと", english: "say; word", bangla: "বলা; কথা" },
-            { kanji: "思", reading: "おも(います)", english: "think", bangla: "ভাবা" },
-            { kanji: "歩", reading: "ある(きます)", english: "walk", bangla: "হাঁটা" },
-            { kanji: "走", reading: "はし(ります)", english: "run", bangla: "দৌড়ানো" },
-            { kanji: "住", reading: "す(みます)", english: "live; reside", bangla: "বাস করা" },
-            { kanji: "空", reading: "そら", english: "sky; empty", bangla: "আকাশ; খালি" },
-            { kanji: "週", reading: "シュウ", english: "week", bangla: "সপ্তাহ" },
-            { kanji: "魚", reading: "さかな", english: "fish", bangla: "মাছ" },
-            { kanji: "耳", reading: "みみ", english: "ear", bangla: "কান" },
-            { kanji: "銀", reading: "ギン", english: "silver", bangla: "রূপা" },
-            { kanji: "道", reading: "みち", english: "road; way", bangla: "রাস্তা; পথ" },
-            { kanji: "駅", reading: "エキ", english: "station", bangla: "স্টেশন" }
+            { 
+                id: 1, kanji: "人", kunyomi: "ひと", onyomi: "ジン、ニン", 
+                english: "person; people", bangla: "ব্যক্তি; মানুষ",
+                examples: [
+                    { word: "人", reading: "ひと", meaning: "person" },
+                    { word: "カナダ人", reading: "カナダじん", meaning: "Canadian" },
+                    { word: "三人", reading: "さんにん", meaning: "three people" }
+                ]
+            },
+            { 
+                id: 2, kanji: "日", kunyomi: "ひ、か", onyomi: "ニチ", 
+                english: "day; sun", bangla: "দিন; সূর্য",
+                examples: [
+                    { word: "その日", reading: "そのひ", meaning: "that day" },
+                    { word: "三日", reading: "みっか", meaning: "the third day" },
+                    { word: "日よう日", reading: "にちようび", meaning: "Sunday" }
+                ]
+            },
+            { 
+                id: 3, kanji: "一", kunyomi: "ひと(つ)", onyomi: "イチ、イッ", 
+                english: "one", bangla: "এক",
+                examples: [
+                    { word: "一つ", reading: "ひとつ", meaning: "one" },
+                    { word: "一人", reading: "ひとり", meaning: "one person" },
+                    { word: "一日", reading: "いちにち", meaning: "one day" }
+                ]
+            },
+            { 
+                id: 4, kanji: "二", kunyomi: "ふた(つ)", onyomi: "ニ", 
+                english: "two", bangla: "দুই",
+                examples: [
+                    { word: "二つ", reading: "ふたつ", meaning: "two" },
+                    { word: "二日", reading: "ふつか", meaning: "two days" },
+                    { word: "二人", reading: "ふたり", meaning: "two people" }
+                ]
+            },
+            { 
+                id: 5, kanji: "三", kunyomi: "みっ(つ)", onyomi: "サン", 
+                english: "three", bangla: "তিন",
+                examples: [
+                    { word: "三つ", reading: "みっつ", meaning: "three" },
+                    { word: "三日", reading: "みっか", meaning: "three days" },
+                    { word: "三人", reading: "さんにん", meaning: "three people" }
+                ]
+            },
+            { 
+                id: 6, kanji: "四", kunyomi: "よっ(つ)、よん、よ", onyomi: "シ", 
+                english: "four", bangla: "চার",
+                examples: [
+                    { word: "四つ", reading: "よっつ", meaning: "four" },
+                    { word: "四日", reading: "よっか", meaning: "four days" },
+                    { word: "四人", reading: "よにん", meaning: "four people" }
+                ]
+            },
+            { 
+                id: 7, kanji: "五", kunyomi: "いつ(つ)", onyomi: "ゴ", 
+                english: "five", bangla: "পাঁচ",
+                examples: [
+                    { word: "五つ", reading: "いつつ", meaning: "five" },
+                    { word: "五日", reading: "いつか", meaning: "five days" },
+                    { word: "五人", reading: "ごにん", meaning: "five people" }
+                ]
+            },
+            { 
+                id: 8, kanji: "六", kunyomi: "むっ(つ)", onyomi: "ロク", 
+                english: "six", bangla: "ছয়",
+                examples: [
+                    { word: "六つ", reading: "むっつ", meaning: "six" },
+                    { word: "六日", reading: "むいか", meaning: "six days" },
+                    { word: "六人", reading: "ろくにん", meaning: "six people" }
+                ]
+            },
+            { 
+                id: 9, kanji: "七", kunyomi: "なな(つ)、なな", onyomi: "シチ", 
+                english: "seven", bangla: "সাত",
+                examples: [
+                    { word: "七つ", reading: "ななつ", meaning: "seven" },
+                    { word: "七日", reading: "なのか", meaning: "seven days" },
+                    { word: "七人", reading: "しちにん", meaning: "seven people" }
+                ]
+            },
+            { 
+                id: 10, kanji: "八", kunyomi: "やっ(つ)", onyomi: "ハチ", 
+                english: "eight", bangla: "আট",
+                examples: [
+                    { word: "八つ", reading: "やっつ", meaning: "eight" },
+                    { word: "八日", reading: "ようか", meaning: "eight days" },
+                    { word: "八人", reading: "はちにん", meaning: "eight people" }
+                ]
+            },
+            { 
+                id: 11, kanji: "九", kunyomi: "ここの(つ)", onyomi: "キュウ、ク", 
+                english: "nine", bangla: "নয়",
+                examples: [
+                    { word: "九つ", reading: "ここのつ", meaning: "nine" },
+                    { word: "九日", reading: "ここのか", meaning: "nine days" },
+                    { word: "九人", reading: "きゅうにん", meaning: "nine people" }
+                ]
+            },
+            { 
+                id: 12, kanji: "十", kunyomi: "とお", onyomi: "ジュウ", 
+                english: "ten", bangla: "দশ",
+                examples: [
+                    { word: "十", reading: "とお", meaning: "ten" },
+                    { word: "十日", reading: "とおか", meaning: "ten days" },
+                    { word: "十人", reading: "じゅうにん", meaning: "ten people" }
+                ]
+            },
+            { 
+                id: 13, kanji: "月", kunyomi: "つき", onyomi: "ゲツ、ガツ", 
+                english: "moon; month", bangla: "চাঁদ; মাস",
+                examples: [
+                    { word: "月", reading: "つき", meaning: "moon; month" },
+                    { word: "月よう日", reading: "げつようび", meaning: "Monday" },
+                    { word: "一か月", reading: "いっかげつ", meaning: "one month" }
+                ]
+            },
+            { 
+                id: 14, kanji: "火", kunyomi: "ひ", onyomi: "カ", 
+                english: "fire", bangla: "আগুন",
+                examples: [
+                    { word: "火", reading: "ひ", meaning: "fire" },
+                    { word: "火よう日", reading: "かようび", meaning: "Tuesday" },
+                    { word: "花火", reading: "はなび", meaning: "fireworks" }
+                ]
+            },
+            { 
+                id: 15, kanji: "水", kunyomi: "みず", onyomi: "スイ", 
+                english: "water", bangla: "পানি",
+                examples: [
+                    { word: "水", reading: "みず", meaning: "water" },
+                    { word: "水よう日", reading: "すいようび", meaning: "Wednesday" },
+                    { word: "水泳", reading: "すいえい", meaning: "swimming" }
+                ]
+            },
+            { 
+                id: 16, kanji: "木", kunyomi: "き", onyomi: "モク", 
+                english: "tree; wood", bangla: "গাছ; কাঠ",
+                examples: [
+                    { word: "木", reading: "き", meaning: "tree; wood" },
+                    { word: "木よう日", reading: "もくようび", meaning: "Thursday" },
+                    { word: "大木", reading: "たいぼく", meaning: "big tree" }
+                ]
+            },
+            { 
+                id: 17, kanji: "金", kunyomi: "かね", onyomi: "キン", 
+                english: "money; gold", bangla: "টাকা; সোনা",
+                examples: [
+                    { word: "お金", reading: "おかね", meaning: "money" },
+                    { word: "金", reading: "きん", meaning: "gold" },
+                    { word: "金よう日", reading: "きんようび", meaning: "Friday" }
+                ]
+            },
+            { 
+                id: 18, kanji: "土", kunyomi: "", onyomi: "ド", 
+                english: "earth; soil", bangla: "মাটি; মৃত্তিকা",
+                examples: [
+                    { word: "土よう日", reading: "どようび", meaning: "Saturday" },
+                    { word: "土地", reading: "とち", meaning: "land" },
+                    { word: "土産", reading: "みやげ", meaning: "souvenir" }
+                ]
+            },
+            { 
+                id: 19, kanji: "百", kunyomi: "", onyomi: "ヒャク", 
+                english: "hundred", bangla: "একশত",
+                examples: [
+                    { word: "百円", reading: "ひゃくえん", meaning: "one hundred yen" },
+                    { word: "三百", reading: "さんびゃく", meaning: "300" },
+                    { word: "百貨店", reading: "ひゃっかてん", meaning: "department store" }
+                ]
+            },
+            { 
+                id: 20, kanji: "千", kunyomi: "", onyomi: "セン", 
+                english: "thousand", bangla: "হাজার",
+                examples: [
+                    { word: "千円", reading: "せんえん", meaning: "one thousand yen" },
+                    { word: "三千", reading: "さんぜん", meaning: "3000" },
+                    { word: "千葉", reading: "ちば", meaning: "Chiba" }
+                ]
+            },
+            { 
+                id: 21, kanji: "万", kunyomi: "", onyomi: "マン", 
+                english: "ten thousand", bangla: "দশ হাজার",
+                examples: [
+                    { word: "一万", reading: "いちまん", meaning: "10,000" },
+                    { word: "万歳", reading: "ばんざい", meaning: "hurray" },
+                    { word: "万年筆", reading: "まんねんひつ", meaning: "fountain pen" }
+                ]
+            },
+            { 
+                id: 22, kanji: "円", kunyomi: "", onyomi: "エン", 
+                english: "yen; circle", bangla: "ইয়েন; বৃত্ত",
+                examples: [
+                    { word: "百円", reading: "ひゃくえん", meaning: "100 yen" },
+                    { word: "円形", reading: "えんけい", meaning: "circular shape" },
+                    { word: "円安", reading: "えんやす", meaning: "weak yen" }
+                ]
+            },
+            { 
+                id: 23, kanji: "行", kunyomi: "い(きます)", onyomi: "コウ", 
+                english: "go; conduct", bangla: "যাওয়া; পরিচালনা",
+                examples: [
+                    { word: "行きます", reading: "いきます", meaning: "go" },
+                    { word: "旅行", reading: "りょこう", meaning: "travel" },
+                    { word: "銀行", reading: "ぎんこう", meaning: "bank" }
+                ]
+            },
+            { 
+                id: 24, kanji: "来", kunyomi: "き(ます)", onyomi: "ライ", 
+                english: "come", bangla: "আসা",
+                examples: [
+                    { word: "来ます", reading: "きます", meaning: "come" },
+                    { word: "来年", reading: "らいねん", meaning: "next year" },
+                    { word: "将来", reading: "しょうらい", meaning: "future" }
+                ]
+            },
+            { 
+                id: 25, kanji: "休", kunyomi: "やす(みます)", onyomi: "", 
+                english: "rest; holiday", bangla: "বিশ্রাম; ছুটি",
+                examples: [
+                    { word: "休みます", reading: "やすみます", meaning: "rest" },
+                    { word: "休み", reading: "やすみ", meaning: "holiday; vacation" },
+                    { word: "夏休み", reading: "なつやすみ", meaning: "summer vacation" }
+                ]
+            },
+            { 
+                id: 26, kanji: "見", kunyomi: "み(ます)、み(せます)", onyomi: "", 
+                english: "see; look; watch", bangla: "দেখা; তাকানো",
+                examples: [
+                    { word: "見ます", reading: "みます", meaning: "see" },
+                    { word: "見物", reading: "けんぶつ", meaning: "sightseeing" },
+                    { word: "意見", reading: "いけん", meaning: "opinion" }
+                ]
+            },
+            { 
+                id: 27, kanji: "今", kunyomi: "いま", onyomi: "コン", 
+                english: "now; present", bangla: "এখন; বর্তমান",
+                examples: [
+                    { word: "今", reading: "いま", meaning: "now" },
+                    { word: "今月", reading: "こんげつ", meaning: "this month" },
+                    { word: "今日", reading: "きょう", meaning: "today" }
+                ]
+            },
+            { 
+                id: 28, kanji: "大", kunyomi: "おお(きい)", onyomi: "ダイ", 
+                english: "big; large", bangla: "বড়; বিশাল",
+                examples: [
+                    { word: "大きい", reading: "おおきい", meaning: "big" },
+                    { word: "大学", reading: "だいがく", meaning: "university" },
+                    { word: "大切", reading: "たいせつ", meaning: "important" }
+                ]
+            },
+            { 
+                id: 29, kanji: "小", kunyomi: "ちい(さい)", onyomi: "ショウ", 
+                english: "small; little", bangla: "ছোট; সামান্য",
+                examples: [
+                    { word: "小さい", reading: "ちいさい", meaning: "small" },
+                    { word: "小学校", reading: "しょうがっこう", meaning: "elementary school" },
+                    { word: "小説", reading: "しょうせつ", meaning: "novel" }
+                ]
+            },
+            { 
+                id: 30, kanji: "上", kunyomi: "うえ", onyomi: "ジョウ", 
+                english: "above; up; on", bangla: "উপরে; ওপর",
+                examples: [
+                    { word: "上", reading: "うえ", meaning: "on; above" },
+                    { word: "上手", reading: "じょうず", meaning: "skillful" },
+                    { word: "上着", reading: "うわぎ", meaning: "jacket" }
+                ]
+            },
+            { 
+                id: 31, kanji: "下", kunyomi: "した", onyomi: "カ", 
+                english: "below; down; under", bangla: "নিচে; তলায়",
+                examples: [
+                    { word: "下", reading: "した", meaning: "under" },
+                    { word: "下手", reading: "へた", meaning: "unskillful" },
+                    { word: "地下", reading: "ちか", meaning: "underground" }
+                ]
+            },
+            { 
+                id: 32, kanji: "中", kunyomi: "なか", onyomi: "チュウ", 
+                english: "middle; inside; center", bangla: "মাঝে; ভিতরে; কেন্দ্র",
+                examples: [
+                    { word: "中", reading: "なか", meaning: "inside" },
+                    { word: "中学校", reading: "ちゅうがっこう", meaning: "middle school" },
+                    { word: "中国", reading: "ちゅうごく", meaning: "China" }
+                ]
+            },
+            { 
+                id: 33, kanji: "右", kunyomi: "みぎ", onyomi: "", 
+                english: "right", bangla: "ডান",
+                examples: [
+                    { word: "右", reading: "みぎ", meaning: "right" },
+                    { word: "右手", reading: "みぎて", meaning: "right hand" },
+                    { word: "右側", reading: "みぎがわ", meaning: "right side" }
+                ]
+            },
+            { 
+                id: 34, kanji: "左", kunyomi: "ひだり", onyomi: "", 
+                english: "left", bangla: "বাম",
+                examples: [
+                    { word: "左", reading: "ひだり", meaning: "left" },
+                    { word: "左手", reading: "ひだりて", meaning: "left hand" },
+                    { word: "左側", reading: "ひだりがわ", meaning: "left side" }
+                ]
+            },
+            { 
+                id: 35, kanji: "山", kunyomi: "やま", onyomi: "サン", 
+                english: "mountain", bangla: "পাহাড়",
+                examples: [
+                    { word: "山", reading: "やま", meaning: "mountain" },
+                    { word: "富士山", reading: "ふじさん", meaning: "Mt. Fuji" },
+                    { word: "火山", reading: "かざん", meaning: "volcano" }
+                ]
+            },
+            { 
+                id: 36, kanji: "川", kunyomi: "かわ", onyomi: "", 
+                english: "river", bangla: "নদী",
+                examples: [
+                    { word: "川", reading: "かわ", meaning: "river" },
+                    { word: "川魚", reading: "かわざかな", meaning: "river fish" },
+                    { word: "小川", reading: "おがわ", meaning: "stream" }
+                ]
+            },
+            { 
+                id: 37, kanji: "白", kunyomi: "しろ(い)、しろ", onyomi: "", 
+                english: "white", bangla: "সাদা",
+                examples: [
+                    { word: "白い", reading: "しろい", meaning: "white" },
+                    { word: "白", reading: "しろ", meaning: "white" },
+                    { word: "白雪", reading: "はくせつ", meaning: "white snow" }
+                ]
+            },
+            { 
+                id: 38, kanji: "本", kunyomi: "", onyomi: "ホン", 
+                english: "book; origin", bangla: "বই; উৎস",
+                examples: [
+                    { word: "本", reading: "ほん", meaning: "book" },
+                    { word: "日本", reading: "にほん", meaning: "Japan" },
+                    { word: "本当", reading: "ほんとう", meaning: "really" }
+                ]
+            },
+            { 
+                id: 39, kanji: "子", kunyomi: "こ", onyomi: "", 
+                english: "child", bangla: "শিশু",
+                examples: [
+                    { word: "子ども", reading: "こども", meaning: "child" },
+                    { word: "男の子", reading: "おとこのこ", meaning: "boy" },
+                    { word: "女の子", reading: "おんなのこ", meaning: "girl" }
+                ]
+            },
+            { 
+                id: 40, kanji: "男", kunyomi: "おとこ", onyomi: "", 
+                english: "man; male", bangla: "পুরুষ; পুরুষ",
+                examples: [
+                    { word: "男", reading: "おとこ", meaning: "man" },
+                    { word: "男性", reading: "だんせい", meaning: "male" },
+                    { word: "男の子", reading: "おとこのこ", meaning: "boy" }
+                ]
+            },
+            { 
+                id: 41, kanji: "女", kunyomi: "おんな", onyomi: "", 
+                
+            
+            },
+            { 
+                id: 41, kanji: "女", kunyomi: "おんな", onyomi: "", 
+                english: "woman; female", bangla: "মহিলা; নারী",
+                examples: [
+                    { word: "女", reading: "おんな", meaning: "woman" },
+                    { word: "女性", reading: "じょせい", meaning: "female" },
+                    { word: "女の子", reading: "おんなのこ", meaning: "girl" }
+                ]
+            },
+            { 
+                id: 42, kanji: "父", kunyomi: "ちち", onyomi: "", 
+                english: "father", bangla: "বাবা",
+                examples: [
+                    { word: "父", reading: "ちち", meaning: "father" },
+                    { word: "お父さん", reading: "おとうさん", meaning: "father (polite)" },
+                    { word: "父親", reading: "ちちおや", meaning: "father" }
+                ]
+            },
+            { 
+                id: 43, kanji: "母", kunyomi: "はは", onyomi: "", 
+                english: "mother", bangla: "মা",
+                examples: [
+                    { word: "母", reading: "はは", meaning: "mother" },
+                    { word: "お母さん", reading: "おかあさん", meaning: "mother (polite)" },
+                    { word: "母親", reading: "ははおや", meaning: "mother" }
+                ]
+            },
+            { 
+                id: 44, kanji: "友", kunyomi: "とも", onyomi: "", 
+                english: "friend", bangla: "বন্ধু",
+                examples: [
+                    { word: "友だち", reading: "ともだち", meaning: "friend" },
+                    { word: "親友", reading: "しんゆう", meaning: "close friend" },
+                    { word: "友情", reading: "ゆうじょう", meaning: "friendship" }
+                ]
+            },
+            { 
+                id: 45, kanji: "先", kunyomi: "さき", onyomi: "セン", 
+                english: "previous; ahead", bangla: "আগে; সামনে",
+                examples: [
+                    { word: "先に", reading: "さきに", meaning: "earlier" },
+                    { word: "先生", reading: "せんせい", meaning: "teacher" },
+                    { word: "先月", reading: "せんげつ", meaning: "last month" }
+                ]
+            },
+            { 
+                id: 46, kanji: "生", kunyomi: "う(まれます)", onyomi: "セイ", 
+                english: "life; birth; student", bangla: "জীবন; জন্ম; ছাত্র",
+                examples: [
+                    { word: "生まれます", reading: "うまれます", meaning: "be born" },
+                    { word: "先生", reading: "せんせい", meaning: "teacher" },
+                    { word: "学生", reading: "がくせい", meaning: "student" }
+                ]
+            },
+            { 
+                id: 47, kanji: "学", kunyomi: "", onyomi: "ガク", 
+                english: "study; learning", bangla: "অধ্যয়ন; শিক্ষা",
+                examples: [
+                    { word: "学生", reading: "がくせい", meaning: "student" },
+                    { word: "学校", reading: "がっこう", meaning: "school" },
+                    { word: "大学", reading: "だいがく", meaning: "university" }
+                ]
+            },
+            { 
+                id: 48, kanji: "校", kunyomi: "", onyomi: "コウ", 
+                english: "school", bangla: "স্কুল",
+                examples: [
+                    { word: "学校", reading: "がっこう", meaning: "school" },
+                    { word: "高校", reading: "こうこう", meaning: "high school" },
+                    { word: "校長", reading: "こうちょう", meaning: "principal" }
+                ]
+            },
+            { 
+                id: 49, kanji: "何", kunyomi: "なに、なん", onyomi: "", 
+                english: "what", bangla: "কী",
+                examples: [
+                    { word: "何", reading: "なに", meaning: "what" },
+                    { word: "何時", reading: "なんじ", meaning: "what time" },
+                    { word: "何人", reading: "なんにん", meaning: "how many people" }
+                ]
+            },
+            { 
+                id: 50, kanji: "時", kunyomi: "とき", onyomi: "ジ", 
+                english: "time; hour", bangla: "সময়; ঘন্টা",
+                examples: [
+                    { word: "時", reading: "とき", meaning: "time" },
+                    { word: "時間", reading: "じかん", meaning: "time" },
+                    { word: "一時", reading: "いちじ", meaning: "one o'clock" }
+                ]
+            },
+            { 
+                id: 51, kanji: "間", kunyomi: "あいだ", onyomi: "カン", 
+                english: "interval; between", bangla: "ব্যবধান; মধ্যে",
+                examples: [
+                    { word: "間", reading: "あいだ", meaning: "between" },
+                    { word: "時間", reading: "じかん", meaning: "time" },
+                    { word: "人間", reading: "にんげん", meaning: "human" }
+                ]
+            },
+            { 
+                id: 52, kanji: "分", kunyomi: "", onyomi: "フン", 
+                english: "minute; part", bangla: "মিনিট; অংশ",
+                examples: [
+                    { word: "五分", reading: "ごふん", meaning: "five minutes" },
+                    { word: "十分", reading: "じゅっぷん", meaning: "ten minutes" },
+                    { word: "半分", reading: "はんぶん", meaning: "half" }
+                ]
+            },
+            { 
+                id: 53, kanji: "半", kunyomi: "", onyomi: "ハン", 
+                english: "half", bangla: "অর্ধেক",
+                examples: [
+                    { word: "八時半", reading: "はちじはん", meaning: "half past eight" },
+                    { word: "半分", reading: "はんぶん", meaning: "half" },
+                    { word: "半年", reading: "はんとし", meaning: "half a year" }
+                ]
+            },
+            { 
+                id: 54, kanji: "毎", kunyomi: "", onyomi: "マイ", 
+                english: "every", bangla: "প্রতি",
+                examples: [
+                    { word: "毎日", reading: "まいにち", meaning: "every day" },
+                    { word: "毎月", reading: "まいつき", meaning: "every month" },
+                    { word: "毎年", reading: "まいとし", meaning: "every year" }
+                ]
+            },
+            { 
+                id: 55, kanji: "年", kunyomi: "とし", onyomi: "ネン", 
+                english: "year", bangla: "বছর",
+                examples: [
+                    { word: "年", reading: "とし", meaning: "year; age" },
+                    { word: "今年", reading: "ことし", meaning: "this year" },
+                    { word: "来年", reading: "らいねん", meaning: "next year" }
+                ]
+            },
+            { 
+                id: 56, kanji: "前", kunyomi: "まえ", onyomi: "ゼン", 
+                english: "before; front", bangla: "আগে; সামনে",
+                examples: [
+                    { word: "前", reading: "まえ", meaning: "before; in front of" },
+                    { word: "三年前", reading: "さんねんまえ", meaning: "three years ago" },
+                    { word: "午前", reading: "ごぜん", meaning: "morning; a.m." }
+                ]
+            },
+            { 
+                id: 57, kanji: "後", kunyomi: "うし(ろ)、あと", onyomi: "ゴ", 
+                english: "after; behind", bangla: "পরে; পিছনে",
+                examples: [
+                    { word: "後ろ", reading: "うしろ", meaning: "behind" },
+                    { word: "後で", reading: "あとで", meaning: "later" },
+                    { word: "午後", reading: "ごご", meaning: "afternoon; p.m." }
+                ]
+            },
+            { 
+                id: 58, kanji: "午", kunyomi: "", onyomi: "ゴ", 
+                english: "noon", bangla: "দুপুর",
+                examples: [
+                    { word: "午前", reading: "ごぜん", meaning: "morning; a.m." },
+                    { word: "午後", reading: "ごご", meaning: "afternoon; p.m." },
+                    { word: "正午", reading: "しょうご", meaning: "noon" }
+                ]
+            },
+            { 
+                id: 59, kanji: "名", kunyomi: "な", onyomi: "メイ", 
+                english: "name", bangla: "নাম",
+                examples: [
+                    { word: "名前", reading: "なまえ", meaning: "name" },
+                    { word: "有名", reading: "ゆうめい", meaning: "famous" },
+                    { word: "名字", reading: "みょうじ", meaning: "surname" }
+                ]
+            },
+            { 
+                id: 60, kanji: "車", kunyomi: "くるま", onyomi: "シャ", 
+                english: "car; vehicle", bangla: "গাড়ি; যানবাহন",
+                examples: [
+                    { word: "車", reading: "くるま", meaning: "car" },
+                    { word: "電車", reading: "でんしゃ", meaning: "train" },
+                    { word: "自動車", reading: "じどうしゃ", meaning: "automobile" }
+                ]
+            },
+            { 
+                id: 61, kanji: "天", kunyomi: "", onyomi: "テン", 
+                english: "heaven; sky", bangla: "স্বর্গ; আকাশ",
+                examples: [
+                    { word: "天気", reading: "てんき", meaning: "weather" },
+                    { word: "天国", reading: "てんごく", meaning: "heaven" },
+                    { word: "天才", reading: "てんさい", meaning: "genius" }
+                ]
+            },
+            { 
+                id: 62, kanji: "気", kunyomi: "", onyomi: "キ", 
+                english: "spirit; mood", bangla: "আত্মা; মেজাজ",
+                examples: [
+                    { word: "天気", reading: "てんき", meaning: "weather" },
+                    { word: "気分", reading: "きぶん", meaning: "mood" },
+                    { word: "元気", reading: "げんき", meaning: "healthy; energetic" }
+                ]
+            },
+            { 
+                id: 63, kanji: "電", kunyomi: "", onyomi: "デン", 
+                english: "electricity", bangla: "বিদ্যুৎ",
+                examples: [
+                    { word: "電気", reading: "でんき", meaning: "electricity" },
+                    { word: "電車", reading: "でんしゃ", meaning: "train" },
+                    { word: "電話", reading: "でんわ", meaning: "telephone" }
+                ]
+            },
+            { 
+                id: 64, kanji: "話", kunyomi: "はな(します)、はなし", onyomi: "ワ", 
+                english: "talk; speak; story", bangla: "কথা; বলা; গল্প",
+                examples: [
+                    { word: "話します", reading: "はなします", meaning: "speak; talk" },
+                    { word: "話", reading: "はなし", meaning: "story" },
+                    { word: "電話", reading: "でんわ", meaning: "telephone" }
+                ]
+            },
+            { 
+                id: 65, kanji: "食", kunyomi: "た(べます)", onyomi: "ショク", 
+                english: "eat; food", bangla: "খাওয়া; খাবার",
+                examples: [
+                    { word: "食べます", reading: "たべます", meaning: "eat" },
+                    { word: "食堂", reading: "しょくどう", meaning: "dining room" },
+                    { word: "食事", reading: "しょくじ", meaning: "meal" }
+                ]
+            },
+            { 
+                id: 66, kanji: "聞", kunyomi: "き(きます)", onyomi: "ブン", 
+                english: "hear; listen; ask", bangla: "শোনা; শুনা; জিজ্ঞাসা",
+                examples: [
+                    { word: "聞きます", reading: "ききます", meaning: "hear; listen; ask" },
+                    { word: "新聞", reading: "しんぶん", meaning: "newspaper" },
+                    { word: "聞こえる", reading: "きこえる", meaning: "can hear" }
+                ]
+            },
+            { 
+                id: 67, kanji: "書", kunyomi: "か(きます)", onyomi: "", 
+                english: "write", bangla: "লেখা",
+                examples: [
+                    { word: "書きます", reading: "かきます", meaning: "write" },
+                    { word: "図書館", reading: "としょかん", meaning: "library" },
+                    { word: "辞書", reading: "じしょ", meaning: "dictionary" }
+                ]
+            },
+            { 
+                id: 68, kanji: "読", kunyomi: "よ(みます)", onyomi: "", 
+                english: "read", bangla: "পড়া",
+                examples: [
+                    { word: "読みます", reading: "よみます", meaning: "read" },
+                    { word: "読書", reading: "どくしょ", meaning: "reading" },
+                    { word: "音読", reading: "おんどく", meaning: "reading aloud" }
+                ]
+            },
+            { 
+                id: 69, kanji: "国", kunyomi: "くに", onyomi: "コク", 
+                english: "country", bangla: "দেশ",
+                examples: [
+                    { word: "国", reading: "くに", meaning: "country" },
+                    { word: "中国", reading: "ちゅうごく", meaning: "China" },
+                    { word: "外国", reading: "がいこく", meaning: "foreign country" }
+                ]
+            },
+            { 
+                id: 70, kanji: "外", kunyomi: "そと", onyomi: "ガイ", 
+                english: "outside; foreign", bangla: "বাইরে; বিদেশী",
+                examples: [
+                    { word: "外", reading: "そと", meaning: "outside" },
+                    { word: "外国", reading: "がいこく", meaning: "foreign country" },
+                    { word: "外国人", reading: "がいこくじん", meaning: "foreigner" }
+                ]
+            },
+            { 
+                id: 71, kanji: "語", kunyomi: "", onyomi: "ゴ", 
+                english: "language", bangla: "ভাষা",
+                examples: [
+                    { word: "日本語", reading: "にほんご", meaning: "Japanese language" },
+                    { word: "英語", reading: "えいご", meaning: "English language" },
+                    { word: "語学", reading: "ごがく", meaning: "language study" }
+                ]
+            },
+            { 
+                id: 72, kanji: "入", kunyomi: "い(れます)、はい(ります)", onyomi: "", 
+                english: "enter; put in", bangla: "প্রবেশ; ঢোকানো",
+                examples: [
+                    { word: "入れます", reading: "いれます", meaning: "put in" },
+                    { word: "入ります", reading: "はいります", meaning: "enter" },
+                    { word: "入口", reading: "いりぐち", meaning: "entrance" }
+                ]
+            },
+            { 
+                id: 73, kanji: "出", kunyomi: "だ(します)、で(ます)", onyomi: "", 
+                english: "exit; take out", bangla: "বের হওয়া; বের করা",
+                examples: [
+                    { word: "出します", reading: "だします", meaning: "take out; send" },
+                    { word: "出ます", reading: "でます", meaning: "leave; exit" },
+                    { word: "出口", reading: "でぐち", meaning: "exit" }
+                ]
+            },
+            { 
+                id: 74, kanji: "雨", kunyomi: "あめ", onyomi: "", 
+                english: "rain", bangla: "বৃষ্টি",
+                examples: [
+                    { word: "雨", reading: "あめ", meaning: "rain" },
+                    { word: "大雨", reading: "おおあめ", meaning: "heavy rain" },
+                    { word: "雨天", reading: "うてん", meaning: "rainy weather" }
+                ]
+            },
+            { 
+                id: 75, kanji: "東", kunyomi: "ひがし", onyomi: "トウ", 
+                english: "east", bangla: "পূর্ব",
+                examples: [
+                    { word: "東", reading: "ひがし", meaning: "east" },
+                    { word: "東京", reading: "とうきょう", meaning: "Tokyo" },
+                    { word: "関東", reading: "かんとう", meaning: "Kanto region" }
+                ]
+            },
+            { 
+                id: 76, kanji: "西", kunyomi: "にし", onyomi: "", 
+                english: "west", bangla: "পশ্চিম",
+                examples: [
+                    { word: "西", reading: "にし", meaning: "west" },
+                    { word: "関西", reading: "かんさい", meaning: "Kansai region" },
+                    { word: "西洋", reading: "せいよう", meaning: "the West" }
+                ]
+            },
+            { 
+                id: 77, kanji: "南", kunyomi: "みなみ", onyomi: "", 
+                english: "south", bangla: "দক্ষিণ",
+                examples: [
+                    { word: "南", reading: "みなみ", meaning: "south" },
+                    { word: "南国", reading: "なんごく", meaning: "southern country" },
+                    { word: "南極", reading: "なんきょく", meaning: "South Pole" }
+                ]
+            },
+            { 
+                id: 78, kanji: "北", kunyomi: "きた", onyomi: "", 
+                english: "north", bangla: "উত্তর",
+                examples: [
+                    { word: "北", reading: "きた", meaning: "north" },
+                    { word: "北海道", reading: "ほっかいどう", meaning: "Hokkaido" },
+                    { word: "北極", reading: "ほっきょく", meaning: "North Pole" }
+                ]
+            },
+            { 
+                id: 79, kanji: "長", kunyomi: "なが(い)", onyomi: "", 
+                english: "long", bangla: "লম্বা",
+                examples: [
+                    { word: "長い", reading: "ながい", meaning: "long" },
+                    { word: "校長", reading: "こうちょう", meaning: "principal" },
+                    { word: "社長", reading: "しゃちょう", meaning: "company president" }
+                ]
+            },
+            { 
+                id: 80, kanji: "高", kunyomi: "たか(い)", onyomi: "", 
+                english: "high; expensive", bangla: "উঁচু; দামী",
+                examples: [
+                    { word: "高い", reading: "たかい", meaning: "high; expensive" },
+                    { word: "高校", reading: "こうこう", meaning: "high school" },
+                    { word: "最高", reading: "さいこう", meaning: "highest; best" }
+                ]
+            },
+            { 
+                id: 81, kanji: "口", kunyomi: "くち", onyomi: "", 
+                english: "mouth", bangla: "মুখ",
+                examples: [
+                    { word: "口", reading: "くち", meaning: "mouth" },
+                    { word: "入口", reading: "いりぐち", meaning: "entrance" },
+                    { word: "出口", reading: "でぐち", meaning: "exit" }
+                ]
+            },
+            { 
+                id: 82, kanji: "目", kunyomi: "め", onyomi: "", 
+                english: "eye", bangla: "চোখ",
+                examples: [
+                    { word: "目", reading: "め", meaning: "eye" },
+                    { word: "目標", reading: "もくひょう", meaning: "goal; target" },
+                    { word: "注目", reading: "ちゅうもく", meaning: "attention" }
+                ]
+            },
+            { 
+                id: 83, kanji: "手", kunyomi: "て", onyomi: "", 
+                english: "hand", bangla: "হাত",
+                examples: [
+                    { word: "手", reading: "て", meaning: "hand" },
+                    { word: "切手", reading: "きって", meaning: "stamp" },
+                    { word: "上手", reading: "じょうず", meaning: "skillful" }
+                ]
+            },
+            { 
+                id: 84, kanji: "足", kunyomi: "あし", onyomi: "", 
+                english: "foot; leg", bangla: "পা",
+                examples: [
+                    { word: "足", reading: "あし", meaning: "foot; leg" },
+                    { word: "不足", reading: "ふそく", meaning: "shortage" },
+                    { word: "満足", reading: "まんぞく", meaning: "satisfaction" }
+                ]
+            },
+            { 
+                id: 85, kanji: "近", kunyomi: "ちか(い)", onyomi: "", 
+                english: "near; close", bangla: "কাছে; নিকট",
+                examples: [
+                    { word: "近い", reading: "ちかい", meaning: "close; near" },
+                    { word: "近く", reading: "ちかく", meaning: "neighborhood" },
+                    { word: "最近", reading: "さいきん", meaning: "recently" }
+                ]
+            },
+            { 
+                id: 86, kanji: "有", kunyomi: "あ(ります)", onyomi: "ユウ", 
+                english: "exist; have", bangla: "আছে; থাকা",
+                examples: [
+                    { word: "有ります", reading: "あります", meaning: "exist; have" },
+                    { word: "有名", reading: "ゆうめい", meaning: "famous" },
+                    { word: "有料", reading: "ゆうりょう", meaning: "charged; paid" }
+                ]
+            },
+            { 
+                id: 87, kanji: "花", kunyomi: "はな", onyomi: "", 
+                english: "flower", bangla: "ফুল",
+                examples: [
+                    { word: "花", reading: "はな", meaning: "flower" },
+                    { word: "花屋", reading: "はなや", meaning: "flower shop" },
+                    { word: "花火", reading: "はなび", meaning: "fireworks" }
+                ]
+            },
+            { 
+                id: 88, kanji: "赤", kunyomi: "あか(い)、あか", onyomi: "", 
+                english: "red", bangla: "লাল",
+                examples: [
+                    { word: "赤い", reading: "あかい", meaning: "red" },
+                    { word: "赤", reading: "あか", meaning: "red" },
+                    { word: "赤ちゃん", reading: "あかちゃん", meaning: "baby" }
+                ]
+            },
+            { 
+                id: 89, kanji: "紙", kunyomi: "かみ", onyomi: "", 
+                english: "paper", bangla: "কাগজ",
+                examples: [
+                    { word: "紙", reading: "かみ", meaning: "paper" },
+                    { word: "手紙", reading: "てがみ", meaning: "letter" },
+                    { word: "新聞紙", reading: "しんぶんし", meaning: "newspaper" }
+                ]
+            },
+            { 
+                id: 90, kanji: "買", kunyomi: "か(います)", onyomi: "", 
+                english: "buy", bangla: "কেনা",
+                examples: [
+                    { word: "買います", reading: "かいます", meaning: "buy" },
+                    { word: "買いもの", reading: "かいもの", meaning: "shopping" },
+                    { word: "売買", reading: "ばいばい", meaning: "buying and selling" }
+                ]
+            },
+            { 
+                id: 91, kanji: "朝", kunyomi: "あさ", onyomi: "", 
+                english: "morning", bangla: "সকাল",
+                examples: [
+                    { word: "朝", reading: "あさ", meaning: "morning" },
+                    { word: "毎朝", reading: "まいあさ", meaning: "every morning" },
+                    { word: "今朝", reading: "けさ", meaning: "this morning" }
+                ]
+            },
+            { 
+                id: 92, kanji: "昼", kunyomi: "ひる", onyomi: "", 
+                english: "noon; daytime", bangla: "দুপুর; দিনের বেলা",
+                examples: [
+                    { word: "昼", reading: "ひる", meaning: "noon; daytime" },
+                    { word: "昼ごはん", reading: "ひるごはん", meaning: "lunch" },
+                    { word: "昼間", reading: "ひるま", meaning: "daytime" }
+                ]
+            },
+            { 
+                id: 93, kanji: "夕", kunyomi: "ゆう", onyomi: "", 
+                english: "evening", bangla: "সন্ধ্যা",
+                examples: [
+                    { word: "夕がた", reading: "ゆうがた", meaning: "evening" },
+                    { word: "夕日", reading: "ゆうひ", meaning: "setting sun" },
+                    { word: "夕食", reading: "ゆうしょく", meaning: "dinner" }
+                ]
+            },
+            { 
+                id: 94, kanji: "夜", kunyomi: "よる", onyomi: "", 
+                english: "night", bangla: "রাত",
+                examples: [
+                    { word: "夜", reading: "よる", meaning: "night" },
+                    { word: "今夜", reading: "こんや", meaning: "tonight" },
+                    { word: "夜中", reading: "よなか", meaning: "midnight" }
+                ]
+            },
+            { 
+                id: 95, kanji: "私", kunyomi: "わたし、わたくし", onyomi: "", 
+                english: "I; me", bangla: "আমি",
+                examples: [
+                    { word: "私", reading: "わたし", meaning: "I; me" },
+                    { word: "私たち", reading: "わたしたち", meaning: "we; us" },
+                    { word: "私立", reading: "しりつ", meaning: "private" }
+                ]
+            },
+            { 
+                id: 96, kanji: "家", kunyomi: "いえ", onyomi: "カ", 
+                english: "house; home", bangla: "ঘর; বাড়ি",
+                examples: [
+                    { word: "家", reading: "いえ", meaning: "house; home" },
+                    { word: "家族", reading: "かぞく", meaning: "family" },
+                    { word: "実家", reading: "じっか", meaning: "parents' home" }
+                ]
+            },
+            { 
+                id: 97, kanji: "会", kunyomi: "あ(います)", onyomi: "カイ", 
+                english: "meet; meeting", bangla: "দেখা; সভা",
+                examples: [
+                    { word: "会います", reading: "あいます", meaning: "meet" },
+                    { word: "会社", reading: "かいしゃ", meaning: "company" },
+                    { word: "会議", reading: "かいぎ", meaning: "meeting" }
+                ]
+            },
+            { 
+                id: 98, kanji: "社", kunyomi: "", onyomi: "シャ", 
+                english: "company; society", bangla: "কোম্পানি; সমাজ",
+                examples: [
+                    { word: "会社", reading: "かいしゃ", meaning: "company" },
+                    { word: "社会", reading: "しゃかい", meaning: "society" },
+                    { word: "神社", reading: "じんじゃ", meaning: "shrine" }
+                ]
+            },
+            { 
+                id: 99, kanji: "店", kunyomi: "みせ", onyomi: "", 
+                english: "store; shop", bangla: "দোকান",
+                examples: [
+                    { word: "店", reading: "みせ", meaning: "store; shop" },
+                    { word: "本店", reading: "ほんてん", meaning: "main store" },
+                    { word: "商店", reading: "しょうてん", meaning: "shop" }
+                ]
+            },
+            { 
+                id: 100, kanji: "飲", kunyomi: "の(みます)", onyomi: "", 
+                english: "drink", bangla: "পান করা",
+                examples: [
+                    { word: "飲みます", reading: "のみます", meaning: "drink" },
+                    { word: "飲み物", reading: "のみもの", meaning: "beverage" },
+                    { word: "飲食", reading: "いんしょく", meaning: "food and drink" }
+                ]
+            },
+            { 
+                id: 101, kanji: "多", kunyomi: "おお(い)", onyomi: "", 
+                english: "many; much", bangla: "অনেক; বেশি",
+                examples: [
+                    { word: "多い", reading: "おおい", meaning: "many; much" },
+                    { word: "多分", reading: "たぶん", meaning: "probably" },
+                    { word: "多数", reading: "たすう", meaning: "majority" }
+                ]
+            },
+            { 
+                id: 102, kanji: "少", kunyomi: "すこ(し)、すく(ない)", onyomi: "", 
+                english: "few; little", bangla: "কম; অল্প",
+                examples: [
+                    { word: "少し", reading: "すこし", meaning: "a little" },
+                    { word: "少ない", reading: "すくない", meaning: "few; little" },
+                    { word: "少年", reading: "しょうねん", meaning: "boy; youth" }
+                ]
+            },
+            { 
+                id: 103, kanji: "古", kunyomi: "ふる(い)", onyomi: "", 
+                english: "old", bangla: "পুরানো",
+                examples: [
+                    { word: "古い", reading: "ふるい", meaning: "old" },
+                    { word: "古本", reading: "ふるほん", meaning: "used book" },
+                    { word: "古典", reading: "こてん", meaning: "classic" }
+                ]
+            },
+            { 
+                id: 104, kanji: "新", kunyomi: "あたら(しい)", onyomi: "シン", 
+                english: "new", bangla: "নতুন",
+                examples: [
+                    { word: "新しい", reading: "あたらしい", meaning: "new" },
+                    { word: "新聞", reading: "しんぶん", meaning: "newspaper" },
+                    { word: "新年", reading: "しんねん", meaning: "new year" }
+                ]
+            },
+            { 
+                id: 105, kanji: "広", kunyomi: "ひろ(い)", onyomi: "", 
+                english: "wide; spacious", bangla: "প্রশস্ত; বিস্তৃত",
+                examples: [
+                    { word: "広い", reading: "ひろい", meaning: "wide; spacious" },
+                    { word: "広場", reading: "ひろば", meaning: "plaza; square" },
+                    { word: "広告", reading: "こうこく", meaning: "advertisement" }
+                ]
+            },
+            { 
+                id: 106, kanji: "安", kunyomi: "やす(い)", onyomi: "", 
+                english: "cheap; safe", bangla: "সস্তা; নিরাপদ",
+                examples: [
+                    { word: "安い", reading: "やすい", meaning: "cheap" },
+                    { word: "安全", reading: "あんぜん", meaning: "safety" },
+                    { word: "不安", reading: "ふあん", meaning: "anxiety" }
+                ]
+            },
+            { 
+                id: 107, kanji: "立", kunyomi: "た(ちます)", onyomi: "", 
+                english: "stand", bangla: "দাঁড়ানো",
+                examples: [
+                    { word: "立ちます", reading: "たちます", meaning: "stand" },
+                    { word: "私立", reading: "しりつ", meaning: "private" },
+                    { word: "独立", reading: "どくりつ", meaning: "independence" }
+                ]
+            },
+            { 
+                id: 108, kanji: "知", kunyomi: "し(ります)", onyomi: "", 
+                english: "know", bangla: "জানা",
+                examples: [
+                    { word: "知ります", reading: "しります", meaning: "know" },
+                    { word: "知識", reading: "ちしき", meaning: "knowledge" },
+                    { word: "通知", reading: "つうち", meaning: "notice" }
+                ]
+            },
+            { 
+                id: 109, kanji: "言", kunyomi: "い(います)、こと", onyomi: "", 
+                english: "say; word", bangla: "বলা; কথা",
+                examples: [
+                    { word: "言います", reading: "いいます", meaning: "say; tell" },
+                    { word: "言葉", reading: "ことば", meaning: "word; language" },
+                    { word: "発言", reading: "はつげん", meaning: "statement" }
+                ]
+            },
+            { 
+                id: 110, kanji: "思", kunyomi: "おも(います)", onyomi: "", 
+                english: "think", bangla: "ভাবা",
+                examples: [
+                    { word: "思います", reading: "おもいます", meaning: "think" },
+                    { word: "思い出", reading: "おもいで", meaning: "memory" },
+                    { word: "意思", reading: "いし", meaning: "will; intention" }
+                ]
+            },
+            { 
+                id: 111, kanji: "歩", kunyomi: "ある(きます)", onyomi: "", 
+                english: "walk", bangla: "হাঁটা",
+                examples: [
+                    { word: "歩きます", reading: "あるきます", meaning: "walk" },
+                    { word: "散歩", reading: "さんぽ", meaning: "walk; stroll" },
+                    { word: "歩道", reading: "ほどう", meaning: "sidewalk" }
+                ]
+            },
+            { 
+                id: 112, kanji: "走", kunyomi: "はし(ります)", onyomi: "", 
+                english: "run", bangla: "দৌড়ানো",
+                examples: [
+                    { word: "走ります", reading: "はしります", meaning: "run" },
+                    { word: "走者", reading: "そうしゃ", meaning: "runner" },
+                    { word: "暴走", reading: "ぼうそう", meaning: "reckless driving" }
+                ]
+            },
+            { 
+                id: 113, kanji: "住", kunyomi: "す(みます)", onyomi: "", 
+                english: "live; reside", bangla: "বাস করা",
+                examples: [
+                    { word: "住みます", reading: "すみます", meaning: "live; reside" },
+                    { word: "住所", reading: "じゅうしょ", meaning: "address" },
+                    { word: "住宅", reading: "じゅうたく", meaning: "residence" }
+                ]
+            },
+            { 
+                id: 114, kanji: "空", kunyomi: "そら", onyomi: "", 
+                english: "sky; empty", bangla: "আকাশ; খালি",
+                examples: [
+                    { word: "空", reading: "そら", meaning: "sky" },
+                    { word: "空港", reading: "くうこう", meaning: "airport" },
+                    { word: "空気", reading: "くうき", meaning: "air" }
+                ]
+            },
+            { 
+                id: 115, kanji: "週", kunyomi: "", onyomi: "シュウ", 
+                english: "week", bangla: "সপ্তাহ",
+                examples: [
+                    { word: "週", reading: "しゅう", meaning: "week" },
+                    { word: "来週", reading: "らいしゅう", meaning: "next week" },
+                    { word: "今週", reading: "こんしゅう", meaning: "this week" }
+                ]
+            },
+            { 
+                id: 116, kanji: "魚", kunyomi: "さかな", onyomi: "", 
+                english: "fish", bangla: "মাছ",
+                examples: [
+                    { word: "魚", reading: "さかな", meaning: "fish" },
+                    { word: "魚屋", reading: "さかなや", meaning: "fish store" },
+                    { word: "金魚", reading: "きんぎょ", meaning: "goldfish" }
+                ]
+            },
+            { 
+                id: 117, kanji: "耳", kunyomi: "みみ", onyomi: "", 
+                english: "ear", bangla: "কান",
+                examples: [
+                    { word: "耳", reading: "みみ", meaning: "ear" },
+                    { word: "耳鼻科", reading: "じびか", meaning: "ENT department" },
+                    { word: "中耳炎", reading: "ちゅうじえん", meaning: "middle ear infection" }
+                ]
+            },
+            { 
+                id: 118, kanji: "銀", kunyomi: "", onyomi: "ギン", 
+                english: "silver", bangla: "রূপা",
+                examples: [
+                    { word: "銀", reading: "ぎん", meaning: "silver" },
+                    { word: "銀行", reading: "ぎんこう", meaning: "bank" },
+                    { word: "銀色", reading: "ぎんいろ", meaning: "silver color" }
+                ]
+            },
+            { 
+                id: 119, kanji: "道", kunyomi: "みち", onyomi: "", 
+                english: "road; way", bangla: "রাস্তা; পথ",
+                examples: [
+                    { word: "道", reading: "みち", meaning: "road; street" },
+                    { word: "歩道", reading: "ほどう", meaning: "sidewalk" },
+                    { word: "鉄道", reading: "てつどう", meaning: "railway" }
+                ]
+            },
+            { 
+                id: 120, kanji: "駅", kunyomi: "", onyomi: "エキ", 
+                english: "station", bangla: "স্টেশন",
+                examples: [
+                    { word: "駅", reading: "えき", meaning: "station" },
+                    { word: "駅前", reading: "えきまえ", meaning: "in front of station" },
+                    { word: "駅員", reading: "えきいん", meaning: "station staff" }
+                ]
+            }
         ];
 
-        // Animation collection for random selection
-        const cardAnimations = [
-            'slide-left',
-            'slide-right', 
-            'slide-up',
-            'slide-down',
-            'fade-scale',
-            'rotate-in',
-            'bounce-in',
-            'flip-horizontal',
-            'flip-vertical',
-            'zoom-rotate',
-            'elastic-bounce',
-            'wave-in'
-        ];
+        // Filter categories
+        const filterCategories = {
+            numbers: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '百', '千', '万'],
+            time: ['時', '間', '分', '半', '毎', '年', '前', '後', '午', '朝', '昼', '夕', '夜', '今', '日', '月', '週'],
+            directions: ['上', '下', '中', '右', '左', '東', '西', '南', '北', '前', '後'],
+            colors: ['白', '赤'],
+            family: ['父', '母', '子', '男', '女', '友', '先', '生'],
+            school: ['学', '校', '先', '生', '読', '書', '聞']
+        };
 
-        let currentCardIndex = 0;
-        let isFlipped = false;
-        let studyMode = 'sequential';
-        let reviewCards = [];
-        let isTransitioning = false;
-        let lastAnimation = '';
+        // State management
+        let filteredKanji = [...kanjiData];
+        let favorites = JSON.parse(localStorage.getItem('kanjiMasterFavorites') || '[]');
+        let studiedKanji = JSON.parse(localStorage.getItem('kanjiMasterStudied') || '[]');
+        let currentKanji = null;
 
-        // Get random animation (avoid repeating the same animation)
-        function getRandomAnimation() {
-            let availableAnimations = cardAnimations.filter(anim => anim !== lastAnimation);
-            if (availableAnimations.length === 0) {
-                availableAnimations = cardAnimations;
-            }
-            const randomIndex = Math.floor(Math.random() * availableAnimations.length);
-            lastAnimation = availableAnimations[randomIndex];
-            return lastAnimation;
+        // Initialize the app
+        function init() {
+            renderKanjiGrid();
+            setupEventListeners();
+            updateStats();
+            updateProgress();
         }
 
-        // Enhanced card update with random animations
-        function updateCard() {
-            if (isTransitioning) return;
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
             
-            const card = kanjiData[currentCardIndex];
-            const flashcard = document.getElementById('flashcard');
-            
-            isTransitioning = true;
-            flashcard.classList.add('transitioning');
-            
-            // Apply random animation
-            const randomAnimation = getRandomAnimation();
-            flashcard.classList.add(randomAnimation);
-            
-            setTimeout(() => {
-                // Update card content
-                document.getElementById('cardNumber').textContent = currentCardIndex + 1;
-                document.getElementById('cardNumberBack').textContent = currentCardIndex + 1;
-                document.getElementById('kanjiCharacter').textContent = card.kanji;
-                document.getElementById('hiraganaReading').textContent = card.reading;
-                document.getElementById('englishMeaning').textContent = card.english;
-                document.getElementById('banglaMeaning').textContent = card.bangla;
-                
-                updateProgress();
-                updateNavigationButtons();
-                updateFlipButtonText();
-                
-                // Reset to front side if currently flipped
-                if (isFlipped) {
-                    flashcard.classList.remove('flipped');
-                    isFlipped = false;
-                    updateFlipButtonText();
-                }
-                
-                // Clean up animation classes
-                setTimeout(() => {
-                    cardAnimations.forEach(anim => {
-                        flashcard.classList.remove(anim);
-                    });
-                    flashcard.classList.remove('transitioning');
-                    isTransitioning = false;
-                }, 100);
-                
-            }, 300);
-        }
-
-        function updateProgress() {
-            const progress = ((currentCardIndex + 1) / kanjiData.length) * 100;
-            const progressFill = document.getElementById('progressFill');
-            progressFill.style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${currentCardIndex + 1} / ${kanjiData.length}`;
-        }
-
-        function updateNavigationButtons() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            if (studyMode === 'sequential') {
-                prevBtn.disabled = currentCardIndex === 0;
-                nextBtn.disabled = currentCardIndex === kanjiData.length - 1;
-            } else {
-                prevBtn.disabled = false;
-                nextBtn.disabled = false;
-            }
-        }
-
-        function updateFlipButtonText() {
-            const flipButtonText = document.getElementById('flipButtonText');
-            flipButtonText.textContent = isFlipped ? 'Show Kanji' : 'Show Meaning';
-        }
-
-        function flipCard() {
-            if (isTransitioning) return;
-            
-            const flashcard = document.getElementById('flashcard');
-            flashcard.classList.toggle('flipped');
-            isFlipped = !isFlipped;
-            updateFlipButtonText();
-            
-            if (navigator.vibrate) {
-                navigator.vibrate(30);
-            }
-        }
-
-        function nextCard() {
-            if (isTransitioning) return;
-            
-            if (studyMode === 'random') {
-                currentCardIndex = Math.floor(Math.random() * kanjiData.length);
-            } else if (studyMode === 'review' && reviewCards.length > 0) {
-                const randomIndex = Math.floor(Math.random() * reviewCards.length);
-                currentCardIndex = reviewCards[randomIndex];
-            } else {
-                if (currentCardIndex < kanjiData.length - 1) {
-                    currentCardIndex++;
-                } else if (studyMode !== 'sequential') {
-                    currentCardIndex = 0;
-                }
-            }
-            updateCard();
-        }
-
-        function previousCard() {
-            if (isTransitioning) return;
-            
-            if (studyMode === 'random') {
-                currentCardIndex = Math.floor(Math.random() * kanjiData.length);
-            } else if (studyMode === 'review' && reviewCards.length > 0) {
-                const randomIndex = Math.floor(Math.random() * reviewCards.length);
-                currentCardIndex = reviewCards[randomIndex];
-            } else {
-                if (currentCardIndex > 0) {
-                    currentCardIndex--;
-                } else if (studyMode !== 'sequential') {
-                    currentCardIndex = kanjiData.length - 1;
-                }
-            }
-            updateCard();
-        }
-
-        function goToCard() {
-            const cardNumber = prompt('Enter card number (1-120):');
-            if (cardNumber && cardNumber >= 1 && cardNumber <= kanjiData.length) {
-                currentCardIndex = parseInt(cardNumber) - 1;
-                updateCard();
-            }
-        }
-
-        function setStudyMode(mode, buttonElement) {
-            if (isTransitioning) return;
-            
-            studyMode = mode;
-            
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.remove('active');
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', handleFilter);
             });
-            buttonElement.classList.add('active');
-            
-            if (mode === 'review') {
-                reviewCards = [];
-                for (let i = 0; i < Math.min(30, kanjiData.length); i++) {
-                    reviewCards.push(Math.floor(Math.random() * kanjiData.length));
+
+            // Modal close on outside click
+            document.getElementById('kanjiModal').addEventListener('click', (e) => {
+                if (e.target.id === 'kanjiModal') {
+                    closeModal();
                 }
-                if (reviewCards.length === 0) {
-                    alert('No cards to review! Starting with all cards.');
-                    reviewCards = Array.from({length: kanjiData.length}, (_, i) => i);
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
                 }
-            }
-            
-            updateNavigationButtons();
+                if (e.key === '/' && !e.target.matches('input')) {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                }
+            });
         }
 
-        // Touch gesture support (swipe only, no tap-to-flip)
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
-        let touchStartTime = 0;
-        let isSwiping = false;
-
-        const flashcard = document.getElementById('flashcard');
-
-        flashcard.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].clientX;
-            touchStartY = e.changedTouches[0].clientY;
-            touchStartTime = Date.now();
-            isSwiping = false;
-        }, { passive: true });
-
-        flashcard.addEventListener('touchmove', function(e) {
-            const touchCurrentX = e.changedTouches[0].clientX;
-            const touchCurrentY = e.changedTouches[0].clientY;
-            const deltaX = Math.abs(touchCurrentX - touchStartX);
-            const deltaY = Math.abs(touchCurrentY - touchStartY);
+        // Render kanji grid
+        function renderKanjiGrid() {
+            const grid = document.getElementById('kanjiGrid');
+            const noResults = document.getElementById('noResults');
             
-            if (deltaX > 10 || deltaY > 10) {
-                isSwiping = true;
+            if (filteredKanji.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
             }
-        }, { passive: true });
 
-        flashcard.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].clientX;
-            touchEndY = e.changedTouches[0].clientY;
-            const touchDuration = Date.now() - touchStartTime;
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
             
-            if (isSwiping && touchDuration < 500) {
-                handleSwipe();
-            }
-        }, { passive: true });
+            grid.innerHTML = filteredKanji.map(kanji => `
+                <div class="kanji-card" role="button" tabindex="0" aria-label="View details for kanji ${kanji.kanji}">
+                    <div class="kanji-header">
+                        <div class="kanji-character">${kanji.kanji}</div>
+                        <div class="kanji-number">#${kanji.id}</div>
+                    </div>
+                    
+                    <div class="pronunciation-section">
+                        ${kanji.kunyomi ? `
+                            <div class="pronunciation-row">
+                                <div class="pronunciation-label">Kun'yomi</div>
+                                <div class="pronunciation-text">${kanji.kunyomi}</div>
+                            </div>
+                        ` : ''}
+                        ${kanji.onyomi ? `
+                            <div class="pronunciation-row">
+                                <div class="pronunciation-label">On'yomi</div>
+                                <div class="pronunciation-text">${kanji.onyomi}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="meanings-section">
+                        <div class="meaning-row">
+                            <div class="meaning-label">English</div>
+                            <div class="meaning-text">${kanji.english}</div>
+                        </div>
+                        <div class="meaning-row">
+                            <div class="meaning-label">Bangla</div>
+                            <div class="bangla-text">${kanji.bangla}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanji-actions">
+                        <button class="action-btn favorite-btn ${favorites.includes(kanji.kanji) ? 'active' : ''}" 
+                                onclick="event.stopPropagation(); toggleFavorite('${kanji.kanji}')" 
+                                title="Add to favorites" aria-label="Toggle favorite">
+                            <span>❤️</span>
+                        </button>
+                        <button class="action-btn audio-btn" 
+                                onclick="event.stopPropagation(); playPronunciation('${kanji.kanji}')" 
+                                title="Play pronunciation" aria-label="Play pronunciation">
+                            <span>🔊</span>
+                        </button>
+                        <button class="action-btn details-btn" 
+                                onclick="event.stopPropagation(); openModal('${kanji.kanji}')" 
+                                title="View details" aria-label="View details">
+                            <span>Details</span>
+                        </button>
+                        <button class="action-btn study-btn ${studiedKanji.includes(kanji.kanji) ? 'studied' : ''}" 
+                                onclick="event.stopPropagation(); markAsStudied('${kanji.kanji}')" 
+                                title="Mark as studied" aria-label="Mark as studied">
+                            <span>✓</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
 
-        function handleSwipe() {
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
-            const minSwipeDistance = 50;
-            const maxVerticalDeviation = 80;
-
-            if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < maxVerticalDeviation) {
-                if (deltaX > 0) {
-                    previousCard();
-                } else {
-                    nextCard();
-                }
-            }
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', function(event) {
-            if (isTransitioning) return;
-            
-            const handledKeys = ['ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D', 'r', 'R', 's', 'S', 'Escape', 'g', 'G', 'f', 'F'];
-            if (handledKeys.includes(event.key)) {
-                event.preventDefault();
-            }
-
-            switch(event.key) {
-                case 'f':
-                case 'F':
-                    flipCard();
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    previousCard();
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    nextCard();
-                    break;
-                case 'r':
-                case 'R':
-                    document.querySelector('.mode-btn:nth-child(2)').click();
-                    break;
-                case 's':
-                case 'S':
-                    document.querySelector('.mode-btn:nth-child(1)').click();
-                    break;
-                case 'Escape':
-                    if (isFlipped) {
-                        flipCard();
+            // Add keyboard navigation for cards
+            document.querySelectorAll('.kanji-card').forEach(card => {
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const kanjiChar = card.querySelector('.kanji-character').textContent;
+                        openModal(kanjiChar);
                     }
-                    break;
-                case 'g':
-                case 'G':
-                    goToCard();
-                    break;
+                });
+            });
+        }
+
+        // Handle search
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            
+            filteredKanji = kanjiData.filter(kanji => {
+                const matchesSearch = !query || 
+                    kanji.kanji.includes(query) ||
+                    kanji.kunyomi.toLowerCase().includes(query) ||
+                    kanji.onyomi.toLowerCase().includes(query) ||
+                    kanji.english.toLowerCase().includes(query) ||
+                    kanji.bangla.toLowerCase().includes(query) ||
+                    kanji.examples.some(example => 
+                        example.word.includes(query) ||
+                        example.reading.toLowerCase().includes(query) ||
+                        example.meaning.toLowerCase().includes(query)
+                    );
+                
+                const matchesFilter = applyFilter(kanji, activeFilter);
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            renderKanjiGrid();
+            updateStats();
+        }
+
+        // Handle filter
+        function handleFilter(e) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const filter = e.target.dataset.filter;
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            
+            filteredKanji = kanjiData.filter(kanji => {
+                const matchesSearch = !query || 
+                    kanji.kanji.includes(query) ||
+                    kanji.kunyomi.toLowerCase().includes(query) ||
+                    kanji.onyomi.toLowerCase().includes(query) ||
+                    kanji.english.toLowerCase().includes(query) ||
+                    kanji.bangla.toLowerCase().includes(query) ||
+                    kanji.examples.some(example => 
+                        example.word.includes(query) ||
+                        example.reading.toLowerCase().includes(query) ||
+                        example.meaning.toLowerCase().includes(query)
+                    );
+                
+                const matchesFilter = applyFilter(kanji, filter);
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            renderKanjiGrid();
+            updateStats();
+        }
+
+        // Apply filter logic
+        function applyFilter(kanji, filter) {
+            switch (filter) {
+                case 'all':
+                    return true;
+                case 'favorites':
+                    return favorites.includes(kanji.kanji);
+                case 'numbers':
+                case 'time':
+                case 'directions':
+                case 'colors':
+                case 'family':
+                case 'school':
+                    return filterCategories[filter].includes(kanji.kanji);
+                default:
+                    return true;
             }
+        }
+
+        // Open modal
+        function openModal(kanjiChar) {
+            currentKanji = kanjiData.find(k => k.kanji === kanjiChar);
+            if (!currentKanji) return;
+            
+            document.getElementById('modalKanji').textContent = currentKanji.kanji;
+            document.getElementById('modalNumber').textContent = `Kanji #${currentKanji.id}`;
+            document.getElementById('modalKunyomi').textContent = currentKanji.kunyomi || 'None';
+            document.getElementById('modalOnyomi').textContent = currentKanji.onyomi || 'None';
+            document.getElementById('modalEnglish').textContent = currentKanji.english;
+            document.getElementById('modalBangla').textContent = currentKanji.bangla;
+            
+            // Render examples in modal
+            const examplesHtml = currentKanji.examples.map(example => `
+                <div class="example-item" style="margin-bottom: 1rem; padding: 1rem; background: var(--surface); border-radius: var(--radius); border-left: 3px solid var(--primary-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="font-family: 'Noto Sans JP', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--text-primary);">${example.word}</span>
+                        <button onclick="playPronunciation('${example.word}')" style="background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0.25rem;" title="Play pronunciation">🔊</button>
+                    </div>
+                    <div style="font-family: 'Noto Sans JP', sans-serif; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 1rem;">${example.reading}</div>
+                    <div style="color: var(--text-secondary); font-weight: 500;">${example.meaning}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('modalExamples').innerHTML = examplesHtml;
+            
+            document.getElementById('kanjiModal').style.display = 'block';
+            document.getElementById('kanjiModal').setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            
+            // Focus management for accessibility
+            document.querySelector('.close-btn').focus();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('kanjiModal').style.display = 'none';
+            document.getElementById('kanjiModal').setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = 'auto';
+            currentKanji = null;
+        }
+
+        // Toggle favorite
+        function toggleFavorite(kanjiChar) {
+            const index = favorites.indexOf(kanjiChar);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(kanjiChar);
+            }
+            
+            localStorage.setItem('kanjiMasterFavorites', JSON.stringify(favorites));
+            renderKanjiGrid();
+            
+            // Show feedback
+            showNotification(`${kanjiChar} ${index > -1 ? 'removed from' : 'added to'} favorites!`);
+        }
+
+        // Mark as studied
+        function markAsStudied(kanjiChar) {
+            if (!studiedKanji.includes(kanjiChar)) {
+                studiedKanji.push(kanjiChar);
+                localStorage.setItem('kanjiMasterStudied', JSON.stringify(studiedKanji));
+                updateProgress();
+                renderKanjiGrid();
+                showNotification(`${kanjiChar} marked as studied! 🎉`);
+            }
+        }
+
+        // Play pronunciation using Web Speech API
+        function playPronunciation(text = null) {
+            const textToSpeak = text || (currentKanji ? currentKanji.kanji : null);
+            if (!textToSpeak) return;
+            
+            if ('speechSynthesis' in window) {
+                // Stop any ongoing speech
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = 'ja-JP';
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                // Add visual feedback
+                const audioButtons = document.querySelectorAll('.audio-btn, .stroke-btn');
+                audioButtons.forEach(btn => {
+                    if (btn.textContent.includes('🔊')) {
+                        btn.style.transform = 'scale(1.1)';
+                        btn.style.background = 'var(--accent-gradient)';
+                    }
+                });
+                
+                utterance.onend = () => {
+                    audioButtons.forEach(btn => {
+                        btn.style.transform = '';
+                        btn.style.background = '';
+                    });
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                showNotification('Speech synthesis not supported in your browser', 'error');
+            }
+        }
+
+        // Play stroke animation
+        function playStrokeAnimation() {
+            if (!currentKanji) return;
+            
+            const kanjiElement = document.getElementById('modalKanji');
+            kanjiElement.style.animation = 'none';
+            
+            // Create stroke animation effect
+            setTimeout(() => {
+                kanjiElement.style.animation = 'pulse 0.5s ease-in-out 3, breathe 2s ease-in-out infinite';
+                kanjiElement.style.color = 'var(--secondary-color)';
+                
+                setTimeout(() => {
+                    kanjiElement.style.color = 'var(--primary-color)';
+                }, 1500);
+            }, 10);
+            
+            showNotification('Stroke animation played! ✨');
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('resultCount').textContent = filteredKanji.length;
+            document.getElementById('totalCount').textContent = kanjiData.length;
+        }
+
+        // Update progress
+        function updateProgress() {
+            const progress = (studiedKanji.length / kanjiData.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('studiedCount').textContent = studiedKanji.length;
+            document.getElementById('totalKanji').textContent = kanjiData.length;
+            document.getElementById('progressPercentage').textContent = `${Math.round(progress)}%`;
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (body.dataset.theme === 'dark') {
+                body.dataset.theme = 'light';
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('kanjiMasterTheme', 'light');
+            } else {
+                body.dataset.theme = 'dark';
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('kanjiMasterTheme', 'dark');
+            }
+            
+            showNotification(`Switched to ${body.dataset.theme} theme`);
+        }
+
+        // Show statistics
+        function showStats() {
+            const totalKanji = kanjiData.length;
+            const studiedCount = studiedKanji.length;
+            const favoriteCount = favorites.length;
+            const progress = Math.round((studiedCount / totalKanji) * 100);
+            
+            const statsMessage = `📊 Learning Statistics:
+• Total Kanji: ${totalKanji}
+• Studied: ${studiedCount} (${progress}%)
+• Favorites: ${favoriteCount}
+• Remaining: ${totalKanji - studiedCount}
+• JLPT N5 Ready: ${progress >= 80 ? 'Yes! 🎉' : 'Keep studying! 📚'}`;
+            
+            alert(statsMessage);
+        }
+
+        // Reset progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                localStorage.removeItem('kanjiMasterFavorites');
+                localStorage.removeItem('kanjiMasterStudied');
+                favorites = [];
+                studiedKanji = [];
+                updateProgress();
+                renderKanjiGrid();
+                showNotification('Progress reset successfully!');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('kanjiMasterTheme') || 'light';
+            document.body.dataset.theme = savedTheme;
+            document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            init();
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('Welcome to KanjiMaster Pro! Master all 120 essential kanji for JLPT N5! 🎌');
+            }, 500);
         });
 
-        // Initialize
-        function initialize() {
-            if (document.fonts) {
-                document.fonts.ready.then(() => {
-                    updateCard();
-                    console.log('Fonts loaded successfully');
-                });
-            } else {
-                setTimeout(() => {
-                    updateCard();
-                }, 100);
-            }
-            
-            const setVH = () => {
-                const vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-            };
-            
-            setVH();
-            window.addEventListener('resize', setVH);
-            window.addEventListener('orientationchange', setVH);
+        // Add service worker for offline functionality (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
         }
-
-        document.addEventListener('DOMContentLoaded', initialize);
-
-        // Prevent zoom on double tap for iOS
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
     </script>
 </body>
 </html>
