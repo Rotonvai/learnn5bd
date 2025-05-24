@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Kanji 120 - Interactive Flashcard System</title>
+    
+    <!-- Smart Font Loading for Enhanced Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            --card-shadow-hover: 0 25px 50px rgba(0,0,0,0.25);
+            --transition-smooth: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition-flip: cubic-bezier(0.23, 1, 0.320, 1);
+            --border-radius: 20px;
+            --spacing-unit: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 2.5);
+            color: #333;
+            overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Enhanced Typography Classes */
+        .japanese-text {
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+
+        .english-text {
+            font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-feature-settings: "kern" 1, "liga" 1;
+        }
+
+        .bangla-text {
+            font-family: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif;
+            font-feature-settings: "kern" 1, "liga" 1;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+            color: white;
+            animation: slideInFromTop 0.8s ease-out;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: fadeInScale 1s ease-out 0.2s both;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 3.5vw, 1.2rem);
+            opacity: 0.95;
+            animation: fadeInScale 1s ease-out 0.4s both;
+            font-weight: 500;
+        }
+
+        .study-mode {
+            background: rgba(255,255,255,0.12);
+            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5);
+            border-radius: calc(var(--border-radius) * 0.75);
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInFromTop 0.8s ease-out 0.7s both;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .mode-btn {
+            margin: calc(var(--spacing-unit) * 0.5);
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: calc(var(--border-radius) * 1.25);
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            font-size: clamp(0.85rem, 2.8vw, 1rem);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .mode-btn:hover::before {
+            left: 100%;
+        }
+
+        .mode-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .mode-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.22);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .progress-container {
+            width: min(450px, 92vw);
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            animation: slideInFromLeft 0.8s ease-out 0.8s both;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
+            transition: width 0.8s var(--transition-smooth);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: progressShimmer 2.5s infinite;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: white;
+            margin-top: calc(var(--spacing-unit) * 1.25);
+            font-weight: 600;
+            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .navigation {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 1.5);
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            animation: slideInFromBottom 0.8s ease-out 0.9s both;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: calc(var(--border-radius) * 1.25);
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            min-height: 44px;
+            min-width: 44px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Enhanced Flashcard Container */
+        .flashcard-container {
+            perspective: 1500px;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+            animation: slideInFromBottom 0.8s ease-out 0.6s both;
+        }
+
+        .flashcard {
+            width: min(450px, 92vw);
+            height: min(350px, 65vh);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s var(--transition-flip);
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard.transitioning {
+            animation: cardSlideTransition 0.6s ease-in-out;
+        }
+
+        /* Interactive Card Faces */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 3);
+            transition: all 0.4s var(--transition-smooth);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .card-face:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-color: #e9ecef;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: rotateY(180deg);
+            border-color: #dee2e6;
+        }
+
+        /* Enhanced Kanji Display */
+        .kanji-character {
+            font-size: clamp(5rem, 18vw, 10rem);
+            font-weight: 900;
+            color: #2c3e50;
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            animation: kanjiReveal 1s ease-out;
+            transition: all 0.4s var(--transition-smooth);
+            line-height: 0.9;
+        }
+
+        .kanji-character:hover {
+            transform: scale(1.05);
+            color: #1a252f;
+        }
+
+        .card-number {
+            position: absolute;
+            top: calc(var(--spacing-unit) * 2);
+            right: calc(var(--spacing-unit) * 2.5);
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2);
+            border-radius: calc(var(--border-radius) * 1.25);
+            font-size: clamp(0.85rem, 2.8vw, 1rem);
+            font-weight: 700;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            animation: slideInFromRight 0.6s ease-out 0.8s both;
+            letter-spacing: 0.5px;
+        }
+
+        /* Enhanced Content Sections */
+        .reading-section, .meaning-section {
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            text-align: center;
+            animation: contentFadeIn 0.8s ease-out;
+            opacity: 0;
+            transform: translateY(20px);
+            width: 100%;
+        }
+
+        .card-back .reading-section:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .card-back .meaning-section:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .card-back .meaning-section:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+
+        .reading-label {
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: calc(var(--spacing-unit) * 0.75);
+            font-size: clamp(0.85rem, 2.8vw, 1rem);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .reading-text {
+            font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+            color: #2c3e50;
+            margin-bottom: calc(var(--spacing-unit) * 1.25);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .meaning-text {
+            font-size: clamp(1.1rem, 3.8vw, 1.4rem);
+            color: #495057;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .bangla-meaning {
+            font-size: clamp(1rem, 3.5vw, 1.3rem);
+            color: #6c757d;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Enhanced Controls */
+        .controls {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 2);
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: slideInFromBottom 0.8s ease-out 1s both;
+        }
+
+        .btn {
+            padding: calc(var(--spacing-unit) * 1.75) calc(var(--spacing-unit) * 3.5);
+            border: none;
+            border-radius: calc(var(--border-radius) * 1.25);
+            font-size: clamp(1rem, 3.2vw, 1.1rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+            min-height: 50px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+
+        .btn:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: all 0.1s ease;
+        }
+
+        /* Click-to-flip indicator */
+        .flip-indicator {
+            position: absolute;
+            bottom: calc(var(--spacing-unit) * 2);
+            left: 50%;
+            transform: translateX(-50%);
+            color: #6c757d;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            font-weight: 500;
+            opacity: 0.7;
+            animation: pulseGlow 2s infinite;
+            pointer-events: none;
+        }
+
+        /* Mobile-specific optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .nav-btn, .mode-btn {
+                min-height: 48px;
+                min-width: 48px;
+            }
+            
+            .flashcard {
+                touch-action: manipulation;
+            }
+            
+            .card-face:hover {
+                transform: none;
+                box-shadow: var(--card-shadow);
+            }
+            
+            .kanji-character:hover {
+                transform: none;
+            }
+        }
+
+        /* Responsive breakpoints */
+        @media (max-width: 768px) {
+            body {
+                padding: calc(var(--spacing-unit) * 2);
+            }
+            
+            .flashcard {
+                width: min(380px, 95vw);
+                height: min(320px, 60vh);
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+                gap: calc(var(--spacing-unit) * 1.5);
+            }
+            
+            .btn {
+                width: min(280px, 85vw);
+                padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5);
+            }
+            
+            .navigation {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: calc(var(--spacing-unit) * 1.25);
+            }
+            
+            .study-mode {
+                padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+            }
+            
+            .mode-btn {
+                margin: calc(var(--spacing-unit) * 0.5);
+                padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                margin-bottom: calc(var(--spacing-unit) * 2.5);
+            }
+            
+            .flashcard {
+                width: min(340px, 95vw);
+                height: min(280px, 55vh);
+            }
+            
+            .card-face {
+                padding: calc(var(--spacing-unit) * 2);
+            }
+            
+            .progress-container, .navigation, .controls, .study-mode {
+                margin-bottom: calc(var(--spacing-unit) * 2);
+            }
+        }
+
+        /* Landscape orientation optimizations */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .header {
+                margin-bottom: calc(var(--spacing-unit) * 2);
+            }
+            
+            .header h1 {
+                font-size: clamp(1.8rem, 5vw, 2.2rem);
+                margin-bottom: calc(var(--spacing-unit) * 1);
+            }
+            
+            .header p {
+                font-size: clamp(0.9rem, 3vw, 1rem);
+            }
+            
+            .flashcard {
+                height: min(240px, 75vh);
+            }
+            
+            .progress-container, .navigation, .controls, .study-mode {
+                margin-bottom: calc(var(--spacing-unit) * 1.5);
+            }
+        }
+
+        /* Enhanced animations */
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes kanjiReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.3) rotateY(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+
+        @keyframes contentFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardSlideTransition {
+            0% {
+                transform: translateX(0) scale(1);
+            }
+            50% {
+                transform: translateX(25px) scale(0.95);
+            }
+            100% {
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes progressShimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+
+        /* Accessibility and reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .card-face {
+                border-width: 4px;
+            }
+            
+            .btn, .nav-btn, .mode-btn {
+                border-width: 3px;
+            }
+            
+            .kanji-character {
+                text-shadow: none;
+                font-weight: 900;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .flashcard {
+                box-shadow: none;
+                border: 2px solid #000;
+            }
+            
+            .controls, .navigation, .study-mode {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="english-text">Basic Kanji 120</h1>
+        <p class="english-text">Japanese Language Proficiency Test N5 Level</p>
+    </div>
+
+    <div class="study-mode">
+        <button class="mode-btn active english-text" onclick="setStudyMode('sequential')">Sequential</button>
+        <button class="mode-btn english-text" onclick="setStudyMode('random')">Random</button>
+        <button class="mode-btn english-text" onclick="setStudyMode('review')">Review Mode</button>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text english-text" id="progressText">1 / 120</div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn english-text" id="prevBtn" onclick="previousCard()">← Previous</button>
+        <button class="nav-btn english-text" onclick="goToCard()">Go to Card</button>
+        <button class="nav-btn english-text" id="nextBtn" onclick="nextCard()">Next →</button>
+    </div>
+
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="card-face card-front">
+                <div class="card-number english-text" id="cardNumber">1</div>
+                <div class="kanji-character japanese-text" id="kanjiCharacter">人</div>
+                <div class="flip-indicator english-text">Click to flip</div>
+            </div>
+            <div class="card-face card-back">
+                <div class="card-number english-text" id="cardNumberBack">1</div>
+                <div class="reading-section">
+                    <div class="reading-label english-text">Hiragana Reading</div>
+                    <div class="reading-text japanese-text" id="hiraganaReading">ひと、ジン、ニン</div>
+                </div>
+                <div class="meaning-section">
+                    <div class="reading-label english-text">English Meaning</div>
+                    <div class="meaning-text english-text" id="englishMeaning">person; people</div>
+                </div>
+                <div class="meaning-section">
+                    <div class="reading-label english-text">Bangla Meaning</div>
+                    <div class="meaning-text bangla-text bangla-meaning" id="banglaMeaning">ব্যক্তি; মানুষ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-primary english-text" onclick="flipCard()">
+            <span id="flipButtonText">Flip Card</span>
+        </button>
+        <button class="btn btn-secondary english-text" onclick="previousCard()">Previous</button>
+        <button class="btn btn-secondary english-text" onclick="nextCard()">Next</button>
+    </div>
+
+    <script>
+        // Enhanced Kanji data with improved typography
+        const kanjiData = [
+            { kanji: "人", reading: "ひと、ジン、ニン", english: "person; people", bangla: "ব্যক্তি; মানুষ" },
+            { kanji: "日", reading: "ひ、か、ニチ", english: "day; sun", bangla: "দিন; সূর্য" },
+            { kanji: "一", reading: "ひと(つ)、イチ、イッ", english: "one", bangla: "এক" },
+            { kanji: "二", reading: "ふた(つ)、ニ", english: "two", bangla: "দুই" },
+            { kanji: "三", reading: "みっ(つ)、サン", english: "three", bangla: "তিন" },
+            { kanji: "四", reading: "よっ(つ)、よん、よ、シ", english: "four", bangla: "চার" },
+            { kanji: "五", reading: "いつ(つ)、ゴ", english: "five", bangla: "পাঁচ" },
+            { kanji: "六", reading: "むっ(つ)、ロク", english: "six", bangla: "ছয়" },
+            { kanji: "七", reading: "なな(つ)、なな、シチ", english: "seven", bangla: "সাত" },
+            { kanji: "八", reading: "やっ(つ)、ハチ", english: "eight", bangla: "আট" },
+            { kanji: "九", reading: "ここの(つ)、キュウ、ク", english: "nine", bangla: "নয়" },
+            { kanji: "十", reading: "とお、ジュウ", english: "ten", bangla: "দশ" },
+            { kanji: "月", reading: "つき、ゲツ、ガツ", english: "moon; month", bangla: "চাঁদ; মাস" },
+            { kanji: "火", reading: "ひ、カ", english: "fire", bangla: "আগুন" },
+            { kanji: "水", reading: "みず、スイ", english: "water", bangla: "পানি" },
+            { kanji: "木", reading: "き、モク", english: "tree; wood", bangla: "গাছ; কাঠ" },
+            { kanji: "金", reading: "かね、キン", english: "money; gold", bangla: "টাকা; সোনা" },
+            { kanji: "土", reading: "ド", english: "earth; soil", bangla: "মাটি" },
+            { kanji: "百", reading: "ヒャク", english: "hundred", bangla: "একশত" },
+            { kanji: "千", reading: "セン", english: "thousand", bangla: "হাজার" },
+            { kanji: "万", reading: "マン", english: "ten thousand", bangla: "দশ হাজার" },
+            { kanji: "円", reading: "エン", english: "yen; circle", bangla: "ইয়েন; বৃত্ত" },
+            { kanji: "行", reading: "い(きます)、コウ", english: "go; conduct", bangla: "যাওয়া; পরিচালনা" },
+            { kanji: "来", reading: "き(ます)、ライ", english: "come", bangla: "আসা" },
+            { kanji: "休", reading: "やす(みます)", english: "rest; holiday", bangla: "বিশ্রাম; ছুটি" },
+            { kanji: "見", reading: "み(ます)、み(せます)", english: "see; look; watch", bangla: "দেখা" },
+            { kanji: "今", reading: "いま、コン", english: "now; present", bangla: "এখন; বর্তমান" },
+            { kanji: "大", reading: "おお(きい)、ダイ", english: "big; large", bangla: "বড়" },
+            { kanji: "小", reading: "ちい(さい)、ショウ", english: "small; little", bangla: "ছোট" },
+            { kanji: "上", reading: "うえ、ジョウ", english: "above; up; on", bangla: "উপরে" },
+            { kanji: "下", reading: "した、カ", english: "below; down; under", bangla: "নিচে" },
+            { kanji: "中", reading: "なか、チュウ", english: "middle; inside; center", bangla: "মাঝে; ভিতরে" },
+            { kanji: "右", reading: "みぎ", english: "right", bangla: "ডান" },
+            { kanji: "左", reading: "ひだり", english: "left", bangla: "বাম" },
+            { kanji: "山", reading: "やま、サン", english: "mountain", bangla: "পাহাড়" },
+            { kanji: "川", reading: "かわ", english: "river", bangla: "নদী" },
+            { kanji: "白", reading: "しろ(い)、しろ", english: "white", bangla: "সাদা" },
+            { kanji: "本", reading: "ホン", english: "book; origin", bangla: "বই; মূল" },
+            { kanji: "子", reading: "こ", english: "child", bangla: "শিশু" },
+            { kanji: "男", reading: "おとこ", english: "man; male", bangla: "পুরুষ" },
+            { kanji: "女", reading: "おんな", english: "woman; female", bangla: "মহিলা" },
+            { kanji: "父", reading: "ちち", english: "father", bangla: "বাবা" },
+            { kanji: "母", reading: "はは", english: "mother", bangla: "মা" },
+            { kanji: "友", reading: "とも", english: "friend", bangla: "বন্ধু" },
+            { kanji: "先", reading: "さき、セン", english: "previous; ahead", bangla: "আগে; সামনে" },
+            { kanji: "生", reading: "う(まれます)、セイ", english: "life; birth; student", bangla: "জীবন; জন্ম; ছাত্র" },
+            { kanji: "学", reading: "ガク", english: "study; learning", bangla: "অধ্যয়ন; শিক্ষা" },
+            { kanji: "校", reading: "コウ", english: "school", bangla: "স্কুল" },
+            { kanji: "何", reading: "なに、なん", english: "what", bangla: "কী" },
+            { kanji: "時", reading: "とき、ジ", english: "time; hour", bangla: "সময়; ঘন্টা" },
+            { kanji: "間", reading: "あいだ、カン", english: "interval; between", bangla: "ব্যবধান; মধ্যে" },
+            { kanji: "分", reading: "フン", english: "minute; part", bangla: "মিনিট; অংশ" },
+            { kanji: "半", reading: "ハン", english: "half", bangla: "অর্ধেক" },
+            { kanji: "毎", reading: "マイ", english: "every", bangla: "প্রতি" },
+            { kanji: "年", reading: "とし、ネン", english: "year", bangla: "বছর" },
+            { kanji: "前", reading: "まえ、ゼン", english: "before; front", bangla: "আগে; সামনে" },
+            { kanji: "後", reading: "うし(ろ)、あと、ゴ", english: "after; behind", bangla: "পরে; পিছনে" },
+            { kanji: "午", reading: "ゴ", english: "noon", bangla: "দুপুর" },
+            { kanji: "名", reading: "な、メイ", english: "name", bangla: "নাম" },
+            { kanji: "車", reading: "くるま、シャ", english: "car; vehicle", bangla: "গাড়ি; যানবাহন" },
+            { kanji: "天", reading: "テン", english: "heaven; sky", bangla: "আকাশ; স্বর্গ" },
+            { kanji: "気", reading: "キ", english: "spirit; mood", bangla: "মেজাজ; আত্মা" },
+            { kanji: "電", reading: "デン", english: "electricity", bangla: "বিদ্যুৎ" },
+            { kanji: "話", reading: "はな(します)、はなし、ワ", english: "talk; speak; story", bangla: "কথা বলা; গল্প" },
+            { kanji: "食", reading: "た(べます)、ショク", english: "eat; food", bangla: "খাওয়া; খাবার" },
+            { kanji: "聞", reading: "き(きます)、ブン", english: "hear; listen; ask", bangla: "শোনা; জিজ্ঞাসা" },
+            { kanji: "書", reading: "か(きます)", english: "write", bangla: "লেখা" },
+            { kanji: "読", reading: "よ(みます)", english: "read", bangla: "পড়া" },
+            { kanji: "国", reading: "くに、コク", english: "country", bangla: "দেশ" },
+            { kanji: "外", reading: "そと、ガイ", english: "outside; foreign", bangla: "বাইরে; বিদেশী" },
+            { kanji: "語", reading: "ゴ", english: "language", bangla: "ভাষা" },
+            { kanji: "入", reading: "い(れます)、はい(ります)", english: "enter; put in", bangla: "প্রবেশ; ঢোকানো" },
+            { kanji: "出", reading: "だ(します)、で(ます)", english: "exit; take out", bangla: "বের হওয়া; বের করা" },
+            { kanji: "雨", reading: "あめ", english: "rain", bangla: "বৃষ্টি" },
+            { kanji: "東", reading: "ひがし、トウ", english: "east", bangla: "পূর্ব" },
+            { kanji: "西", reading: "にし", english: "west", bangla: "পশ্চিম" },
+            { kanji: "南", reading: "みなみ", english: "south", bangla: "দক্ষিণ" },
+            { kanji: "北", reading: "きた", english: "north", bangla: "উত্তর" },
+            { kanji: "長", reading: "なが(い)", english: "long", bangla: "লম্বা" },
+            { kanji: "高", reading: "たか(い)", english: "high; expensive", bangla: "উঁচু; দামী" },
+            { kanji: "口", reading: "くち", english: "mouth", bangla: "মুখ" },
+            { kanji: "目", reading: "め", english: "eye", bangla: "চোখ" },
+            { kanji: "手", reading: "て", english: "hand", bangla: "হাত" },
+            { kanji: "足", reading: "あし", english: "foot; leg", bangla: "পা" },
+            { kanji: "近", reading: "ちか(い)", english: "near; close", bangla: "কাছে" },
+            { kanji: "有", reading: "あ(ります)、ユウ", english: "exist; have", bangla: "আছে; থাকা" },
+            { kanji: "花", reading: "はな", english: "flower", bangla: "ফুল" },
+            { kanji: "赤", reading: "あか(い)、あか", english: "red", bangla: "লাল" },
+            { kanji: "紙", reading: "かみ", english: "paper", bangla: "কাগজ" },
+            { kanji: "買", reading: "か(います)", english: "buy", bangla: "কেনা" },
+            { kanji: "朝", reading: "あさ", english: "morning", bangla: "সকাল" },
+            { kanji: "昼", reading: "ひる", english: "noon; daytime", bangla: "দুপুর; দিন" },
+            { kanji: "夕", reading: "ゆう", english: "evening", bangla: "সন্ধ্যা" },
+            { kanji: "夜", reading: "よる", english: "night", bangla: "রাত" },
+            { kanji: "私", reading: "わたし、わたくし", english: "I; me", bangla: "আমি" },
+            { kanji: "家", reading: "いえ、カ", english: "house; home", bangla: "ঘর; বাড়ি" },
+            { kanji: "会", reading: "あ(います)、カイ", english: "meet; meeting", bangla: "দেখা; সভা" },
+            { kanji: "社", reading: "シャ", english: "company; society", bangla: "কোম্পানি; সমাজ" },
+            { kanji: "店", reading: "みせ", english: "store; shop", bangla: "দোকান" },
+            { kanji: "飲", reading: "の(みます)", english: "drink", bangla: "পান করা" },
+            { kanji: "多", reading: "おお(い)", english: "many; much", bangla: "অনেক" },
+            { kanji: "少", reading: "すこ(し)、すく(ない)", english: "few; little", bangla: "কম; অল্প" },
+            { kanji: "古", reading: "ふる(い)", english: "old", bangla: "পুরানো" },
+            { kanji: "新", reading: "あたら(しい)、シン", english: "new", bangla: "নতুন" },
+            { kanji: "広", reading: "ひろ(い)", english: "wide; spacious", bangla: "প্রশস্ত" },
+            { kanji: "安", reading: "やす(い)", english: "cheap; safe", bangla: "সস্তা; নিরাপদ" },
+            { kanji: "立", reading: "た(ちます)", english: "stand", bangla: "দাঁড়ানো" },
+            { kanji: "知", reading: "し(ります)", english: "know", bangla: "জানা" },
+            { kanji: "言", reading: "い(います)、こと", english: "say; word", bangla: "বলা; কথা" },
+            { kanji: "思", reading: "おも(います)", english: "think", bangla: "ভাবা" },
+            { kanji: "歩", reading: "ある(きます)", english: "walk", bangla: "হাঁটা" },
+            { kanji: "走", reading: "はし(ります)", english: "run", bangla: "দৌড়ানো" },
+            { kanji: "住", reading: "す(みます)", english: "live; reside", bangla: "বাস করা" },
+            { kanji: "空", reading: "そら", english: "sky; empty", bangla: "আকাশ; খালি" },
+            { kanji: "週", reading: "シュウ", english: "week", bangla: "সপ্তাহ" },
+            { kanji: "魚", reading: "さかな", english: "fish", bangla: "মাছ" },
+            { kanji: "耳", reading: "みみ", english: "ear", bangla: "কান" },
+            { kanji: "銀", reading: "ギン", english: "silver", bangla: "রূপা" },
+            { kanji: "道", reading: "みち", english: "road; way", bangla: "রাস্তা; পথ" },
+            { kanji: "駅", reading: "エキ", english: "station", bangla: "স্টেশন" }
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let studyMode = 'sequential';
+        let reviewCards = [];
+
+        // Enhanced card update with improved animations
+        function updateCard() {
+            const card = kanjiData[currentCardIndex];
+            const flashcard = document.getElementById('flashcard');
+            
+            // Add transition animation
+            flashcard.classList.add('transitioning');
+            
+            setTimeout(() => {
+                // Update card content
+                document.getElementById('cardNumber').textContent = currentCardIndex + 1;
+                document.getElementById('cardNumberBack').textContent = currentCardIndex + 1;
+                document.getElementById('kanjiCharacter').textContent = card.kanji;
+                document.getElementById('hiraganaReading').textContent = card.reading;
+                document.getElementById('englishMeaning').textContent = card.english;
+                document.getElementById('banglaMeaning').textContent = card.bangla;
+                
+                updateProgress();
+                updateNavigationButtons();
+                updateFlipButtonText();
+                
+                // Reset flip state
+                if (isFlipped) {
+                    flipCard();
+                }
+                
+                // Trigger content animations on back of card
+                const backSections = document.querySelectorAll('.card-back .reading-section, .card-back .meaning-section');
+                backSections.forEach((section, index) => {
+                    section.style.animation = 'none';
+                    section.offsetHeight; // Trigger reflow
+                    section.style.animation = `contentFadeIn 0.8s ease-out ${index * 0.2 + 0.3}s both`;
+                });
+                
+                flashcard.classList.remove('transitioning');
+            }, 300);
+        }
+
+        function updateProgress() {
+            const progress = ((currentCardIndex + 1) / kanjiData.length) * 100;
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentCardIndex + 1} / ${kanjiData.length}`;
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (studyMode === 'sequential') {
+                prevBtn.disabled = currentCardIndex === 0;
+                nextBtn.disabled = currentCardIndex === kanjiData.length - 1;
+            } else {
+                prevBtn.disabled = false;
+                nextBtn.disabled = false;
+            }
+        }
+
+        function updateFlipButtonText() {
+            const flipButtonText = document.getElementById('flipButtonText');
+            flipButtonText.textContent = isFlipped ? 'Show Kanji' : 'Show Meaning';
+        }
+
+        // Enhanced flip functionality with improved feedback
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+            updateFlipButtonText();
+            
+            // Add haptic feedback for mobile devices
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function nextCard() {
+            if (studyMode === 'random') {
+                currentCardIndex = Math.floor(Math.random() * kanjiData.length);
+            } else if (studyMode === 'review' && reviewCards.length > 0) {
+                const randomIndex = Math.floor(Math.random() * reviewCards.length);
+                currentCardIndex = reviewCards[randomIndex];
+            } else {
+                if (currentCardIndex < kanjiData.length - 1) {
+                    currentCardIndex++;
+                } else if (studyMode !== 'sequential') {
+                    currentCardIndex = 0;
+                }
+            }
+            updateCard();
+        }
+
+        function previousCard() {
+            if (studyMode === 'random') {
+                currentCardIndex = Math.floor(Math.random() * kanjiData.length);
+            } else if (studyMode === 'review' && reviewCards.length > 0) {
+                const randomIndex = Math.floor(Math.random() * reviewCards.length);
+                currentCardIndex = reviewCards[randomIndex];
+            } else {
+                if (currentCardIndex > 0) {
+                    currentCardIndex--;
+                } else if (studyMode !== 'sequential') {
+                    currentCardIndex = kanjiData.length - 1;
+                }
+            }
+            updateCard();
+        }
+
+        function goToCard() {
+            const cardNumber = prompt('Enter card number (1-120):');
+            if (cardNumber && cardNumber >= 1 && cardNumber <= kanjiData.length) {
+                currentCardIndex = parseInt(cardNumber) - 1;
+                updateCard();
+            }
+        }
+
+        function setStudyMode(mode) {
+            studyMode = mode;
+            
+            // Update active button with enhanced animation
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.transform = 'scale(1)';
+            });
+            event.target.classList.add('active');
+            event.target.style.transform = 'scale(1.05)';
+            
+            if (mode === 'review') {
+                // Create review deck (for demo, using random subset)
+                reviewCards = [];
+                for (let i = 0; i < Math.min(30, kanjiData.length); i++) {
+                    reviewCards.push(Math.floor(Math.random() * kanjiData.length));
+                }
+                if (reviewCards.length === 0) {
+                    alert('No cards to review! Starting with all cards.');
+                    reviewCards = Array.from({length: kanjiData.length}, (_, i) => i);
+                }
+            }
+            
+            updateNavigationButtons();
+        }
+
+        // Enhanced touch gesture support
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        let touchStartTime = 0;
+
+        const flashcard = document.getElementById('flashcard');
+
+        flashcard.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+            touchStartTime = Date.now();
+        }, { passive: true });
+
+        flashcard.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            const touchDuration = Date.now() - touchStartTime;
+            
+            // Only handle swipes if touch duration is reasonable
+            if (touchDuration < 500) {
+                handleSwipe();
+            }
+        }, { passive: true });
+
+        function handleSwipe() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            const minSwipeDistance = 60;
+            const maxVerticalDeviation = 100;
+
+            // Horizontal swipes for navigation
+            if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < maxVerticalDeviation) {
+                if (deltaX > 0) {
+                    previousCard(); // Swipe right
+                } else {
+                    nextCard(); // Swipe left
+                }
+            }
+            // Vertical swipes for flipping
+            else if (Math.abs(deltaY) > minSwipeDistance && Math.abs(deltaX) < maxVerticalDeviation) {
+                flipCard(); // Swipe up or down
+            }
+        }
+
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            // Prevent default behavior for handled keys
+            const handledKeys = [' ', 'Enter', 'ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D', 'r', 'R', 's', 'S', 'Escape'];
+            if (handledKeys.includes(event.key)) {
+                event.preventDefault();
+            }
+
+            switch(event.key) {
+                case ' ':
+                case 'Enter':
+                    flipCard();
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    nextCard();
+                    break;
+                case 'r':
+                case 'R':
+                    setStudyMode('random');
+                    break;
+                case 's':
+                case 'S':
+                    setStudyMode('sequential');
+                    break;
+                case 'Escape':
+                    if (isFlipped) {
+                        flipCard();
+                    }
+                    break;
+                case 'g':
+                case 'G':
+                    goToCard();
+                    break;
+            }
+        });
+
+        // Enhanced initialization with font loading
+        function initialize() {
+            // Check if fonts are loaded
+            if (document.fonts) {
+                document.fonts.ready.then(() => {
+                    updateCard();
+                    console.log('Fonts loaded successfully');
+                });
+            } else {
+                // Fallback for browsers without font loading API
+                setTimeout(() => {
+                    updateCard();
+                }, 100);
+            }
+            
+            // Stagger animation delays for initial load
+            const elements = document.querySelectorAll('.header, .study-mode, .progress-container, .navigation, .flashcard-container, .controls');
+            elements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initialize);
+
+        // Add resize handler for responsive adjustments
+        window.addEventListener('resize', function() {
+            // Debounce resize events
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(() => {
+                // Force re-render of progress bar
+                updateProgress();
+            }, 250);
+        });
+
+        // Add visibility change handler to pause animations when tab is not visible
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // Pause animations when tab is hidden
+                document.body.style.animationPlayState = 'paused';
+            } else {
+                // Resume animations when tab becomes visible
+                document.body.style.animationPlayState = 'running';
+            }
+        });
+    </script>
+</body>
+</html>

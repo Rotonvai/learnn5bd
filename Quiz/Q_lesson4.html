@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Japanese N5 Vocabulary Quiz - Lesson 01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #7209b7;
+      --primary-light: #9d4edd;
+      --secondary-color: #f72585;
+      --accent-color: #4cc9f0;
+      --dark-color: #1f1f1f;
+      --light-color: #ffffff;
+      --gray-light: #f8f9fa;
+      --gray-medium: #e9ecef;
+      --success-color: #06d6a0;
+      --error-color: #ef476f;
+      --warning-color: #ffd166;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--dark-color);
+      line-height: 1.6;
+    }
+    
+    .header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .logo-icon {
+      background-color: var(--primary-color);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .main {
+      flex: 1;
+      padding: 1.5rem 0;
+    }
+    
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .quiz-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    
+    .quiz-subtitle {
+      font-size: 1rem;
+      color: var(--dark-color);
+      opacity: 0.8;
+      font-weight: 400;
+    }
+    
+    .quiz-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .quiz-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, transparent 70%);
+      opacity: 0.1;
+      border-radius: 0 0 0 100%;
+    }
+    
+    .quiz-container::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, var(--secondary-color) 0%, transparent 70%);
+      opacity: 0.1;
+      border-radius: 0 100% 0 0;
+    }
+    
+    /* Start Screen */
+    .start-screen {
+      text-align: center;
+    }
+    
+    .start-screen h2 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+    
+    .start-screen p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+    
+    .start-screen ul {
+      text-align: left;
+      margin: 1.5rem auto;
+      max-width: 500px;
+      padding-left: 1.5rem;
+    }
+    
+    .start-screen li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary-color);
+    }
+    
+    .btn-secondary:hover {
+      background: #e91c7b;
+    }
+    
+    .btn-accent {
+      background: var(--accent-color);
+    }
+    
+    .btn-accent:hover {
+      background: #3ab8df;
+    }
+    
+    .btn-success {
+      background: var(--success-color);
+    }
+    
+    .btn-success:hover {
+      background: #05c591;
+    }
+    
+    /* Quiz Questions */
+    .quiz-question {
+      display: none;
+    }
+    
+    .quiz-question.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .question-number {
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .question-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .question-languages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--gray-light);
+      border-radius: 8px;
+    }
+    
+    .question-language {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .language-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .language-text {
+      font-size: 1.1rem;
+    }
+    
+    .japanese-text {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 500;
+    }
+    
+    .options-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .option {
+      background: var(--gray-light);
+      border: 2px solid var(--gray-medium);
+      border-radius: 8px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .option:hover {
+      border-color: var(--primary-light);
+      background: #f0f0f0;
+    }
+    
+    .option.selected {
+      border-color: var(--primary-color);
+      background: rgba(114, 9, 183, 0.05);
+    }
+    
+    .option.correct {
+      border-color: var(--success-color);
+      background: rgba(6, 214, 160, 0.1);
+    }
+    
+    .option.incorrect {
+      border-color: var(--error-color);
+      background: rgba(239, 71, 111, 0.1);
+    }
+    
+    .option-text {
+      font-size: 1rem;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .feedback-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .option.correct .feedback-icon {
+      background: var(--success-color);
+      color: white;
+      opacity: 1;
+    }
+    
+    .option.incorrect .feedback-icon {
+      background: var(--error-color);
+      color: white;
+      opacity: 1;
+    }
+    
+    .quiz-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+    
+    .quiz-progress {
+      width: 100%;
+      height: 8px;
+      background: var(--gray-medium);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    
+    .quiz-progress-fill {
+      height: 100%;
+      background: var(--primary-color);
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    
+    .quiz-progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--dark-color);
+      opacity: 0.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feedback-message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .feedback-message.correct {
+      background: rgba(6, 214, 160, 0.1);
+      color: var(--success-color);
+      display: block;
+    }
+    
+    .feedback-message.incorrect {
+      background: rgba(239, 71, 111, 0.1);
+      color: var(--error-color);
+      display: block;
+    }
+    
+    /* Results Screen */
+    .results-screen {
+      display: none;
+      text-align: center;
+    }
+    
+    .results-screen.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .results-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .results-score {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .results-message {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .results-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .certificate-preview {
+      max-width: 100%;
+      height: auto;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .incorrect-answers {
+      margin-top: 2rem;
+      text-align: left;
+    }
+    
+    .incorrect-answers h3 {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .incorrect-item {
+      background: var(--gray-light);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .incorrect-question {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .incorrect-your-answer {
+      color: var(--error-color);
+      margin-bottom: 0.25rem;
+    }
+    
+    .incorrect-correct-answer {
+      color: var(--success-color);
+    }
+    
+    /* Certificate */
+    .certificate-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .certificate-container.active {
+      display: flex;
+    }
+    
+    .certificate {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+    }
+    
+    .certificate-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--error-color);
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    
+    .certificate-content {
+      border: 10px solid var(--primary-color);
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    
+    .certificate-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%237209b7' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      z-index: -1;
+    }
+    
+    .certificate-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0 auto 1rem;
+    }
+    
+    .certificate-header {
+      margin-bottom: 1.5rem;
+    }
+    
+    .certificate-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .certificate-subtitle {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+    }
+    
+    .certificate-body {
+      margin-bottom: 2rem;
+    }
+    
+    .certificate-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--secondary-color);
+      display: inline-block;
+      padding-bottom: 0.25rem;
+    }
+    
+    .certificate-text {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .certificate-score {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 1rem 0;
+    }
+    
+    .certificate-status {
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      display: inline-block;
+      margin: 1rem 0;
+    }
+    
+    .certificate-status.success {
+      background: rgba(6, 214, 160, 0.1);
+      color: var(--success-color);
+    }
+    
+    .certificate-status.warning {
+      background: rgba(255, 209, 102, 0.1);
+      color: var(--warning-color);
+    }
+    
+    .certificate-footer {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2rem;
+    }
+    
+    .certificate-signature {
+      text-align: center;
+    }
+    
+    .signature-line {
+      width: 150px;
+      height: 2px;
+      background: var(--dark-color);
+      margin: 0 auto 0.5rem;
+    }
+    
+    .signature-name {
+      font-weight: 600;
+    }
+    
+    .signature-title {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    
+    .certificate-date {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    .footer {
+      background: white;
+      padding: 1.5rem 0;
+      text-align: center;
+      margin-top: auto;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.05);
+    }
+    
+    .footer-text {
+      color: var(--dark-color);
+      opacity: 0.7;
+      font-size: 0.85rem;
+    }
+    
+    /* Media Queries */
+    @media (min-width: 480px) {
+      .options-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .quiz-title {
+        font-size: 2.5rem;
+      }
+      
+      .quiz-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .quiz-container {
+        padding: 3rem;
+      }
+      
+      .question-text {
+        font-size: 1.5rem;
+      }
+      
+      .certificate-content {
+        padding: 3rem;
+      }
+      
+      .certificate-logo {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+      }
+      
+      .certificate-title {
+        font-size: 2.5rem;
+      }
+      
+      .certificate-subtitle {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <span class="logo-icon">日</span>
+          <span>Japanese N5 Quiz</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main">
+    <div class="container">
+      <div class="quiz-header">
+        <h1 class="quiz-title">Japanese N5 Vocabulary Quiz</h1>
+        <p class="quiz-subtitle">Lesson 01 - Test your knowledge</p>
+      </div>
+      
+      <div class="quiz-container">
+        <!-- Start Screen -->
+        <div class="start-screen" id="startScreen">
+          <h2>Welcome to the Japanese N5 Vocabulary Quiz!</h2>
+          <p>Test your knowledge of Japanese N5 vocabulary with this 50-question multiple-choice quiz.</p>
+          
+          <ul>
+            <li>Each question will be presented in English, Bengali, and Japanese.</li>
+            <li>Select the correct answer from the four options provided.</li>
+            <li>You'll receive immediate feedback after each question.</li>
+            <li>Complete the quiz to receive your score and a downloadable certificate.</li>
+          </ul>
+          
+          <button class="btn" id="startBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Start Quiz
+          </button>
+        </div>
+        
+        <!-- Quiz Questions -->
+        <div id="quizQuestions">
+          <!-- Questions will be dynamically inserted here -->
+        </div>
+        
+        <!-- Results Screen -->
+        <div class="results-screen" id="resultsScreen">
+          <h2 class="results-title">Quiz Completed!</h2>
+          <div class="results-score" id="finalScore">0/50</div>
+          <p class="results-message" id="resultsMessage">You've completed the Japanese N5 Vocabulary Quiz.</p>
+          
+          <div id="certificatePreviewContainer">
+            <h3>Your Certificate</h3>
+            <img src="/placeholder.svg?height=400&width=800" alt="Certificate Preview" class="certificate-preview" id="certificatePreview">
+          </div>
+          
+          <div class="results-actions">
+            <button class="btn" id="viewCertificateBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              View Certificate
+            </button>
+            <button class="btn btn-secondary" id="downloadCertificateBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download Certificate
+            </button>
+            <button class="btn btn-accent" id="restartBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+              Restart Quiz
+            </button>
+          </div>
+          
+          <div class="incorrect-answers" id="incorrectAnswers">
+            <h3>Review Incorrect Answers</h3>
+            <!-- Incorrect answers will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Certificate Modal -->
+  <div class="certificate-container" id="certificateContainer">
+    <div class="certificate">
+      <button class="certificate-close" id="certificateClose">×</button>
+      <div class="certificate-content" id="certificateContent">
+        <div class="certificate-logo">日</div>
+        <div class="certificate-header">
+          <h2 class="certificate-title">Certificate of Achievement</h2>
+          <p class="certificate-subtitle">Japanese N5 Vocabulary Quiz Lesson 01</p>
+        </div>
+        <div class="certificate-body">
+          <p class="certificate-text">This is to certify that</p>
+          <div class="certificate-name" id="certificateName">Student Name</div>
+          <p class="certificate-text">has successfully completed the Japanese N5 Vocabulary Quiz with a score of</p>
+          <div class="certificate-score" id="certificateScore">0/50</div>
+          <div class="certificate-status" id="certificateStatus">Successfully Completed</div>
+        </div>
+        <div class="certificate-footer">
+          <div class="certificate-signature">
+            <div class="signature-line"></div>
+            <div class="signature-name">HR Manik</div>
+            <div class="signature-title">CEO & Founder</div>
+          </div>
+          <div class="certificate-signature">
+            <div class="signature-line"></div>
+            <div class="signature-name">MR Roton</div>
+            <div class="signature-title">Chairman & Designer</div>
+          </div>
+        </div>
+        <div class="certificate-date" id="certificateDate">May 16, 2025</div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">© 2025 Japanese N5 Vocabulary Quiz. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    // Quiz Data - 50 Japanese N5 vocabulary questions
+    const quizData = [
+      {
+        question: "What does 'わたし' mean?",
+        options: ["I", "You", "He", "She"],
+        correctAnswer: 0,
+        japanese: "わたし",
+        bengali: "আমি"
+      },
+      {
+        question: "What does 'あなた' mean?",
+        options: ["I", "You", "He", "She"],
+        correctAnswer: 1,
+        japanese: "あなた",
+        bengali: "তুমি/আপনি"
+      },
+      {
+        question: "What does 'これ' mean?",
+        options: ["This", "That", "There", "Here"],
+        correctAnswer: 0,
+        japanese: "これ",
+        bengali: "এটা"
+      },
+      {
+        question: "What does 'それ' mean?",
+        options: ["This", "That", "There", "Here"],
+        correctAnswer: 1,
+        japanese: "それ",
+        bengali: "ওটা"
+      },
+      {
+        question: "What does 'あれ' mean?",
+        options: ["This", "That over there", "Here", "Where"],
+        correctAnswer: 1,
+        japanese: "あれ",
+        bengali: "ঐটা (দূরে)"
+      },
+      {
+        question: "What does 'ここ' mean?",
+        options: ["This", "That", "Here", "There"],
+        correctAnswer: 2,
+        japanese: "ここ",
+        bengali: "এখানে"
+      },
+      {
+        question: "What does 'そこ' mean?",
+        options: ["This", "That", "Here", "There"],
+        correctAnswer: 3,
+        japanese: "そこ",
+        bengali: "ওখানে"
+      },
+      {
+        question: "What does 'あそこ' mean?",
+        options: ["This place", "That place", "Here", "Over there"],
+        correctAnswer: 3,
+        japanese: "あそこ",
+        bengali: "ঐখানে (দূরে)"
+      },
+      {
+        question: "What does 'だれ' mean?",
+        options: ["What", "When", "Who", "Why"],
+        correctAnswer: 2,
+        japanese: "だれ",
+        bengali: "কে"
+      },
+      {
+        question: "What does 'なに/なん' mean?",
+        options: ["Who", "When", "What", "Why"],
+        correctAnswer: 2,
+        japanese: "なに/なん",
+        bengali: "কি"
+      },
+      {
+        question: "What does 'いま' mean?",
+        options: ["Tomorrow", "Yesterday", "Now", "Later"],
+        correctAnswer: 2,
+        japanese: "いま",
+        bengali: "এখন"
+      },
+      {
+        question: "What does 'おはよう' mean?",
+        options: ["Good morning", "Good afternoon", "Good evening", "Good night"],
+        correctAnswer: 0,
+        japanese: "おはよう",
+        bengali: "সুপ্রভাত"
+      },
+      {
+        question: "What does 'こんにちは' mean?",
+        options: ["Good morning", "Hello/Good afternoon", "Good evening", "Good night"],
+        correctAnswer: 1,
+        japanese: "こんにちは",
+        bengali: "শুভ দুপুর/হ্যালো"
+      },
+      {
+        question: "What does 'こんばんは' mean?",
+        options: ["Good morning", "Good afternoon", "Good evening", "Good night"],
+        correctAnswer: 2,
+        japanese: "こんばんは",
+        bengali: "শুভ সন্ধ্যা"
+      },
+      {
+        question: "What does 'さようなら' mean?",
+        options: ["Hello", "Thank you", "Goodbye", "Sorry"],
+        correctAnswer: 2,
+        japanese: "さようなら",
+        bengali: "বিদায়"
+      },
+      {
+        question: "What does 'ありがとう' mean?",
+        options: ["Hello", "Thank you", "Goodbye", "Sorry"],
+        correctAnswer: 1,
+        japanese: "ありがとう",
+        bengali: "ধন্যবাদ"
+      },
+      {
+        question: "What does 'すみません' mean?",
+        options: ["Hello", "Thank you", "Goodbye", "Excuse me/Sorry"],
+        correctAnswer: 3,
+        japanese: "すみません",
+        bengali: "দুঃখিত/ক্ষমা করুন"
+      },
+      {
+        question: "What does 'はい' mean?",
+        options: ["No", "Maybe", "Yes", "I don't know"],
+        correctAnswer: 2,
+        japanese: "はい",
+        bengali: "হ্যাঁ"
+      },
+      {
+        question: "What does 'いいえ' mean?",
+        options: ["Yes", "Maybe", "No", "I don't know"],
+        correctAnswer: 2,
+        japanese: "いいえ",
+        bengali: "না"
+      },
+      {
+        question: "What does 'おねがいします' mean?",
+        options: ["Thank you", "Please", "Sorry", "Goodbye"],
+        correctAnswer: 1,
+        japanese: "おねがいします",
+        bengali: "অনুগ্রহ করে"
+      },
+      {
+        question: "What does '一' mean?",
+        options: ["One", "Two", "Three", "Four"],
+        correctAnswer: 0,
+        japanese: "一 (いち)",
+        bengali: "এক"
+      },
+      {
+        question: "What does '二' mean?",
+        options: ["One", "Two", "Three", "Four"],
+        correctAnswer: 1,
+        japanese: "二 (に)",
+        bengali: "দুই"
+      },
+      {
+        question: "What does '三' mean?",
+        options: ["One", "Two", "Three", "Four"],
+        correctAnswer: 2,
+        japanese: "三 (さん)",
+        bengali: "তিন"
+      },
+      {
+        question: "What does '四' mean?",
+        options: ["One", "Two", "Three", "Four"],
+        correctAnswer: 3,
+        japanese: "四 (よん/し)",
+        bengali: "চার"
+      },
+      {
+        question: "What does '五' mean?",
+        options: ["Five", "Six", "Seven", "Eight"],
+        correctAnswer: 0,
+        japanese: "五 (ご)",
+        bengali: "পাঁচ"
+      },
+      {
+        question: "What does '学生' mean?",
+        options: ["Teacher", "Student", "Doctor", "Engineer"],
+        correctAnswer: 1,
+        japanese: "学生 (がくせい)",
+        bengali: "ছাত্র/ছাত্রী"
+      },
+      {
+        question: "What does '先生' mean?",
+        options: ["Student", "Teacher", "Doctor", "Engineer"],
+        correctAnswer: 1,
+        japanese: "先生 (せんせい)",
+        bengali: "শিক্ষক"
+      },
+      {
+        question: "What does '会社員' mean?",
+        options: ["Student", "Teacher", "Company employee", "Doctor"],
+        correctAnswer: 2,
+        japanese: "会社員 (かいしゃいん)",
+        bengali: "কোম্পানির কর্মচারী"
+      },
+      {
+        question: "What does '医者' mean?",
+        options: ["Student", "Teacher", "Company employee", "Doctor"],
+        correctAnswer: 3,
+        japanese: "医者 (いしゃ)",
+        bengali: "ডাক্তার"
+      },
+      {
+        question: "What does '本' mean?",
+        options: ["Book", "Pen", "Bag", "Desk"],
+        correctAnswer: 0,
+        japanese: "本 (ほん)",
+        bengali: "বই"
+      },
+      {
+        question: "What does 'ペン' mean?",
+        options: ["Book", "Pen", "Bag", "Desk"],
+        correctAnswer: 1,
+        japanese: "ペン",
+        bengali: "কলম"
+      },
+      {
+        question: "What does 'かばん' mean?",
+        options: ["Book", "Pen", "Bag", "Desk"],
+        correctAnswer: 2,
+        japanese: "かばん",
+        bengali: "ব্যাগ"
+      },
+      {
+        question: "What does '机' mean?",
+        options: ["Book", "Pen", "Bag", "Desk"],
+        correctAnswer: 3,
+        japanese: "机 (つくえ)",
+        bengali: "ডেস্ক"
+      },
+      {
+        question: "What does '椅子' mean?",
+        options: ["Chair", "Table", "Window", "Door"],
+        correctAnswer: 0,
+        japanese: "椅子 (いす)",
+        bengali: "চেয়ার"
+      },
+      {
+        question: "What does 'テーブル' mean?",
+        options: ["Chair", "Table", "Window", "Door"],
+        correctAnswer: 1,
+        japanese: "テーブル",
+        bengali: "টেবিল"
+      },
+      {
+        question: "What does '窓' mean?",
+        options: ["Chair", "Table", "Window", "Door"],
+        correctAnswer: 2,
+        japanese: "窓 (まど)",
+        bengali: "জানালা"
+      },
+      {
+        question: "What does 'ドア' mean?",
+        options: ["Chair", "Table", "Window", "Door"],
+        correctAnswer: 3,
+        japanese: "ドア",
+        bengali: "দরজা"
+      },
+      {
+        question: "What does '水' mean?",
+        options: ["Water", "Fire", "Earth", "Wind"],
+        correctAnswer: 0,
+        japanese: "水 (みず)",
+        bengali: "পানি"
+      },
+      {
+        question: "What does '火' mean?",
+        options: ["Water", "Fire", "Earth", "Wind"],
+        correctAnswer: 1,
+        japanese: "火 (ひ)",
+        bengali: "আগুন"
+      },
+      {
+        question: "What does '月' mean?",
+        options: ["Sun", "Moon", "Star", "Cloud"],
+        correctAnswer: 1,
+        japanese: "月 (つき)",
+        bengali: "চাঁদ"
+      },
+      {
+        question: "What does '日' mean?",
+        options: ["Sun/Day", "Moon", "Star", "Cloud"],
+        correctAnswer: 0,
+        japanese: "日 (ひ/にち)",
+        bengali: "সূর্য/দিন"
+      },
+      {
+        question: "What does '時間' mean?",
+        options: ["Day", "Week", "Month", "Time"],
+        correctAnswer: 3,
+        japanese: "時間 (じかん)",
+        bengali: "সময়"
+      },
+      {
+        question: "What does '分' mean?",
+        options: ["Hour", "Minute", "Second", "Day"],
+        correctAnswer: 1,
+        japanese: "分 (ふん)",
+        bengali: "মিনিট"
+      },
+      {
+        question: "What does '人' mean?",
+        options: ["Person", "Animal", "Plant", "Building"],
+        correctAnswer: 0,
+        japanese: "人 (ひと)",
+        bengali: "মানুষ"
+      },
+      {
+        question: "What does '男' mean?",
+        options: ["Person", "Man", "Woman", "Child"],
+        correctAnswer: 1,
+        japanese: "男 (おとこ)",
+        bengali: "পুরুষ"
+      },
+      {
+        question: "What does '女' mean?",
+        options: ["Person", "Man", "Woman", "Child"],
+        correctAnswer: 2,
+        japanese: "女 (おんな)",
+        bengali: "মহিলা"
+      },
+      {
+        question: "What does '子供' mean?",
+        options: ["Person", "Man", "Woman", "Child"],
+        correctAnswer: 3,
+        japanese: "子供 (こども)",
+        bengali: "শিশু"
+      },
+      {
+        question: "What does '友達' mean?",
+        options: ["Family", "Friend", "Teacher", "Student"],
+        correctAnswer: 1,
+        japanese: "友達 (ともだち)",
+        bengali: "বন্ধু"
+      },
+      {
+        question: "What does '家族' mean?",
+        options: ["Family", "Friend", "Teacher", "Student"],
+        correctAnswer: 0,
+        japanese: "家族 (かぞく)",
+        bengali: "পরিবার"
+      },
+      {
+        question: "What does '食べる' mean?",
+        options: ["To eat", "To drink", "To sleep", "To walk"],
+        correctAnswer: 0,
+        japanese: "食べる (たべる)",
+        bengali: "খাওয়া"
+      },
+      {
+        question: "What does '飲む' mean?",
+        options: ["To eat", "To drink", "To sleep", "To walk"],
+        correctAnswer: 1,
+        japanese: "飲む (のむ)",
+        bengali: "পান করা"
+      }
+    ];
+    
+    // DOM Elements
+    const startScreen = document.getElementById('startScreen');
+    const quizQuestions = document.getElementById('quizQuestions');
+    const resultsScreen = document.getElementById('resultsScreen');
+    const startBtn = document.getElementById('startBtn');
+    const finalScore = document.getElementById('finalScore');
+    const resultsMessage = document.getElementById('resultsMessage');
+    const incorrectAnswers = document.getElementById('incorrectAnswers');
+    const viewCertificateBtn = document.getElementById('viewCertificateBtn');
+    const downloadCertificateBtn = document.getElementById('downloadCertificateBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const certificateContainer = document.getElementById('certificateContainer');
+    const certificateClose = document.getElementById('certificateClose');
+    const certificateName = document.getElementById('certificateName');
+    const certificateScore = document.getElementById('certificateScore');
+    const certificateStatus = document.getElementById('certificateStatus');
+    const certificateDate = document.getElementById('certificateDate');
+    const certificatePreview = document.getElementById('certificatePreview');
+    
+    // Quiz State
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = [];
+    let incorrectQuestions = [];
+    
+    // Start Quiz
+    startBtn.addEventListener('click', startQuiz);
+    
+    function startQuiz() {
+      startScreen.style.display = 'none';
+      showQuestion(currentQuestion);
+    }
+    
+    // Show Question
+    function showQuestion(index) {
+      quizQuestions.innerHTML = '';
+      
+      const questionDiv = document.createElement('div');
+      questionDiv.classList.add('quiz-question', 'active');
+      
+      const question = quizData[index];
+      
+      questionDiv.innerHTML = `
+        <div class="question-number">Question ${index + 1} of ${quizData.length}</div>
+        <div class="question-text">${question.question}</div>
+        
+        <div class="question-languages">
+          <div class="question-language">
+            <div class="language-label">English</div>
+            <div class="language-text">${question.question.replace("What does '", "").replace("' mean?", "")}</div>
+          </div>
+          <div class="question-language">
+            <div class="language-label">Japanese</div>
+            <div class="language-text japanese-text">${question.japanese}</div>
+          </div>
+          <div class="question-language">
+            <div class="language-label">Bengali</div>
+            <div class="language-text">${question.bengali}</div>
+          </div>
+        </div>
+        
+        <div class="options-container" id="optionsContainer">
+          ${question.options.map((option, i) => `
+            <div class="option" data-index="${i}">
+              <div class="option-text">${option}</div>
+              <div class="feedback-icon">
+                ${i === question.correctAnswer ? 
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : 
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
+                }
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        
+        <div class="feedback-message" id="feedbackMessage"></div>
+        
+        <div class="quiz-progress">
+          <div class="quiz-progress-fill" style="width: ${((index + 1) / quizData.length) * 100}%"></div>
+        </div>
+        <div class="quiz-progress-text">
+          <span>Question ${index + 1} of ${quizData.length}</span>
+          <span>${Math.round(((index + 1) / quizData.length) * 100)}% Complete</span>
+        </div>
+        
+        <div class="quiz-controls">
+          <button class="btn" id="prevQuestionBtn" ${index === 0 ? 'disabled' : ''} style="${index === 0 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            Previous
+          </button>
+          <button class="btn" id="nextQuestionBtn" disabled style="opacity: 0.5; cursor: not-allowed;">
+            Next
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      `;
+      
+      quizQuestions.appendChild(questionDiv);
+      
+      // Add event listeners to options
+      const options = questionDiv.querySelectorAll('.option');
+      options.forEach(option => {
+        option.addEventListener('click', () => selectOption(option, index));
+      });
+      
+      // Add event listeners to navigation buttons
+      const prevQuestionBtn = document.getElementById('prevQuestionBtn');
+      const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+      
+      prevQuestionBtn.addEventListener('click', () => {
+        if (index > 0) {
+          currentQuestion--;
+          showQuestion(currentQuestion);
+        }
+      });
+      
+      nextQuestionBtn.addEventListener('click', () => {
+        if (index < quizData.length - 1) {
+          currentQuestion++;
+          showQuestion(currentQuestion);
+        } else {
+          showResults();
+        }
+      });
+      
+      // If user has already answered this question
+      if (userAnswers[index] !== undefined) {
+        const selectedOption = questionDiv.querySelector(`.option[data-index="${userAnswers[index]}"]`);
+        if (selectedOption) {
+          selectOption(selectedOption, index, false);
+        }
+      }
+    }
+    
+    // Select Option
+    function selectOption(option, questionIndex, isNewSelection = true) {
+      const optionsContainer = option.parentElement;
+      const options = optionsContainer.querySelectorAll('.option');
+      const feedbackMessage = document.getElementById('feedbackMessage');
+      const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+      const selectedIndex = parseInt(option.dataset.index);
+      const correctIndex = quizData[questionIndex].correctAnswer;
+      
+      // If this is a new selection (not just navigating back)
+      if (isNewSelection) {
+        userAnswers[questionIndex] = selectedIndex;
+        
+        // Check if answer is correct
+        if (selectedIndex === correctIndex) {
+          if (incorrectQuestions.includes(questionIndex)) {
+            // Remove from incorrect questions if they got it right this time
+            incorrectQuestions = incorrectQuestions.filter(q => q !== questionIndex);
+          } else if (!userAnswers.includes(questionIndex)) {
+            // Only increment score if this is the first time answering correctly
+            score++;
+          }
+          feedbackMessage.textContent = "Correct! Great job!";
+          feedbackMessage.className = "feedback-message correct";
+        } else {
+          if (!incorrectQuestions.includes(questionIndex)) {
+            incorrectQuestions.push(questionIndex);
+          }
+          feedbackMessage.textContent = `Incorrect. The correct answer is "${quizData[questionIndex].options[correctIndex]}".`;
+          feedbackMessage.className = "feedback-message incorrect";
+        }
+      }
+      
+      // Remove any previous selections
+      options.forEach(opt => {
+        opt.classList.remove('selected', 'correct', 'incorrect');
+      });
+      
+      // Mark selected option
+      option.classList.add('selected');
+      
+      // Show correct/incorrect feedback
+      if (selectedIndex === correctIndex) {
+        option.classList.add('correct');
+      } else {
+        option.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+      }
+      
+      // Enable next button
+      nextQuestionBtn.disabled = false;
+      nextQuestionBtn.style.opacity = '1';
+      nextQuestionBtn.style.cursor = 'pointer';
+    }
+    
+    // Show Results
+    function showResults() {
+      quizQuestions.style.display = 'none';
+      resultsScreen.classList.add('active');
+      
+      finalScore.textContent = `${score}/${quizData.length}`;
+      
+      // Set results message based on score
+      const percentage = (score / quizData.length) * 100;
+      let message = '';
+      
+      if (percentage >= 90) {
+        message = "Excellent! You have a strong grasp of Japanese N5 vocabulary!";
+      } else if (percentage >= 70) {
+        message = "Great job! You have a good understanding of Japanese N5 vocabulary.";
+      } else if (percentage >= 50) {
+        message = "Good effort! Keep practicing to improve your Japanese N5 vocabulary.";
+      } else {
+        message = "Keep studying! With more practice, you'll improve your Japanese N5 vocabulary.";
+      }
+      
+      resultsMessage.textContent = message;
+      
+      // Generate certificate
+      generateCertificate();
+      
+      // Show incorrect answers
+      if (incorrectQuestions.length > 0) {
+        incorrectAnswers.innerHTML = '<h3>Review Incorrect Answers</h3>';
+        
+        incorrectQuestions.forEach(index => {
+          const question = quizData[index];
+          const userAnswer = userAnswers[index] !== undefined ? question.options[userAnswers[index]] : "No answer";
+          const correctAnswer = question.options[question.correctAnswer];
+          
+          const incorrectItem = document.createElement('div');
+          incorrectItem.classList.add('incorrect-item');
+          incorrectItem.innerHTML = `
+            <div class="incorrect-question">${index + 1}. ${question.question}</div>
+            <div class="incorrect-your-answer">Your answer: ${userAnswer}</div>
+            <div class="incorrect-correct-answer">Correct answer: ${correctAnswer}</div>
+          `;
+          
+          incorrectAnswers.appendChild(incorrectItem);
+        });
+      } else {
+        incorrectAnswers.style.display = 'none';
+      }
+    }
+    
+    // Generate Certificate
+    function generateCertificate() {
+      const percentage = (score / quizData.length) * 100;
+      const status = percentage >= 60 ? "Successfully Completed" : "Needs Improvement";
+      const statusClass = percentage >= 60 ? "success" : "warning";
+      
+      // Set certificate values
+      certificateName.textContent = "Student";
+      certificateScore.textContent = `${score}/${quizData.length} (${percentage.toFixed(0)}%)`;
+      certificateStatus.textContent = status;
+      certificateStatus.className = `certificate-status ${statusClass}`;
+      
+      const today = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      certificateDate.textContent = today.toLocaleDateString('en-US', options);
+      
+      // Generate certificate preview
+      generateCertificatePreview();
+    }
+    
+    // Generate Certificate Preview
+    function generateCertificatePreview() {
+      // In a real implementation, you would use html2canvas or a similar library
+      // For this demo, we'll create an SVG data URL
+      
+      const percentage = (score / quizData.length) * 100;
+      const status = percentage >= 60 ? "Successfully Completed" : "Needs Improvement";
+      const statusColor = percentage >= 60 ? "#06d6a0" : "#ffd166";
+      const statusBgColor = percentage >= 60 ? "rgba(6, 214, 160, 0.1)" : "rgba(255, 209, 102, 0.1)";
+      
+      const today = new Date();
+      const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = today.toLocaleDateString('en-US', dateOptions);
+      
+      // Create SVG certificate
+      const svgCertificate = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+        <rect width="800" height="600" fill="#f5f7fa"/>
+        <rect x="20" y="20" width="760" height="560" fill="white" stroke="#7209b7" stroke-width="10"/>
+        
+        <circle cx="400" cy="80" r="40" fill="#7209b7"/>
+        <text x="400" y="95" font-family="Arial" font-size="36" font-weight="bold" text-anchor="middle" fill="white">日</text>
+        
+        <text x="400" y="180" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#7209b7">CERTIFICATE OF ACHIEVEMENT</text>
+        <text x="400" y="220" font-family="Arial" font-size="18" text-anchor="middle">Japanese N5 Vocabulary Quiz Lesson 01</text>
+        
+        <text x="400" y="280" font-family="Arial" font-size="16" text-anchor="middle">This is to certify that</text>
+        <text x="400" y="320" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#f72585">Student</text>
+        <line x1="300" y1="330" x2="500" y2="330" stroke="#f72585" stroke-width="2"/>
+        
+        <text x="400" y="360" font-family="Arial" font-size="16" text-anchor="middle">has successfully completed the Japanese N5 Vocabulary Quiz with a score of</text>
+        <text x="400" y="400" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#7209b7">${score}/${quizData.length} (${percentage.toFixed(0)}%)</text>
+        
+        <rect x="300" y="420" width="200" height="40" rx="20" fill="${statusBgColor}"/>
+        <text x="400" y="445" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="${statusColor}">${status}</text>
+        
+        <line x1="250" y1="500" x2="350" y2="500" stroke="black" stroke-width="2"/>
+        <text x="300" y="520" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">HR Manik</text>
+        <text x="300" y="540" font-family="Arial" font-size="12" text-anchor="middle">CEO & Founder</text>
+        
+        <line x1="450" y1="500" x2="550" y2="500" stroke="black" stroke-width="2"/>
+        <text x="500" y="520" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">MR Roton</text>
+        <text x="500" y="540" font-family="Arial" font-size="12" text-anchor="middle">Chairman & Designer</text>
+        
+        <text x="400" y="570" font-family="Arial" font-size="12" text-anchor="middle" opacity="0.7">${dateString}</text>
+      </svg>
+      `;
+      
+      // Convert SVG to data URL
+      const svgBlob = new Blob([svgCertificate], {type: 'image/svg+xml'});
+      const svgUrl = URL.createObjectURL(svgBlob);
+      
+      // Set the certificate preview
+      certificatePreview.src = svgUrl;
+    }
+    
+    // View Certificate
+    viewCertificateBtn.addEventListener('click', () => {
+      certificateContainer.classList.add('active');
+    });
+    
+    // Close Certificate
+    certificateClose.addEventListener('click', () => {
+      certificateContainer.classList.remove('active');
+    });
+    
+    // Download Certificate
+    downloadCertificateBtn.addEventListener('click', () => {
+      // In a real implementation, you would use html2canvas or a similar library to generate a downloadable image
+      const certificateContent = document.getElementById('certificateContent');
+      
+      // Create a canvas element
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+      
+      // Create an image from the SVG data URL
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = function() {
+        // Draw the image on the canvas
+        ctx.drawImage(img, 0, 0);
+        
+        // Convert canvas to data URL and trigger download
+        const dataUrl = canvas.toDataURL('image/png');
+        
+        // Create a temporary link element
+        const downloadLink = document.createElement('a');
+        downloadLink.href = dataUrl;
+        downloadLink.download = 'Japanese-N5-Certificate.png';
+        
+        // Trigger download
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      };
+      img.src = certificatePreview.src;
+    });
+    
+    // Restart Quiz
+    restartBtn.addEventListener('click', () => {
+      // Reset quiz state
+      currentQuestion = 0;
+      score = 0;
+      userAnswers = [];
+      incorrectQuestions = [];
+      
+      // Reset UI
+      resultsScreen.classList.remove('active');
+      quizQuestions.style.display = 'block';
+      
+      // Start quiz again
+      showQuestion(currentQuestion);
+    });
+  </script>
+</body>
+</html>
