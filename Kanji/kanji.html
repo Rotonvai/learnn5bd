@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Kanji 120 - Interactive Flashcard System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Basic Kanji 120 - Mobile Flashcard System</title>
     
-    <!-- Smart Font Loading for Enhanced Typography -->
+    <!-- Optimized Font Loading for Mobile -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,39 +13,53 @@
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            --card-shadow-hover: 0 25px 50px rgba(0,0,0,0.25);
-            --transition-smooth: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --card-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            --card-shadow-hover: 0 12px 35px rgba(0,0,0,0.18);
+            --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-flip: cubic-bezier(0.23, 1, 0.320, 1);
-            --border-radius: 20px;
-            --spacing-unit: 8px;
+            --border-radius: 16px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
         }
 
         body {
             font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--primary-gradient);
             min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: calc(var(--spacing-unit) * 2.5);
+            padding: var(--spacing-md);
             color: #333;
             overflow-x: hidden;
             touch-action: manipulation;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
         }
 
         /* Enhanced Typography Classes */
         .japanese-text {
             font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
             font-feature-settings: "kern" 1, "liga" 1;
+            font-variant-numeric: proportional-nums;
         }
 
         .english-text {
@@ -57,181 +71,156 @@
             font-family: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', sans-serif;
             font-feature-settings: "kern" 1, "liga" 1;
             line-height: 1.6;
+            font-variant-numeric: proportional-nums;
         }
 
+        /* Mobile-First Header */
         .header {
             text-align: center;
-            margin-bottom: calc(var(--spacing-unit) * 4);
+            margin-bottom: var(--spacing-lg);
             color: white;
-            animation: slideInFromTop 0.8s ease-out;
+            animation: slideInFromTop 0.6s ease-out;
             z-index: 10;
+            width: 100%;
+            max-width: 100%;
         }
 
         .header h1 {
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            font-size: clamp(1.75rem, 8vw, 2.5rem);
+            margin-bottom: var(--spacing-sm);
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-            animation: fadeInScale 1s ease-out 0.2s both;
+            animation: fadeInScale 0.8s ease-out 0.2s both;
             font-weight: 700;
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .header p {
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
+            font-size: clamp(0.875rem, 4vw, 1.125rem);
             opacity: 0.95;
-            animation: fadeInScale 1s ease-out 0.4s both;
+            animation: fadeInScale 0.8s ease-out 0.4s both;
             font-weight: 500;
+            line-height: 1.4;
         }
 
+        /* Mobile-Optimized Study Mode */
         .study-mode {
             background: rgba(255,255,255,0.12);
-            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5);
-            border-radius: calc(var(--border-radius) * 0.75);
-            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-lg);
             text-align: center;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.2);
-            animation: slideInFromTop 0.8s ease-out 0.7s both;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            animation: slideInFromTop 0.6s ease-out 0.3s both;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
         }
 
         .mode-btn {
-            margin: calc(var(--spacing-unit) * 0.5);
-            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
+            margin: var(--spacing-xs);
+            padding: var(--spacing-md) var(--spacing-lg);
             background: rgba(255,255,255,0.15);
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
-            border-radius: calc(var(--border-radius) * 1.25);
+            border-radius: calc(var(--border-radius) + 4px);
             cursor: pointer;
-            transition: all 0.4s var(--transition-smooth);
-            font-size: clamp(0.85rem, 2.8vw, 1rem);
+            transition: all 0.3s var(--transition-smooth);
+            font-size: clamp(0.875rem, 3.5vw, 1rem);
             font-weight: 600;
             letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        .mode-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .mode-btn:hover::before {
-            left: 100%;
+            min-height: 48px;
+            min-width: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
         }
 
         .mode-btn.active {
             background: rgba(255,255,255,0.3);
             border-color: rgba(255,255,255,0.6);
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .mode-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.22);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        .mode-btn:active {
+            transform: scale(0.98);
         }
 
+        /* Mobile-Optimized Progress */
         .progress-container {
-            width: min(450px, 92vw);
-            margin-bottom: calc(var(--spacing-unit) * 2.5);
-            animation: slideInFromLeft 0.8s ease-out 0.8s both;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: var(--spacing-lg);
+            animation: slideInFromLeft 0.6s ease-out 0.4s both;
         }
 
         .progress-bar {
             width: 100%;
-            height: 12px;
+            height: 8px;
             background: rgba(255,255,255,0.2);
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
             border: 1px solid rgba(255,255,255,0.1);
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
-            transition: width 0.8s var(--transition-smooth);
-            border-radius: 6px;
+            transition: width 0.6s var(--transition-smooth);
+            border-radius: 4px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: progressShimmer 2.5s infinite;
         }
 
         .progress-text {
             text-align: center;
             color: white;
-            margin-top: calc(var(--spacing-unit) * 1.25);
+            margin-top: var(--spacing-sm);
             font-weight: 600;
-            font-size: clamp(0.95rem, 3.2vw, 1.1rem);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(0.875rem, 3.5vw, 1rem);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
+        /* Mobile-Optimized Navigation */
         .navigation {
             display: flex;
-            gap: calc(var(--spacing-unit) * 1.5);
-            margin-bottom: calc(var(--spacing-unit) * 2.5);
-            animation: slideInFromBottom 0.8s ease-out 0.9s both;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            animation: slideInFromBottom 0.6s ease-out 0.5s both;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
+            max-width: 400px;
         }
 
         .nav-btn {
-            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
+            padding: var(--spacing-md) var(--spacing-lg);
             background: rgba(255,255,255,0.15);
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
-            border-radius: calc(var(--border-radius) * 1.25);
+            border-radius: var(--border-radius);
             cursor: pointer;
-            transition: all 0.4s var(--transition-smooth);
-            font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+            transition: all 0.3s var(--transition-smooth);
+            font-size: clamp(0.75rem, 3vw, 0.875rem);
             font-weight: 600;
             backdrop-filter: blur(10px);
-            min-height: 44px;
-            min-width: 44px;
+            min-height: 48px;
+            min-width: 48px;
             position: relative;
             overflow: hidden;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .nav-btn:hover::before {
-            left: 100%;
-        }
-
-        .nav-btn:hover:not(:disabled) {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.5);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        .nav-btn:active {
+            transform: scale(0.95);
         }
 
         .nav-btn:disabled {
@@ -240,32 +229,38 @@
             transform: none;
         }
 
-        /* Enhanced Flashcard Container */
+        /* Mobile-Optimized Flashcard Container */
         .flashcard-container {
-            perspective: 1500px;
-            margin-bottom: calc(var(--spacing-unit) * 4);
-            animation: slideInFromBottom 0.8s ease-out 0.6s both;
+            perspective: 1200px;
+            margin-bottom: var(--spacing-xl);
+            animation: slideInFromBottom 0.6s ease-out 0.6s both;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            justify-content: center;
         }
 
         .flashcard {
-            width: min(450px, 92vw);
-            height: min(350px, 65vh);
+            width: 100%;
+            max-width: 380px;
+            height: 280px;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.8s var(--transition-flip);
+            transition: transform 0.6s var(--transition-flip);
             cursor: pointer;
-            margin: 0 auto;
+            user-select: none;
         }
 
+        /* Fixed: Prevent automatic flipping */
         .flashcard.flipped {
             transform: rotateY(180deg);
         }
 
         .flashcard.transitioning {
-            animation: cardSlideTransition 0.6s ease-in-out;
+            pointer-events: none;
         }
 
-        /* Interactive Card Faces */
+        /* Mobile-Optimized Card Faces */
         .card-face {
             position: absolute;
             width: 100%;
@@ -277,14 +272,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: calc(var(--spacing-unit) * 3);
-            transition: all 0.4s var(--transition-smooth);
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
-        .card-face:hover {
-            box-shadow: var(--card-shadow-hover);
-            transform: translateY(-4px);
+            padding: var(--spacing-lg);
+            transition: box-shadow 0.3s var(--transition-smooth);
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
         }
 
         .card-front {
@@ -298,130 +289,108 @@
             border-color: #dee2e6;
         }
 
-        /* Enhanced Kanji Display */
+        /* Mobile-Optimized Kanji Display */
         .kanji-character {
-            font-size: clamp(5rem, 18vw, 10rem);
+            font-size: clamp(4rem, 20vw, 7rem);
             font-weight: 900;
             color: #2c3e50;
-            margin-bottom: calc(var(--spacing-unit) * 2.5);
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
-            animation: kanjiReveal 1s ease-out;
-            transition: all 0.4s var(--transition-smooth);
+            margin-bottom: var(--spacing-md);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: kanjiReveal 0.8s ease-out;
+            transition: transform 0.2s var(--transition-smooth);
             line-height: 0.9;
-        }
-
-        .kanji-character:hover {
-            transform: scale(1.05);
-            color: #1a252f;
+            text-align: center;
         }
 
         .card-number {
             position: absolute;
-            top: calc(var(--spacing-unit) * 2);
-            right: calc(var(--spacing-unit) * 2.5);
+            top: var(--spacing-md);
+            right: var(--spacing-md);
             background: linear-gradient(135deg, #6c757d, #495057);
             color: white;
-            padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2);
-            border-radius: calc(var(--border-radius) * 1.25);
-            font-size: clamp(0.85rem, 2.8vw, 1rem);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: calc(var(--border-radius) - 4px);
+            font-size: clamp(0.75rem, 3vw, 0.875rem);
             font-weight: 700;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             animation: slideInFromRight 0.6s ease-out 0.8s both;
             letter-spacing: 0.5px;
+            z-index: 2;
         }
 
-        /* Enhanced Content Sections */
+        /* Mobile-Optimized Content Sections */
         .reading-section, .meaning-section {
-            margin-bottom: calc(var(--spacing-unit) * 2);
+            margin-bottom: var(--spacing-md);
             text-align: center;
-            animation: contentFadeIn 0.8s ease-out;
-            opacity: 0;
-            transform: translateY(20px);
             width: 100%;
-        }
-
-        .card-back .reading-section:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .card-back .meaning-section:nth-child(3) {
-            animation-delay: 0.5s;
-        }
-
-        .card-back .meaning-section:nth-child(4) {
-            animation-delay: 0.7s;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .reading-label {
             font-weight: 700;
             color: #495057;
-            margin-bottom: calc(var(--spacing-unit) * 0.75);
-            font-size: clamp(0.85rem, 2.8vw, 1rem);
+            margin-bottom: var(--spacing-xs);
+            font-size: clamp(0.75rem, 3vw, 0.875rem);
             text-transform: uppercase;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
         }
 
         .reading-text {
-            font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+            font-size: clamp(1.125rem, 5vw, 1.5rem);
             color: #2c3e50;
-            margin-bottom: calc(var(--spacing-unit) * 1.25);
+            margin-bottom: var(--spacing-sm);
             font-weight: 600;
             line-height: 1.3;
+            word-break: break-word;
         }
 
         .meaning-text {
-            font-size: clamp(1.1rem, 3.8vw, 1.4rem);
+            font-size: clamp(1rem, 4vw, 1.25rem);
             color: #495057;
             line-height: 1.5;
             font-weight: 500;
+            word-break: break-word;
         }
 
         .bangla-meaning {
-            font-size: clamp(1rem, 3.5vw, 1.3rem);
+            font-size: clamp(0.875rem, 4vw, 1.125rem);
             color: #6c757d;
             line-height: 1.7;
             font-weight: 500;
+            word-break: break-word;
         }
 
-        /* Enhanced Controls */
+        /* Mobile-Optimized Controls */
         .controls {
             display: flex;
-            gap: calc(var(--spacing-unit) * 2);
-            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
             flex-wrap: wrap;
             justify-content: center;
-            animation: slideInFromBottom 0.8s ease-out 1s both;
+            animation: slideInFromBottom 0.6s ease-out 0.7s both;
+            width: 100%;
+            max-width: 400px;
         }
 
         .btn {
-            padding: calc(var(--spacing-unit) * 1.75) calc(var(--spacing-unit) * 3.5);
+            padding: var(--spacing-md) var(--spacing-xl);
             border: none;
-            border-radius: calc(var(--border-radius) * 1.25);
-            font-size: clamp(1rem, 3.2vw, 1.1rem);
+            border-radius: var(--border-radius);
+            font-size: clamp(0.875rem, 3.5vw, 1rem);
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.4s var(--transition-smooth);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             position: relative;
             overflow: hidden;
-            min-width: 140px;
-            min-height: 50px;
+            min-width: 120px;
+            min-height: 48px;
             letter-spacing: 0.5px;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -434,137 +403,131 @@
             color: white;
         }
 
-        .btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-        }
-
         .btn:active {
-            transform: translateY(-2px) scale(0.98);
-            transition: all 0.1s ease;
+            transform: scale(0.95);
         }
 
         /* Click-to-flip indicator */
         .flip-indicator {
             position: absolute;
-            bottom: calc(var(--spacing-unit) * 2);
+            bottom: var(--spacing-md);
             left: 50%;
             transform: translateX(-50%);
             color: #6c757d;
-            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            font-size: clamp(0.75rem, 3vw, 0.875rem);
             font-weight: 500;
             opacity: 0.7;
             animation: pulseGlow 2s infinite;
             pointer-events: none;
+            z-index: 1;
         }
 
-        /* Mobile-specific optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .btn, .nav-btn, .mode-btn {
-                min-height: 48px;
-                min-width: 48px;
-            }
-            
-            .flashcard {
-                touch-action: manipulation;
-            }
-            
-            .card-face:hover {
-                transform: none;
-                box-shadow: var(--card-shadow);
-            }
-            
-            .kanji-character:hover {
-                transform: none;
-            }
-        }
-
-        /* Responsive breakpoints */
-        @media (max-width: 768px) {
+        /* Mobile-specific styles */
+        @media (max-width: 480px) {
             body {
-                padding: calc(var(--spacing-unit) * 2);
+                padding: var(--spacing-sm);
+            }
+            
+            .header {
+                margin-bottom: var(--spacing-md);
             }
             
             .flashcard {
-                width: min(380px, 95vw);
-                height: min(320px, 60vh);
+                height: 260px;
+            }
+            
+            .card-face {
+                padding: var(--spacing-md);
             }
             
             .controls {
                 flex-direction: column;
                 align-items: center;
-                gap: calc(var(--spacing-unit) * 1.5);
+                gap: var(--spacing-sm);
             }
             
             .btn {
-                width: min(280px, 85vw);
-                padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5);
+                width: 100%;
+                max-width: 280px;
             }
             
             .navigation {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: calc(var(--spacing-unit) * 1.25);
+                gap: var(--spacing-xs);
             }
             
-            .study-mode {
-                padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+            .nav-btn {
+                padding: var(--spacing-sm) var(--spacing-md);
+                font-size: 0.75rem;
             }
             
             .mode-btn {
-                margin: calc(var(--spacing-unit) * 0.5);
-                padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2);
+                padding: var(--spacing-sm) var(--spacing-md);
+                margin: 2px;
             }
         }
 
-        @media (max-width: 480px) {
+        /* Landscape orientation for mobile */
+        @media (orientation: landscape) and (max-height: 500px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+            
             .header {
-                margin-bottom: calc(var(--spacing-unit) * 2.5);
-            }
-            
-            .flashcard {
-                width: min(340px, 95vw);
-                height: min(280px, 55vh);
-            }
-            
-            .card-face {
-                padding: calc(var(--spacing-unit) * 2);
-            }
-            
-            .progress-container, .navigation, .controls, .study-mode {
-                margin-bottom: calc(var(--spacing-unit) * 2);
-            }
-        }
-
-        /* Landscape orientation optimizations */
-        @media (orientation: landscape) and (max-height: 600px) {
-            .header {
-                margin-bottom: calc(var(--spacing-unit) * 2);
+                margin-bottom: var(--spacing-sm);
             }
             
             .header h1 {
-                font-size: clamp(1.8rem, 5vw, 2.2rem);
-                margin-bottom: calc(var(--spacing-unit) * 1);
+                font-size: clamp(1.5rem, 6vw, 2rem);
+                margin-bottom: 4px;
             }
             
             .header p {
-                font-size: clamp(0.9rem, 3vw, 1rem);
+                font-size: clamp(0.75rem, 3vw, 0.875rem);
             }
             
             .flashcard {
-                height: min(240px, 75vh);
+                height: 200px;
             }
             
             .progress-container, .navigation, .controls, .study-mode {
-                margin-bottom: calc(var(--spacing-unit) * 1.5);
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            .kanji-character {
+                font-size: clamp(3rem, 15vw, 5rem);
+                margin-bottom: var(--spacing-sm);
             }
         }
 
-        /* Enhanced animations */
+        /* Tablet optimizations */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .flashcard {
+                max-width: 420px;
+                height: 320px;
+            }
+            
+            .controls {
+                flex-direction: row;
+            }
+            
+            .btn {
+                min-width: 140px;
+            }
+        }
+
+        /* Large mobile and small tablet */
+        @media (min-width: 769px) {
+            .flashcard {
+                max-width: 450px;
+                height: 350px;
+            }
+        }
+
+        /* Animations */
         @keyframes slideInFromTop {
             from {
                 opacity: 0;
-                transform: translateY(-60px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -575,7 +538,7 @@
         @keyframes slideInFromBottom {
             from {
                 opacity: 0;
-                transform: translateY(60px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -586,7 +549,7 @@
         @keyframes slideInFromLeft {
             from {
                 opacity: 0;
-                transform: translateX(-60px);
+                transform: translateX(-30px);
             }
             to {
                 opacity: 1;
@@ -597,7 +560,7 @@
         @keyframes slideInFromRight {
             from {
                 opacity: 0;
-                transform: translateX(60px);
+                transform: translateX(30px);
             }
             to {
                 opacity: 1;
@@ -608,7 +571,7 @@
         @keyframes fadeInScale {
             from {
                 opacity: 0;
-                transform: scale(0.8);
+                transform: scale(0.9);
             }
             to {
                 opacity: 1;
@@ -619,43 +582,11 @@
         @keyframes kanjiReveal {
             from {
                 opacity: 0;
-                transform: scale(0.3) rotateY(90deg);
+                transform: scale(0.5);
             }
             to {
                 opacity: 1;
-                transform: scale(1) rotateY(0deg);
-            }
-        }
-
-        @keyframes contentFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes cardSlideTransition {
-            0% {
-                transform: translateX(0) scale(1);
-            }
-            50% {
-                transform: translateX(25px) scale(0.95);
-            }
-            100% {
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        @keyframes progressShimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
+                transform: scale(1);
             }
         }
 
@@ -666,7 +597,7 @@
             }
             50% {
                 opacity: 0.8;
-                transform: translateX(-50%) scale(1.05);
+                transform: translateX(-50%) scale(1.02);
             }
         }
 
@@ -677,12 +608,16 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+            
+            .flashcard {
+                transition: none;
+            }
         }
 
         /* High contrast mode */
         @media (prefers-contrast: high) {
             .card-face {
-                border-width: 4px;
+                border-width: 3px;
             }
             
             .btn, .nav-btn, .mode-btn {
@@ -695,34 +630,57 @@
             }
         }
 
-        /* Print styles */
-        @media print {
-            body {
-                background: white;
-                color: black;
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .card-front {
+                background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+                color: #e2e8f0;
             }
             
-            .flashcard {
-                box-shadow: none;
-                border: 2px solid #000;
+            .card-back {
+                background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+                color: #e2e8f0;
             }
             
-            .controls, .navigation, .study-mode {
-                display: none;
+            .kanji-character {
+                color: #f7fafc;
             }
+            
+            .reading-text, .meaning-text {
+                color: #e2e8f0;
+            }
+            
+            .reading-label {
+                color: #cbd5e0;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Focus styles for accessibility */
+        .btn:focus,
+        .nav-btn:focus,
+        .mode-btn:focus,
+        .flashcard:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 class="english-text">Basic Kanji 120</h1>
-        <p class="english-text">Japanese Language Proficiency Test N5 Level</p>
+        <h1 class="english-text">Basic Kanji</h1>
+        <p class="english-text">JLPT N5 Level</p>
     </div>
 
     <div class="study-mode">
-        <button class="mode-btn active english-text" onclick="setStudyMode('sequential')">Sequential</button>
-        <button class="mode-btn english-text" onclick="setStudyMode('random')">Random</button>
-        <button class="mode-btn english-text" onclick="setStudyMode('review')">Review Mode</button>
+        <button class="mode-btn active english-text" onclick="setStudyMode('sequential', this)">Sequential</button>
+        <button class="mode-btn english-text" onclick="setStudyMode('random', this)">Random</button>
+        <button class="mode-btn english-text" onclick="setStudyMode('review', this)">Review</button>
     </div>
 
     <div class="progress-container">
@@ -733,30 +691,30 @@
     </div>
 
     <div class="navigation">
-        <button class="nav-btn english-text" id="prevBtn" onclick="previousCard()">← Previous</button>
-        <button class="nav-btn english-text" onclick="goToCard()">Go to Card</button>
+        <button class="nav-btn english-text" id="prevBtn" onclick="previousCard()">← Prev</button>
+        <button class="nav-btn english-text" onclick="goToCard()">Go to Kanji</button>
         <button class="nav-btn english-text" id="nextBtn" onclick="nextCard()">Next →</button>
     </div>
 
     <div class="flashcard-container">
-        <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flashcard" id="flashcard" onclick="flipCard()" tabindex="0" role="button" aria-label="Click to flip card">
             <div class="card-face card-front">
                 <div class="card-number english-text" id="cardNumber">1</div>
                 <div class="kanji-character japanese-text" id="kanjiCharacter">人</div>
-                <div class="flip-indicator english-text">Click to flip</div>
+                <div class="flip-indicator english-text">Tap to flip</div>
             </div>
             <div class="card-face card-back">
                 <div class="card-number english-text" id="cardNumberBack">1</div>
                 <div class="reading-section">
-                    <div class="reading-label english-text">Hiragana Reading</div>
+                    <div class="reading-label english-text">Reading</div>
                     <div class="reading-text japanese-text" id="hiraganaReading">ひと、ジン、ニン</div>
                 </div>
                 <div class="meaning-section">
-                    <div class="reading-label english-text">English Meaning</div>
+                    <div class="reading-label english-text">English</div>
                     <div class="meaning-text english-text" id="englishMeaning">person; people</div>
                 </div>
                 <div class="meaning-section">
-                    <div class="reading-label english-text">Bangla Meaning</div>
+                    <div class="reading-label english-text">বাংলা</div>
                     <div class="meaning-text bangla-text bangla-meaning" id="banglaMeaning">ব্যক্তি; মানুষ</div>
                 </div>
             </div>
@@ -765,14 +723,14 @@
 
     <div class="controls">
         <button class="btn btn-primary english-text" onclick="flipCard()">
-            <span id="flipButtonText">Flip Card</span>
+            <span id="flipButtonText">Show Meaning</span>
         </button>
         <button class="btn btn-secondary english-text" onclick="previousCard()">Previous</button>
         <button class="btn btn-secondary english-text" onclick="nextCard()">Next</button>
     </div>
 
     <script>
-        // Enhanced Kanji data with improved typography
+        // Kanji data with optimized content
         const kanjiData = [
             { kanji: "人", reading: "ひと、ジン、ニン", english: "person; people", bangla: "ব্যক্তি; মানুষ" },
             { kanji: "日", reading: "ひ、か、ニチ", english: "day; sun", bangla: "দিন; সূর্য" },
@@ -900,13 +858,16 @@
         let isFlipped = false;
         let studyMode = 'sequential';
         let reviewCards = [];
+        let isTransitioning = false;
 
-        // Enhanced card update with improved animations
+        // Fixed: Controlled card update without automatic flipping
         function updateCard() {
+            if (isTransitioning) return;
+            
             const card = kanjiData[currentCardIndex];
             const flashcard = document.getElementById('flashcard');
             
-            // Add transition animation
+            isTransitioning = true;
             flashcard.classList.add('transitioning');
             
             setTimeout(() => {
@@ -922,21 +883,16 @@
                 updateNavigationButtons();
                 updateFlipButtonText();
                 
-                // Reset flip state
+                // Reset to front side only if currently flipped
                 if (isFlipped) {
-                    flipCard();
+                    flashcard.classList.remove('flipped');
+                    isFlipped = false;
+                    updateFlipButtonText();
                 }
                 
-                // Trigger content animations on back of card
-                const backSections = document.querySelectorAll('.card-back .reading-section, .card-back .meaning-section');
-                backSections.forEach((section, index) => {
-                    section.style.animation = 'none';
-                    section.offsetHeight; // Trigger reflow
-                    section.style.animation = `contentFadeIn 0.8s ease-out ${index * 0.2 + 0.3}s both`;
-                });
-                
                 flashcard.classList.remove('transitioning');
-            }, 300);
+                isTransitioning = false;
+            }, 200);
         }
 
         function updateProgress() {
@@ -964,8 +920,10 @@
             flipButtonText.textContent = isFlipped ? 'Show Kanji' : 'Show Meaning';
         }
 
-        // Enhanced flip functionality with improved feedback
+        // Fixed: Controlled flip functionality
         function flipCard() {
+            if (isTransitioning) return;
+            
             const flashcard = document.getElementById('flashcard');
             flashcard.classList.toggle('flipped');
             isFlipped = !isFlipped;
@@ -973,11 +931,13 @@
             
             // Add haptic feedback for mobile devices
             if (navigator.vibrate) {
-                navigator.vibrate(50);
+                navigator.vibrate(30);
             }
         }
 
         function nextCard() {
+            if (isTransitioning) return;
+            
             if (studyMode === 'random') {
                 currentCardIndex = Math.floor(Math.random() * kanjiData.length);
             } else if (studyMode === 'review' && reviewCards.length > 0) {
@@ -994,6 +954,8 @@
         }
 
         function previousCard() {
+            if (isTransitioning) return;
+            
             if (studyMode === 'random') {
                 currentCardIndex = Math.floor(Math.random() * kanjiData.length);
             } else if (studyMode === 'review' && reviewCards.length > 0) {
@@ -1017,16 +979,16 @@
             }
         }
 
-        function setStudyMode(mode) {
+        function setStudyMode(mode, buttonElement) {
+            if (isTransitioning) return;
+            
             studyMode = mode;
             
-            // Update active button with enhanced animation
+            // Update active button
             document.querySelectorAll('.mode-btn').forEach(btn => {
                 btn.classList.remove('active');
-                btn.style.transform = 'scale(1)';
             });
-            event.target.classList.add('active');
-            event.target.style.transform = 'scale(1.05)';
+            buttonElement.classList.add('active');
             
             if (mode === 'review') {
                 // Create review deck (for demo, using random subset)
@@ -1043,28 +1005,45 @@
             updateNavigationButtons();
         }
 
-        // Enhanced touch gesture support
+        // Enhanced touch gesture support for mobile
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
         let touchStartTime = 0;
+        let isSwiping = false;
 
         const flashcard = document.getElementById('flashcard');
 
         flashcard.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
+            touchStartX = e.changedTouches[0].clientX;
+            touchStartY = e.changedTouches[0].clientY;
             touchStartTime = Date.now();
+            isSwiping = false;
+        }, { passive: true });
+
+        flashcard.addEventListener('touchmove', function(e) {
+            const touchCurrentX = e.changedTouches[0].clientX;
+            const touchCurrentY = e.changedTouches[0].clientY;
+            const deltaX = Math.abs(touchCurrentX - touchStartX);
+            const deltaY = Math.abs(touchCurrentY - touchStartY);
+            
+            if (deltaX > 10 || deltaY > 10) {
+                isSwiping = true;
+            }
         }, { passive: true });
 
         flashcard.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
+            touchEndX = e.changedTouches[0].clientX;
+            touchEndY = e.changedTouches[0].clientY;
             const touchDuration = Date.now() - touchStartTime;
             
-            // Only handle swipes if touch duration is reasonable
-            if (touchDuration < 500) {
+            // Handle tap vs swipe
+            if (!isSwiping && touchDuration < 300) {
+                // This is a tap, flip the card
+                flipCard();
+            } else if (isSwiping && touchDuration < 500) {
+                // This is a swipe, handle navigation
                 handleSwipe();
             }
         }, { passive: true });
@@ -1072,8 +1051,8 @@
         function handleSwipe() {
             const deltaX = touchEndX - touchStartX;
             const deltaY = touchEndY - touchStartY;
-            const minSwipeDistance = 60;
-            const maxVerticalDeviation = 100;
+            const minSwipeDistance = 50;
+            const maxVerticalDeviation = 80;
 
             // Horizontal swipes for navigation
             if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < maxVerticalDeviation) {
@@ -1083,16 +1062,13 @@
                     nextCard(); // Swipe left
                 }
             }
-            // Vertical swipes for flipping
-            else if (Math.abs(deltaY) > minSwipeDistance && Math.abs(deltaX) < maxVerticalDeviation) {
-                flipCard(); // Swipe up or down
-            }
         }
 
         // Enhanced keyboard navigation
         document.addEventListener('keydown', function(event) {
-            // Prevent default behavior for handled keys
-            const handledKeys = [' ', 'Enter', 'ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D', 'r', 'R', 's', 'S', 'Escape'];
+            if (isTransitioning) return;
+            
+            const handledKeys = [' ', 'Enter', 'ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D', 'r', 'R', 's', 'S', 'Escape', 'g', 'G'];
             if (handledKeys.includes(event.key)) {
                 event.preventDefault();
             }
@@ -1114,11 +1090,11 @@
                     break;
                 case 'r':
                 case 'R':
-                    setStudyMode('random');
+                    document.querySelector('.mode-btn:nth-child(2)').click();
                     break;
                 case 's':
                 case 'S':
-                    setStudyMode('sequential');
+                    document.querySelector('.mode-btn:nth-child(1)').click();
                     break;
                 case 'Escape':
                     if (isFlipped) {
@@ -1132,7 +1108,7 @@
             }
         });
 
-        // Enhanced initialization with font loading
+        // Mobile-optimized initialization
         function initialize() {
             // Check if fonts are loaded
             if (document.fonts) {
@@ -1147,34 +1123,35 @@
                 }, 100);
             }
             
-            // Stagger animation delays for initial load
-            const elements = document.querySelectorAll('.header, .study-mode, .progress-container, .navigation, .flashcard-container, .controls');
-            elements.forEach((element, index) => {
-                element.style.animationDelay = `${index * 0.1}s`;
-            });
+            // Set initial viewport height for mobile
+            const setVH = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setVH();
+            window.addEventListener('resize', setVH);
+            window.addEventListener('orientationchange', setVH);
         }
 
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', initialize);
 
-        // Add resize handler for responsive adjustments
-        window.addEventListener('resize', function() {
-            // Debounce resize events
-            clearTimeout(window.resizeTimeout);
-            window.resizeTimeout = setTimeout(() => {
-                // Force re-render of progress bar
-                updateProgress();
-            }, 250);
-        });
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
 
-        // Add visibility change handler to pause animations when tab is not visible
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                // Pause animations when tab is hidden
-                document.body.style.animationPlayState = 'paused';
-            } else {
-                // Resume animations when tab becomes visible
-                document.body.style.animationPlayState = 'running';
+        // Add focus management for accessibility
+        flashcard.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                flipCard();
             }
         });
     </script>
