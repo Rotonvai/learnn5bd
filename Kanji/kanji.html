@@ -45,7 +45,6 @@
             
             --touch-target: 44px;
             --header-height: 60px;
-            --bottom-nav-height: 70px;
         }
 
         [data-theme="dark"] {
@@ -79,7 +78,6 @@
             color: var(--text-primary);
             line-height: 1.5;
             overflow-x: hidden;
-            padding-bottom: var(--bottom-nav-height);
             transition: all 0.3s ease;
         }
 
@@ -169,7 +167,8 @@
         /* Main Content */
         .main {
             margin-top: var(--header-height);
-            min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
+            min-height: calc(100vh - var(--header-height));
+            padding-bottom: var(--spacing-xl);
         }
 
         /* Hero Section - Mobile Optimized */
@@ -550,58 +549,6 @@
             color: var(--text-inverse);
         }
 
-        /* Bottom Navigation - Updated for 3 items */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: var(--bottom-nav-height);
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .bottom-nav-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            height: 100%;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-xs);
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-            cursor: pointer;
-        }
-
-        .nav-item.active {
-            color: var(--primary);
-        }
-
-        .nav-item:active {
-            transform: scale(0.95);
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-
-        .nav-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         /* Modal - Mobile Optimized */
         .modal {
             display: none;
@@ -967,8 +914,7 @@
         /* Focus styles for keyboard navigation */
         .btn-icon:focus,
         .filter-chip:focus,
-        .action-btn:focus,
-        .nav-item:focus {
+        .action-btn:focus {
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
@@ -1003,10 +949,6 @@
         @supports (padding: max(0px)) {
             .header {
                 padding-top: max(0px, env(safe-area-inset-top));
-            }
-            
-            .bottom-nav {
-                padding-bottom: max(0px, env(safe-area-inset-bottom));
             }
             
             .modal-content {
@@ -1126,24 +1068,6 @@
             <p>Try adjusting your search or filter</p>
         </div>
     </main>
-
-    <!-- Bottom Navigation - Updated to 3 items -->
-    <nav class="bottom-nav">
-        <div class="bottom-nav-content">
-            <a href="../index.html" class="nav-item active" data-tab="home">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Home</span>
-            </a>
-            <a href="#" class="nav-item" data-tab="favorites">
-                <span class="nav-icon">❤️</span>
-                <span class="nav-label">Favorites</span>
-            </a>
-            <a href="#" class="nav-item" data-tab="practice">
-                <span class="nav-icon">📝</span>
-                <span class="nav-label">Practice</span>
-            </a>
-        </div>
-    </nav>
 
     <!-- Modal -->
     <div class="modal" id="kanjiModal" role="dialog" aria-hidden="true">
@@ -2350,7 +2274,7 @@
             noResults.style.display = 'none';
             paginationContainer.style.display = totalPages > 1 ? 'block' : 'none';
             
-            // Render current page kanji - REMOVED ON'YOMI SECTION
+            // Render current page kanji
             grid.innerHTML = currentPageKanji.map(kanji => `
                 <div class="kanji-card" onclick="openModal('${kanji.kanji}')" role="button" tabindex="0">
                     <div class="kanji-header">
@@ -2420,11 +2344,6 @@
                 chip.addEventListener('click', handleFilter);
             });
 
-            // Bottom navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', handleNavigation);
-            });
-
             // Modal close on outside click
             document.getElementById('kanjiModal').addEventListener('click', (e) => {
                 if (e.target.id === 'kanjiModal') {
@@ -2456,7 +2375,7 @@
             }, { passive: false });
         }
 
-        // Handle search - add resetPagination() call
+        // Handle search
         function handleSearch(e) {
             const query = e.target.value.toLowerCase();
             const activeFilter = document.querySelector('.filter-chip.active').dataset.filter;
@@ -2477,7 +2396,7 @@
             renderKanjiGrid();
         }
 
-        // Handle filter - add resetPagination() call
+        // Handle filter
         function handleFilter(e) {
             document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
             e.target.classList.add('active');
@@ -2513,31 +2432,7 @@
             }
         }
 
-        // Handle navigation - add resetPagination() calls
-        function handleNavigation(e) {
-            e.preventDefault();
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            e.currentTarget.classList.add('active');
-            
-            const tab = e.currentTarget.dataset.tab;
-            
-            switch (tab) {
-                case 'home':
-                    // Reset to show all kanji
-                    document.querySelector('[data-filter="all"]').click();
-                    resetPagination();
-                    break;
-                case 'favorites':
-                    document.querySelector('[data-filter="favorites"]').click();
-                    resetPagination();
-                    break;
-                case 'practice':
-                    showNotification('Practice mode coming soon! 📚');
-                    break;
-            }
-        }
-
-        // Open modal - REMOVED ON'YOMI SECTION
+        // Open modal
         function openModal(kanjiChar) {
             currentKanji = kanjiData.find(k => k.kanji === kanjiChar);
             if (!currentKanji) return;
