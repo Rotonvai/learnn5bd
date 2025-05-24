@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale:1.0, maximum-scale:1.0, user-scalable=no"/>
+  <title>Learn N5 Japanese</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-light: #4895ef;
+      --secondary-color: #3f37c9;
+      --accent-color: #f72585;
+      --dark-color: #1f1f1f;
+      --light-color: #ffffff;
+      --gray-light: #f8f9fa;
+      --gray-medium: #e9ecef;
+      --transition: all 0.3s ease;
+      
+      /* Category colors */
+      --kana-color: #43a047;
+      --vocab-color: #e53935;
+      --grammar-color: #fbc02d;
+      --kanji-color: #3f51b5;
+      --listening-color: #039be5;
+      --quiz-color: #5e35b1;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--dark-color);
+      line-height: 1.6;
+    }
+    
+    .header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: translateY(-2px);
+    }
+    
+    .logo:active {
+      transform: translateY(0);
+    }
+    
+    .logo-icon {
+      background-color: var(--primary-color);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .logo:hover .logo-icon {
+      transform: rotate(10deg);
+      background-color: var(--secondary-color);
+    }
+    
+    .greeting {
+      font-size: 0.9rem;
+      color: var(--dark-color);
+      opacity: 0.8;
+    }
+    
+    .main {
+      flex: 1;
+      padding: 1.5rem 0;
+    }
+    
+    .page-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .title-text {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    
+    .subtitle-text {
+      font-size: 1rem;
+      color: var(--dark-color);
+      opacity: 0.8;
+      font-weight: 400;
+      padding: 0 1rem;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+      
+      .title-text {
+        font-size: 2.2rem;
+      }
+      
+      .subtitle-text {
+        font-size: 1.1rem;
+      }
+      
+      .logo {
+        font-size: 1.3rem;
+      }
+      
+      .main {
+        padding: 2rem 0;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      
+      .title-text {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle-text {
+        font-size: 1.2rem;
+      }
+      
+      .main {
+        padding: 3rem 0;
+      }
+    }
+    
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                  box-shadow 0.4s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card:active {
+      transform: translateY(-2px) scale(0.98);
+      transition: transform 0.1s ease;
+    }
+    
+    .card-header {
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 100px;
+      transition: all 0.5s ease;
+    }
+    
+    .card:hover .card-header {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+    
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: transform 0.5s ease;
+    }
+    
+    .card:hover .card-header::before {
+      transform: scale(1.2) translate(-10px, 10px);
+    }
+    
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: transform 0.5s ease;
+    }
+    
+    .card:hover .card-header::after {
+      transform: scale(1.2) translate(10px, -10px);
+    }
+    
+    .kana-header { background: linear-gradient(135deg, var(--kana-color), #66bb6a); }
+    .vocab-header { background: linear-gradient(135deg, var(--vocab-color), #ef5350); }
+    .grammar-header { background: linear-gradient(135deg, var(--grammar-color), #ffca28); }
+    .kanji-header { background: linear-gradient(135deg, var(--kanji-color), #5c6bc0); }
+    .listening-header { background: linear-gradient(135deg, var(--listening-color), #29b6f6); }
+    .quiz-header { background: linear-gradient(135deg, var(--quiz-color), #7e57c2); }
+    
+    .japanese {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 0.4s ease, text-shadow 0.4s ease;
+    }
+
+    @media (min-width: 640px) {
+      .japanese {
+        font-size: 3rem;
+      }
+    }
+    
+    .card-body {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 640px) {
+      .card-body {
+        padding: 1.25rem;
+      }
+    }
+    
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark-color);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    
+    .card:hover .card-title {
+      transform: translateX(5px);
+    }
+    
+    .kana-title { color: var(--kana-color); }
+    .vocab-title { color: var(--vocab-color); }
+    .grammar-title { color: var(--grammar-color); }
+    .kanji-title { color: var(--kanji-color); }
+    .listening-title { color: var(--listening-color); }
+    .quiz-title { color: var(--quiz-color); }
+    
+    .card-description {
+      font-size: 0.85rem;
+      color: var(--dark-color);
+      opacity: 0.7;
+      margin-bottom: 1rem;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .card-description {
+      opacity: 0.9;
+    }
+    
+    .card-footer {
+      padding: 0 1.25rem 1.25rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .card-button {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.3s ease;
+      padding: 0.5rem 0;
+      position: relative;
+    }
+    
+    .card-button svg {
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card-button svg {
+      transform: translateX(5px);
+    }
+    
+    .card-button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+    }
+    
+    .card:hover .card-button::after {
+      width: 100%;
+    }
+    
+    .kana-button { color: var(--kana-color); }
+    .vocab-button { color: var(--vocab-color); }
+    .grammar-button { color: var(--grammar-color); }
+    .kanji-button { color: var(--kanji-color); }
+    .listening-button { color: var(--listening-color); }
+    .quiz-button { color: var(--quiz-color); }
+    
+    .progress-indicator {
+      display: flex;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    
+    .progress-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--gray-medium);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1s cubic-bezier(0.19, 1, 0.22, 1);
+      width: 0;
+    }
+    
+    .kana-progress { background-color: var(--kana-color); }
+    .vocab-progress { background-color: var(--vocab-color); }
+    .grammar-progress { background-color: var(--grammar-color); }
+    .kanji-progress { background-color: var(--kanji-color); }
+    .listening-progress { background-color: var(--listening-color); }
+    .quiz-progress { background-color: var(--quiz-color); }
+    
+    .progress-text {
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+      white-space: nowrap;
+      color: var(--dark-color);
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .progress-text {
+      opacity: 1;
+    }
+    
+    .footer {
+      background: white;
+      padding: 1.5rem 0;
+      text-align: center;
+      margin-top: auto;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.05);
+    }
+    
+    .footer-text {
+      color: var(--dark-color);
+      opacity: 0.7;
+      font-size: 0.85rem;
+      transition: opacity 0.3s ease;
+    }
+    
+    .footer-text:hover {
+      opacity: 1;
+    }
+    
+    /* Animation for cards on page load */
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card {
+      animation: cardAppear 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <span class="logo-icon">日</span>
+          <span>Japanese N5</span>
+        </a>
+        <div class="greeting">Welcome back, Khatom!</div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main">
+    <div class="container">
+      <div class="page-title">
+        <h1 class="title-text">Learn N5 Japanese</h1>
+        <p class="subtitle-text">basics of Japanese language from Minna No Nihongo</p>
+      </div>
+      
+      <div class="grid">
+        <!-- Kana Card -->
+        <a href="./Kana/Kana_index.html" class="card">
+          <div class="card-header kana-header">
+            <div class="japanese">かな</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title kana-title">Kana</h2>
+            <p class="card-description"></p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill kana-progress"></div>
+              </div>
+              <span class="progress-text">85%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button kana-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+        
+        <!-- Vocabulary Card -->
+        <a href="./Vocabulary/Vocabulary.html" class="card">
+          <div class="card-header vocab-header">
+            <div class="japanese">語彙</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title vocab-title">Vocabulary</h2>
+            <p class="card-description"></p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill vocab-progress"></div>
+              </div>
+              <span class="progress-text">60%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button vocab-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+        
+        <!-- Grammar Card -->
+        <a href="./grammer/grammer.html" class="card">
+          <div class="card-header grammar-header">
+            <div class="japanese">文法</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title grammar-title">Grammar</h2>
+            <p class="card-description"></p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill grammar-progress"></div>
+              </div>
+              <span class="progress-text">45%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button grammar-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+        
+        <!-- Kanji Card -->
+        <a href="./Kanji/kanji.html" class="card">
+          <div class="card-header kanji-header">
+            <div class="japanese">漢字</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title kanji-title">Kanji</h2>
+            <p class="card-description"></p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill kanji-progress"></div>
+              </div>
+              <span class="progress-text">30%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button kanji-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+        
+        <!-- Listening Card -->
+        <a href="./Listening/Listening_index.html" class="card">
+          <div class="card-header listening-header">
+            <div class="japanese">▶</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title listening-title">Listening</h2>
+            <p class="card-description"></p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill listening-progress"></div>
+              </div>
+              <span class="progress-text">50%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button listening-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+        
+        <!-- Quiz Card -->
+        <a href="./Quiz/Quiz_index.html" class="card">
+          <div class="card-header quiz-header">
+            <div class="japanese">クイズ</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title quiz-title">Quiz</h2>
+            <p class="card-description"></p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill quiz-progress"></div>
+              </div>
+              <span class="progress-text">70%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button quiz-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">&copy;2025 Hafizur R Manik. All rights reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Animate progress bars on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all progress fill elements
+      const progressBars = document.querySelectorAll('.progress-fill');
+      
+      // Set a small delay to ensure DOM is fully loaded
+      setTimeout(() => {
+        // Set the width for each progress bar based on the text percentage
+        progressBars.forEach(bar => {
+          // Find the parent card
+          const card = bar.closest('.card');
+          // Find the progress text in the same card
+          const progressText = card.querySelector('.progress-text');
+          // Get the percentage from the text
+          const percentage = progressText.textContent.replace('%', '');
+          // Set the width of the progress bar
+          bar.style.width = percentage + '%';
+        });
+      }, 500);
+    });
+
+    // Add smooth scrolling for all links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Add ripple effect to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.style.position = 'absolute';
+        ripple.style.width = '1px';
+        ripple.style.height = '1px';
+        ripple.style.borderRadius = '50%';
+        ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.transition = 'transform 0.6s, opacity 0.6s';
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.style.transform = 'scale(150)';
+          ripple.style.opacity = '0';
+        }, 10);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // View Toggle Button Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleOptions = document.querySelectorAll('.toggle-option');
+      const toggleSlider = document.querySelector('.toggle-slider');
+      
+      toggleOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+          // Only handle the click if it's not already active
+          if (!this.classList.contains('active')) {
+            // Remove active class from all options
+            toggleOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Add active class to clicked option
+            this.classList.add('active');
+            
+            // Move the slider
+            if (this.dataset.view === 'mobile') {
+              toggleSlider.classList.add('mobile');
+            } else {
+              toggleSlider.classList.remove('mobile');
+            }
+            
+            // Prevent default only if we're just toggling the view without navigating
+            // e.preventDefault();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
