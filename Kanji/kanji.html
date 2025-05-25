@@ -70,6 +70,8 @@
         html {
             font-size: 16px;
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
         }
 
         body {
@@ -78,10 +80,11 @@
             color: var(--text-primary);
             line-height: 1.5;
             overflow-x: hidden;
-            transition: all 0.3s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
         }
 
-        /* Mobile-First Container */
         .container {
             width: 100%;
             max-width: 100vw;
@@ -89,7 +92,6 @@
             margin: 0 auto;
         }
 
-        /* Header - Mobile Optimized */
         .header {
             position: fixed;
             top: 0;
@@ -99,8 +101,8 @@
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            transform: translate3d(0, 0, 0);
+            will-change: transform;
         }
 
         .header-content {
@@ -153,30 +155,31 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
             font-size: 1.1rem;
             touch-action: manipulation;
+            transform: translate3d(0, 0, 0);
+            will-change: background-color, color;
         }
 
         .btn-icon:active {
-            transform: scale(0.95);
             background: var(--primary);
             color: var(--text-inverse);
         }
 
-        /* Main Content */
         .main {
             margin-top: var(--header-height);
             min-height: calc(100vh - var(--header-height));
             padding-bottom: var(--spacing-xl);
+            contain: layout style paint;
         }
 
-        /* Hero Section - Mobile Optimized */
         .hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: var(--text-inverse);
             padding: var(--spacing-xl) 0;
             text-align: center;
+            transform: translate3d(0, 0, 0);
         }
 
         .hero-title {
@@ -220,7 +223,6 @@
             margin-top: var(--spacing-xs);
         }
 
-        /* Search Section */
         .search-section {
             padding: var(--spacing-lg) 0;
             background: var(--bg-secondary);
@@ -239,7 +241,7 @@
             background: var(--surface);
             color: var(--text-primary);
             font-size: 1rem;
-            transition: all 0.2s ease;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
             touch-action: manipulation;
         }
 
@@ -259,7 +261,6 @@
             pointer-events: none;
         }
 
-        /* Filter Chips - Mobile Optimized */
         .filters {
             padding: var(--spacing-md) 0;
             background: var(--bg-primary);
@@ -272,6 +273,8 @@
             padding: 0 var(--spacing-md);
             scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
         .filter-scroll::-webkit-scrollbar {
@@ -288,9 +291,11 @@
             font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
             touch-action: manipulation;
             white-space: nowrap;
+            transform: translate3d(0, 0, 0);
+            will-change: background-color, border-color, color;
         }
 
         .filter-chip.active {
@@ -299,11 +304,6 @@
             color: var(--text-inverse);
         }
 
-        .filter-chip:active {
-            transform: scale(0.95);
-        }
-
-        /* Progress Card */
         .progress-card {
             margin: var(--spacing-lg) var(--spacing-md);
             padding: var(--spacing-lg);
@@ -341,8 +341,10 @@
             height: 100%;
             background: linear-gradient(90deg, var(--success), var(--accent));
             border-radius: 4px;
-            transition: width 0.8s ease;
+            transition: width 0.3s ease;
             position: relative;
+            transform: translate3d(0, 0, 0);
+            will-change: width;
         }
 
         .progress-stats {
@@ -357,12 +359,12 @@
             color: var(--success);
         }
 
-        /* Kanji Grid - Mobile Optimized */
         .kanji-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: var(--spacing-md);
             padding: 0 var(--spacing-md) var(--spacing-xl);
+            contain: layout style paint;
         }
 
         .kanji-card {
@@ -371,11 +373,14 @@
             padding: var(--spacing-lg);
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            transition: all 0.2s ease;
+            transition: box-shadow 0.15s ease;
             cursor: pointer;
             touch-action: manipulation;
             position: relative;
             overflow: hidden;
+            transform: translate3d(0, 0, 0);
+            will-change: box-shadow;
+            contain: layout style paint;
         }
 
         .kanji-card::before {
@@ -387,11 +392,11 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
+            transform-origin: left;
         }
 
         .kanji-card:active {
-            transform: translateY(1px);
             box-shadow: var(--shadow-md);
         }
 
@@ -425,7 +430,6 @@
             text-transform: uppercase;
         }
 
-        /* Pronunciation Section */
         .pronunciation-section {
             margin-bottom: var(--spacing-lg);
         }
@@ -459,7 +463,6 @@
             text-align: right;
         }
 
-        /* Meanings Section */
         .meanings-section {
             margin-bottom: var(--spacing-lg);
         }
@@ -502,7 +505,6 @@
             color: var(--text-secondary);
         }
 
-        /* Action Buttons */
         .kanji-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -516,17 +518,15 @@
             background: var(--bg-secondary);
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
             font-weight: 600;
             touch-action: manipulation;
-        }
-
-        .action-btn:active {
-            transform: scale(0.95);
+            transform: translate3d(0, 0, 0);
+            will-change: background-color, color;
         }
 
         .action-btn.favorite.active {
@@ -549,7 +549,6 @@
             color: var(--text-inverse);
         }
 
-        /* Modal - Mobile Optimized */
         .modal {
             display: none;
             position: fixed;
@@ -559,8 +558,6 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.8);
             z-index: 2000;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
         }
 
         .modal-content {
@@ -573,6 +570,8 @@
             border-radius: var(--radius-lg);
             overflow-y: auto;
             box-shadow: var(--shadow-lg);
+            -webkit-overflow-scrolling: touch;
+            contain: layout style paint;
         }
 
         .modal-header {
@@ -605,6 +604,7 @@
             justify-content: center;
             font-size: 1.5rem;
             touch-action: manipulation;
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
 
         .close-btn:active {
@@ -641,7 +641,6 @@
             display: inline-block;
         }
 
-        /* Detail Sections */
         .detail-section {
             margin-bottom: var(--spacing-lg);
             padding: var(--spacing-lg);
@@ -686,7 +685,6 @@
             margin-bottom: var(--spacing-xs);
         }
 
-        /* Action Buttons in Modal */
         .modal-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -703,19 +701,20 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 0.15s ease;
             touch-action: manipulation;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: var(--spacing-sm);
+            transform: translate3d(0, 0, 0);
+            will-change: transform;
         }
 
         .btn-primary:active {
-            transform: scale(0.98);
+            transform: translate3d(0, 0, 0) scale(0.98);
         }
 
-        /* No Results */
         .no-results {
             text-align: center;
             padding: var(--spacing-xl);
@@ -734,43 +733,6 @@
             color: var(--text-primary);
         }
 
-        /* Notifications */
-        .notification {
-            position: fixed;
-            top: calc(var(--header-height) + var(--spacing-md));
-            left: var(--spacing-md);
-            right: var(--spacing-md);
-            background: var(--success);
-            color: var(--text-inverse);
-            padding: var(--spacing-md);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            z-index: 3000;
-            font-weight: 600;
-            animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
-        }
-
-        .notification.error {
-            background: var(--danger);
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        /* Pagination */
         .pagination-container {
             padding: var(--spacing-lg) var(--spacing-md);
         }
@@ -794,7 +756,7 @@
             background: var(--bg-secondary);
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -809,7 +771,6 @@
         }
 
         .pagination-btn:not(:disabled):active {
-            transform: scale(0.95);
             background: var(--primary);
             color: var(--text-inverse);
         }
@@ -836,7 +797,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Responsive Design */
         @media (min-width: 480px) {
             .container {
                 padding: 0 var(--spacing-lg);
@@ -887,22 +847,6 @@
             }
         }
 
-        /* Touch Improvements */
-        @media (hover: none) and (pointer: coarse) {
-            .kanji-card:hover {
-                transform: none;
-            }
-            
-            .btn-icon:hover {
-                transform: none;
-            }
-            
-            .filter-chip:hover {
-                transform: none;
-            }
-        }
-
-        /* Accessibility */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
@@ -911,7 +855,6 @@
             }
         }
 
-        /* Focus styles for keyboard navigation */
         .btn-icon:focus,
         .filter-chip:focus,
         .action-btn:focus {
@@ -923,7 +866,6 @@
             outline: none;
         }
 
-        /* Loading States */
         .loading {
             display: flex;
             justify-content: center;
@@ -945,7 +887,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Safe Area Support for iOS */
         @supports (padding: max(0px)) {
             .header {
                 padding-top: max(0px, env(safe-area-inset-top));
@@ -956,10 +897,24 @@
                 bottom: max(5%, env(safe-area-inset-bottom) + 20px);
             }
         }
+
+        .kanji-grid,
+        .modal-content,
+        .filter-scroll {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
+        }
+
+        .kanji-card,
+        .action-btn,
+        .btn-icon {
+            isolation: isolate;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="header-content">
             <div class="logo">
@@ -977,9 +932,7 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main">
-        <!-- Hero Section -->
         <section class="hero">
             <div class="container">
                 <h1 class="hero-title">Learn N5 basic Kanji</h1>
@@ -1001,7 +954,6 @@
             </div>
         </section>
 
-        <!-- Search Section -->
         <section class="search-section">
             <div class="container">
                 <div class="search-container">
@@ -1011,7 +963,6 @@
             </div>
         </section>
 
-        <!-- Filters -->
         <section class="filters">
             <div class="filter-scroll">
                 <button class="filter-chip active" data-filter="all">All</button>
@@ -1025,7 +976,6 @@
             </div>
         </section>
 
-        <!-- Progress Card -->
         <div class="progress-card">
             <div class="progress-header">
                 <h3 class="progress-title">Learning Progress</h3>
@@ -1040,12 +990,9 @@
             </div>
         </div>
 
-        <!-- Kanji Grid -->
         <section class="kanji-grid" id="kanjiGrid">
-            <!-- Kanji cards will be generated here -->
         </section>
 
-        <!-- Pagination Controls -->
         <div class="pagination-container" id="paginationContainer" style="display: none;">
             <div class="pagination">
                 <button class="pagination-btn" id="prevBtn" onclick="goToPage(currentPage - 1)" aria-label="Previous page">
@@ -1061,7 +1008,6 @@
             </div>
         </div>
 
-        <!-- No Results -->
         <div class="no-results" id="noResults" style="display: none;">
             <div class="no-results-icon">🔍</div>
             <h3>No kanji found</h3>
@@ -1069,7 +1015,6 @@
         </div>
     </main>
 
-    <!-- Modal -->
     <div class="modal" id="kanjiModal" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
@@ -2203,7 +2148,6 @@
                 ]
             }
         ];
-
         // Filter categories
         const filterCategories = {
             numbers: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
@@ -2224,6 +2168,23 @@
         let currentPage = 1;
         const itemsPerPage = 10;
 
+        // Scroll position preservation
+        let preserveScrollPosition = false;
+        let lastScrollPosition = 0;
+
+        // Optimized debounce function for search
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
         // Pagination functions
         function updatePaginationInfo() {
             const totalPages = Math.ceil(filteredKanji.length / itemsPerPage);
@@ -2242,6 +2203,7 @@
             const totalPages = Math.ceil(filteredKanji.length / itemsPerPage);
             if (page >= 1 && page <= totalPages) {
                 currentPage = page;
+                preserveScrollPosition = false; // Allow scrolling for pagination
                 renderKanjiGrid();
             }
         }
@@ -2250,11 +2212,16 @@
             currentPage = 1;
         }
 
-        // Render kanji grid with pagination
+        // FIXED: Optimized render function with conditional scrolling
         function renderKanjiGrid() {
             const grid = document.getElementById('kanjiGrid');
             const noResults = document.getElementById('noResults');
             const paginationContainer = document.getElementById('paginationContainer');
+            
+            // Store current scroll position if we need to preserve it
+            if (preserveScrollPosition) {
+                lastScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            }
             
             if (filteredKanji.length === 0) {
                 grid.style.display = 'none';
@@ -2274,9 +2241,17 @@
             noResults.style.display = 'none';
             paginationContainer.style.display = totalPages > 1 ? 'block' : 'none';
             
-            // Render current page kanji
-            grid.innerHTML = currentPageKanji.map(kanji => `
-                <div class="kanji-card" onclick="openModal('${kanji.kanji}')" role="button" tabindex="0">
+            // Use DocumentFragment for better performance
+            const fragment = document.createDocumentFragment();
+            
+            currentPageKanji.forEach(kanji => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'kanji-card';
+                cardElement.setAttribute('role', 'button');
+                cardElement.setAttribute('tabindex', '0');
+                cardElement.onclick = () => openModal(kanji.kanji);
+                
+                cardElement.innerHTML = `
                     <div class="kanji-header">
                         <div class="kanji-character">${kanji.kanji}</div>
                         <div class="kanji-number">#${kanji.id}</div>
@@ -2316,14 +2291,32 @@
                                 onclick="event.stopPropagation(); markAsStudied('${kanji.kanji}')" 
                                 aria-label="Mark as studied">✓</button>
                     </div>
-                </div>
-            `).join('');
+                `;
+                
+                fragment.appendChild(cardElement);
+            });
+            
+            // Clear and append in one operation
+            grid.innerHTML = '';
+            grid.appendChild(fragment);
 
             // Update pagination info
             updatePaginationInfo();
             
-            // Scroll to top of grid
-            document.querySelector('.kanji-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // FIXED: Only scroll when appropriate, not when preserving position
+            requestAnimationFrame(() => {
+                if (preserveScrollPosition) {
+                    // Restore the previous scroll position
+                    window.scrollTo(0, lastScrollPosition);
+                    preserveScrollPosition = false; // Reset flag
+                } else {
+                    // Only scroll to grid for search/filter operations or pagination
+                    document.querySelector('.kanji-grid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
         }
 
         // Initialize the app
@@ -2334,14 +2327,18 @@
             loadTheme();
         }
 
-        // Setup event listeners
+        // Optimized event listeners setup
         function setupEventListeners() {
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            // Debounced search functionality
+            const debouncedSearch = debounce(handleSearch, 300);
+            document.getElementById('searchInput').addEventListener('input', debouncedSearch);
             
-            // Filter chips
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.addEventListener('click', handleFilter);
+            // Filter chips with event delegation
+            const filterContainer = document.querySelector('.filter-scroll');
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-chip')) {
+                    handleFilter(e);
+                }
             });
 
             // Modal close on outside click
@@ -2358,42 +2355,37 @@
                 }
             });
 
-            // Touch events for better mobile interaction
-            let touchStartY = 0;
-            document.addEventListener('touchstart', (e) => {
-                touchStartY = e.touches[0].clientY;
-            });
-
-            document.addEventListener('touchmove', (e) => {
-                const touchY = e.touches[0].clientY;
-                const touchDiff = touchStartY - touchY;
-                
-                // Prevent overscroll on iOS
-                if (touchDiff > 0 && window.scrollY === 0) {
+            // Prevent default behavior for action buttons to avoid unwanted scrolling
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('action-btn')) {
                     e.preventDefault();
                 }
-            }, { passive: false });
+            });
         }
 
-        // Handle search
+        // Optimized search handler
         function handleSearch(e) {
-            const query = e.target.value.toLowerCase();
+            const query = e.target.value.toLowerCase().trim();
             const activeFilter = document.querySelector('.filter-chip.active').dataset.filter;
             
-            filteredKanji = kanjiData.filter(kanji => {
-                const matchesSearch = !query || 
-                    kanji.kanji.includes(query) ||
-                    kanji.kunyomi.toLowerCase().includes(query) ||
-                    kanji.english.toLowerCase().includes(query) ||
-                    kanji.bangla.toLowerCase().includes(query);
+            // Use requestAnimationFrame for smooth UI updates
+            requestAnimationFrame(() => {
+                filteredKanji = kanjiData.filter(kanji => {
+                    const matchesSearch = !query || 
+                        kanji.kanji.includes(query) ||
+                        kanji.kunyomi.toLowerCase().includes(query) ||
+                        kanji.english.toLowerCase().includes(query) ||
+                        kanji.bangla.toLowerCase().includes(query);
+                    
+                    const matchesFilter = applyFilter(kanji, activeFilter);
+                    
+                    return matchesSearch && matchesFilter;
+                });
                 
-                const matchesFilter = applyFilter(kanji, activeFilter);
-                
-                return matchesSearch && matchesFilter;
+                resetPagination();
+                preserveScrollPosition = false; // Allow scrolling for search
+                renderKanjiGrid();
             });
-            
-            resetPagination();
-            renderKanjiGrid();
         }
 
         // Handle filter
@@ -2402,22 +2394,25 @@
             e.target.classList.add('active');
             
             const filter = e.target.dataset.filter;
-            const query = document.getElementById('searchInput').value.toLowerCase();
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
             
-            filteredKanji = kanjiData.filter(kanji => {
-                const matchesSearch = !query || 
-                    kanji.kanji.includes(query) ||
-                    kanji.kunyomi.toLowerCase().includes(query) ||
-                    kanji.english.toLowerCase().includes(query) ||
-                    kanji.bangla.toLowerCase().includes(query);
+            requestAnimationFrame(() => {
+                filteredKanji = kanjiData.filter(kanji => {
+                    const matchesSearch = !query || 
+                        kanji.kanji.includes(query) ||
+                        kanji.kunyomi.toLowerCase().includes(query) ||
+                        kanji.english.toLowerCase().includes(query) ||
+                        kanji.bangla.toLowerCase().includes(query);
+                    
+                    const matchesFilter = applyFilter(kanji, filter);
+                    
+                    return matchesSearch && matchesFilter;
+                });
                 
-                const matchesFilter = applyFilter(kanji, filter);
-                
-                return matchesSearch && matchesFilter;
+                resetPagination();
+                preserveScrollPosition = false; // Allow scrolling for filter
+                renderKanjiGrid();
             });
-            
-            resetPagination();
-            renderKanjiGrid();
         }
 
         // Apply filter logic
@@ -2470,7 +2465,7 @@
             currentKanji = null;
         }
 
-        // Toggle favorite
+        // FIXED: Toggle favorite with scroll position preservation
         function toggleFavorite(kanjiChar) {
             const index = favorites.indexOf(kanjiChar);
             if (index > -1) {
@@ -2480,18 +2475,18 @@
             }
             
             localStorage.setItem('kanjiMasterFavorites', JSON.stringify(favorites));
+            preserveScrollPosition = true; // Preserve scroll position
             renderKanjiGrid();
-            showNotification(`${kanjiChar} ${index > -1 ? 'removed from' : 'added to'} favorites!`);
         }
 
-        // Mark as studied
+        // FIXED: Mark as studied with scroll position preservation
         function markAsStudied(kanjiChar) {
             if (!studiedKanji.includes(kanjiChar)) {
                 studiedKanji.push(kanjiChar);
                 localStorage.setItem('kanjiMasterStudied', JSON.stringify(studiedKanji));
                 updateProgress();
+                preserveScrollPosition = true; // Preserve scroll position
                 renderKanjiGrid();
-                showNotification(`${kanjiChar} marked as studied! 🎉`);
             }
         }
 
@@ -2510,8 +2505,6 @@
                 utterance.volume = 1;
                 
                 speechSynthesis.speak(utterance);
-            } else {
-                showNotification('Speech synthesis not supported', 'error');
             }
         }
 
@@ -2522,25 +2515,26 @@
             const kanjiElement = document.getElementById('modalKanji');
             kanjiElement.style.animation = 'none';
             
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 kanjiElement.style.animation = 'pulse 0.5s ease-in-out 3';
                 kanjiElement.style.color = 'var(--secondary)';
                 
                 setTimeout(() => {
                     kanjiElement.style.color = 'var(--primary)';
                 }, 1500);
-            }, 10);
-            
-            showNotification('Stroke animation played! ✨');
+            });
         }
 
         // Update progress
         function updateProgress() {
             const progress = (studiedKanji.length / kanjiData.length) * 100;
-            document.getElementById('progressBar').style.width = `${progress}%`;
-            document.getElementById('studiedCount').textContent = studiedKanji.length;
-            document.getElementById('totalKanji').textContent = kanjiData.length;
-            document.getElementById('progressPercentage').textContent = `${Math.round(progress)}%`;
+            
+            requestAnimationFrame(() => {
+                document.getElementById('progressBar').style.width = `${progress}%`;
+                document.getElementById('studiedCount').textContent = studiedKanji.length;
+                document.getElementById('totalKanji').textContent = kanjiData.length;
+                document.getElementById('progressPercentage').textContent = `${Math.round(progress)}%`;
+            });
         }
 
         // Toggle theme
@@ -2557,8 +2551,6 @@
                 themeIcon.textContent = '☀️';
                 localStorage.setItem('kanjiMasterTheme', 'dark');
             }
-            
-            showNotification(`Switched to ${body.dataset.theme} theme`);
         }
 
         // Show statistics
@@ -2578,20 +2570,6 @@
             alert(statsMessage);
         }
 
-        // Show notification
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 3000);
-        }
-
         // Load saved theme
         function loadTheme() {
             const savedTheme = localStorage.getItem('kanjiMasterTheme') || 'light';
@@ -2602,10 +2580,9 @@
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
             init();
-            showNotification('Welcome to KanjiMaster Mobile! 🎌');
         });
 
-        // Prevent zoom on double tap
+        // Prevent zoom on double tap for better mobile experience
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function (event) {
             const now = (new Date()).getTime();
@@ -2615,7 +2592,7 @@
             lastTouchEnd = now;
         }, false);
 
-        // Service worker registration
+        // Service worker registration for better performance
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
