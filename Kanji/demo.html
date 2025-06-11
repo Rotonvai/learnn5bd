@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Japanese Kanji Flashcards - Enhanced Mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #059669;
+            --secondary-hover: #047857;
+            --accent-color: #dc2626;
+            --text-dark: #111827;
+            --text-medium: #374151;
+            --text-light: #6b7280;
+            --text-white: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%);
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            --border-radius: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+            padding-top: var(--safe-area-top);
+            padding-bottom: var(--safe-area-bottom);
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-container {
+            flex: 1;
+            margin-right: 12px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(37, 99, 235, 0.15);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+
+        .card-counter {
+            font-weight: 800;
+            color: var(--text-dark);
+            font-size: 14px;
+            white-space: nowrap;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .flashcard-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            position: relative;
+            min-height: 0;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 380px;
+            height: 100%;
+            max-height: 520px;
+            min-height: 360px;
+            perspective: 1200px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: var(--border-radius);
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .kanji-character {
+            font-size: clamp(100px, 22vw, 160px);
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            line-height: 0.9;
+            font-family: 'Noto Sans JP', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .card-content {
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .hiragana {
+            font-size: clamp(28px, 7vw, 42px);
+            color: var(--primary-color);
+            font-weight: 700;
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.1;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 8px 16px;
+            border-radius: 16px;
+            margin: 0 auto;
+            max-width: fit-content;
+        }
+
+        .bengali-meaning {
+            font-size: clamp(24px, 6vw, 36px);
+            color: var(--secondary-color);
+            font-weight: 800;
+            line-height: 1.2;
+            background: rgba(5, 150, 105, 0.1);
+            padding: 12px 20px;
+            border-radius: 16px;
+            border: 2px solid rgba(5, 150, 105, 0.2);
+        }
+
+        .english-meaning {
+            font-size: clamp(20px, 5vw, 28px);
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.3;
+            opacity: 0.8;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--text-light);
+            opacity: 0.9;
+            animation: pulse 2.5s infinite;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 14px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+        }
+
+        .navigation {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -2px 24px rgba(0, 0, 0, 0.08);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-button {
+            flex: 1;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 20px;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 52px;
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-button:active::before {
+            left: 100%;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        .nav-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .nav-button:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .nav-button.secondary {
+            background: var(--secondary-color);
+        }
+
+        .nav-button.secondary:hover:not(:disabled) {
+            background: var(--secondary-hover);
+            box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+        }
+
+        .flashcard:active {
+            transform: scale(0.98);
+        }
+
+        .nav-button:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.9; 
+                transform: translateX(-50%) scale(1);
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateX(-50%) scale(1.02);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (orientation: landscape) and (max-height: 600px) {
+            .flashcard-container {
+                padding: 8px 12px;
+            }
+            
+            .flashcard {
+                max-height: 380px;
+                min-height: 280px;
+            }
+            
+            .flashcard-front,
+            .flashcard-back {
+                padding: 16px;
+            }
+            
+            .kanji-character {
+                font-size: clamp(70px, 18vw, 100px);
+                margin-bottom: 8px;
+            }
+            
+            .card-content {
+                gap: 12px;
+            }
+            
+            .hiragana {
+                font-size: clamp(20px, 5vw, 28px);
+                padding: 6px 12px;
+            }
+            
+            .bengali-meaning {
+                font-size: clamp(18px, 4.5vw, 24px);
+                padding: 8px 16px;
+            }
+            
+            .english-meaning {
+                font-size: clamp(16px, 4vw, 20px);
+            }
+        }
+
+        @media (max-width: 320px) {
+            .header {
+                padding: 6px 12px;
+            }
+            
+            .flashcard-container {
+                padding: 8px;
+            }
+            
+            .navigation {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+            
+            .nav-button {
+                padding: 14px 16px;
+                font-size: 14px;
+                min-height: 48px;
+            }
+            
+            .card-content {
+                gap: 12px;
+            }
+        }
+
+        @media (prefers-contrast: high) {
+            :root {
+                --card-bg: #ffffff;
+                --text-dark: #000000;
+                --primary-color: #0000ff;
+                --secondary-color: #008000;
+            }
+            
+            .flashcard-front,
+            .flashcard-back {
+                border: 2px solid #000000;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .flashcard-inner,
+            .nav-button,
+            .progress-fill {
+                transition: none;
+            }
+            
+            .flip-hint {
+                animation: none;
+            }
+            
+            .slide-in-right,
+            .slide-in-left {
+                animation: none;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #020617 100%);
+                --card-bg: #1f2937;
+                --text-dark: #f9fafb;
+                --text-medium: #e5e7eb;
+                --text-light: #d1d5db;
+            }
+            
+            .header,
+            .navigation {
+                background: rgba(31, 41, 55, 0.98);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+            
+            .flashcard-front,
+            .flashcard-back {
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .flashcard:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 4px;
+        }
+
+        .nav-button:focus-visible {
+            outline: 3px solid var(--text-white);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <div class="card-counter" id="card-counter">1 / 73</div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Flashcard - tap to flip">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <div class="kanji-character" id="kanji-character">田</div>
+                        <div class="flip-hint">Tap to reveal meaning</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="card-content">
+                            <div class="hiragana" id="hiragana">た</div>
+                            <div class="bengali-meaning" id="bengali-meaning">ধান ক্ষেত</div>
+                            <div class="english-meaning" id="english-meaning">Rice field</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prev-button" aria-label="Previous card">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                </svg>
+                Previous
+            </button>
+            <button class="nav-button secondary" id="next-button" aria-label="Next card">
+                Next
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Flashcards data array
+        const flashcards = [
+            { kanji: "田", hiragana: "た", bengali: "ধান ক্ষেত", english: "Rice field" },
+            { kanji: "中", hiragana: "なか", bengali: "তানাকা (中 = মাঝে)", english: "Middle/Inside" },
+            { kanji: "力", hiragana: "ちから", bengali: "শক্তি", english: "Power/Strength" },
+            { kanji: "男", hiragana: "おとこ", bengali: "পুরুষ", english: "Man" },
+            { kanji: "男の人", hiragana: "おとこのひと", bengali: "পুরুষ লোক", english: "Man/Male person" },
+            { kanji: "男の子", hiragana: "おとこのこ", bengali: "বালক", english: "Boy" },
+            { kanji: "女", hiragana: "おんな", bengali: "মহিলা", english: "Woman" },
+            { kanji: "女の人", hiragana: "おんなのひと", bengali: "মহিলা লোক", english: "Woman/Female person" },
+            { kanji: "女の子", hiragana: "おんなのこ", bengali: "বালিকা", english: "Girl" },
+            { kanji: "子", hiragana: "こ", bengali: "বাচ্চা", english: "Child" },
+            { kanji: "学", hiragana: "がく", bengali: "শিক্ষা", english: "Study/Learning" },
+            { kanji: "生", hiragana: "せい／うまれる", bengali: "জন্ম গ্রহণ, বেঁচে থাকা", english: "Life/Birth" },
+            { kanji: "学生", hiragana: "がくせい", bengali: "ছাত্র/ছাত্রী", english: "Student" },
+            { kanji: "先生", hiragana: "せんせい", bengali: "শিক্ষক", english: "Teacher" },
+            { kanji: "先", hiragana: "さき", bengali: "প্রথমে", english: "First/Before" },
+            { kanji: "何", hiragana: "なに／なん", bengali: "কি, কত", english: "What/How many" },
+            { kanji: "何人", hiragana: "なんにん", bengali: "কতোজন", english: "How many people" },
+            { kanji: "何月", hiragana: "なんがつ", bengali: "কতোমাস", english: "What month" },
+            { kanji: "何時間", hiragana: "なんじかん", bengali: "কত ঘন্টা", english: "How many hours" },
+            { kanji: "一", hiragana: "いち", bengali: "১", english: "One" },
+            { kanji: "二", hiragana: "に", bengali: "২", english: "Two" },
+            { kanji: "三", hiragana: "さん", bengali: "৩", english: "Three" },
+            { kanji: "四", hiragana: "し／よん", bengali: "৪", english: "Four" },
+            { kanji: "五", hiragana: "ご", bengali: "৫", english: "Five" },
+            { kanji: "六", hiragana: "ろく", bengali: "৬", english: "Six" },
+            { kanji: "七", hiragana: "しち／なな", bengali: "৭", english: "Seven" },
+            { kanji: "八", hiragana: "はち", bengali: "৮", english: "Eight" },
+            { kanji: "九", hiragana: "きゅう／く", bengali: "৯", english: "Nine" },
+            { kanji: "十", hiragana: "じゅう", bengali: "১০", english: "Ten" },
+            { kanji: "円", hiragana: "えん", bengali: "ইয়েন", english: "Yen" },
+            { kanji: "口", hiragana: "くち", bengali: "মুখ", english: "Mouth" },
+            { kanji: "目", hiragana: "め", bengali: "চোখ", english: "Eye" },
+            { kanji: "百", hiragana: "ひゃく", bengali: "শতক", english: "Hundred" },
+            { kanji: "千", hiragana: "せん", bengali: "হাজার", english: "Thousand" },
+            { kanji: "万", hiragana: "まん", bengali: "দশ হাজার", english: "Ten thousand" },
+            { kanji: "日", hiragana: "ひ／にち／び", bengali: "সূর্য, দিন", english: "Day/Sun" },
+            { kanji: "日曜日", hiragana: "にちようび", bengali: "রবিবার", english: "Sunday" },
+            { kanji: "月", hiragana: "つき／げつ", bengali: "চাঁদ", english: "Moon/Month" },
+            { kanji: "月曜日", hiragana: "げつようび", bengali: "সোমবার", english: "Monday" },
+            { kanji: "火", hiragana: "ひ／か", bengali: "আগুন", english: "Fire" },
+            { kanji: "火曜日", hiragana: "かようび", bengali: "মঙ্গলবার", english: "Tuesday" },
+            { kanji: "水", hiragana: "みず／すい", bengali: "পানি", english: "Water" },
+            { kanji: "水曜日", hiragana: "すいようび", bengali: "বুধবার", english: "Wednesday" },
+            { kanji: "木", hiragana: "き／もく", bengali: "গাছ", english: "Tree/Wood" },
+            { kanji: "木曜日", hiragana: "もくようび", bengali: "বৃহস্পতিবার", english: "Thursday" },
+            { kanji: "金", hiragana: "かね／きん", bengali: "স্বর্ণ, টাকা", english: "Gold/Money" },
+            { kanji: "金曜日", hiragana: "きんようび", bengali: "শুক্রবার", english: "Friday" },
+            { kanji: "土", hiragana: "つち／ど", bengali: "মাটি", english: "Earth/Soil" },
+            { kanji: "土曜日", hiragana: "どようび", bengali: "শনিবার", english: "Saturday" },
+            { kanji: "本", hiragana: "ほん", bengali: "বই", english: "Book" },
+            { kanji: "人", hiragana: "ひと／じん／にん", bengali: "মানুষ", english: "Person" },
+            { kanji: "日本", hiragana: "にほん／にっぽん", bengali: "জাপান", english: "Japan" },
+            { kanji: "日本人", hiragana: "にほんじん", bengali: "জাপানিজ", english: "Japanese person" },
+            { kanji: "今", hiragana: "いま", bengali: "এখন", english: "Now" },
+            { kanji: "今日", hiragana: "きょう", bengali: "আজ", english: "Today" },
+            { kanji: "寺", hiragana: "てら", bengali: "মন্দির", english: "Temple" },
+            { kanji: "半", hiragana: "はん", bengali: "অর্ধেক", english: "Half" },
+            { kanji: "時", hiragana: "じ", bengali: "ঘন্টা", english: "Hour/Time" },
+            { kanji: "一時", hiragana: "いちじ", bengali: "১টা (সময়)", english: "1 o'clock" },
+            { kanji: "一時半", hiragana: "いちじはん", bengali: "১টা ৩০ মিনিট", english: "1:30" },
+            { kanji: "分", hiragana: "ふん／ぷん", bengali: "মিনিট", english: "Minute" },
+            { kanji: "半分", hiragana: "はんぶん", bengali: "অর্ধাংশ", english: "Half portion" },
+            { kanji: "分かる", hiragana: "わかる", bengali: "বুঝতে পারা", english: "To understand" },
+            { kanji: "上", hiragana: "うえ", bengali: "উপরে", english: "Above/Up" },
+            { kanji: "下", hiragana: "した", bengali: "নিচে", english: "Below/Down" },
+            { kanji: "外", hiragana: "そと", bengali: "বাইরে", english: "Outside" },
+            { kanji: "右", hiragana: "みぎ", bengali: "ডানে", english: "Right" },
+            { kanji: "左", hiragana: "ひだり", bengali: "বামে", english: "Left" },
+            { kanji: "前", hiragana: "まえ", bengali: "সামনে", english: "Front/Before" },
+            { kanji: "後", hiragana: "うしろ／あと", bengali: "পিছনে, পরে", english: "Behind/After" },
+            { kanji: "午前", hiragana: "ごぜん", bengali: "a.m", english: "Morning/AM" },
+            { kanji: "午後", hiragana: "ごご", bengali: "p.m", english: "Afternoon/PM" },
+            { kanji: "朝", hiragana: "あさ", bengali: "সকালবেলা", english: "Morning" },
+            { kanji: "門", hiragana: "もん", bengali: "গেইট", english: "Gate" },
+            { kanji: "間", hiragana: "あいだ", bengali: "মাঝখানে", english: "Between/Among" },
+            { kanji: "東", hiragana: "ひがし", bengali: "পূর্ব", english: "East" },
+            { kanji: "西", hiragana: "にし", bengali: "পশ্চিম", english: "West" },
+            { kanji: "北", hiragana: "きた", bengali: "উত্তর", english: "North" },
+            { kanji: "南", hiragana: "みなみ", bengali: "দক্ষিণ", english: "South" },
+            { kanji: "先月", hiragana: "せんげつ", bengali: "গতমাস", english: "Last month" }
+        ];
+
+        // Global variables
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let isAnimating = false;
+
+        // DOM element references
+        let flashcard, kanjiCharacter, hiragana, bengaliMeaning, englishMeaning;
+        let prevButton, nextButton, cardCounter, progressFill;
+
+        // Initialize the application
+        function initializeApp() {
+            console.log('Initializing Kanji Flashcard App...');
+            
+            // Get DOM elements
+            flashcard = document.getElementById('flashcard');
+            kanjiCharacter = document.getElementById('kanji-character');
+            hiragana = document.getElementById('hiragana');
+            bengaliMeaning = document.getElementById('bengali-meaning');
+            englishMeaning = document.getElementById('english-meaning');
+            prevButton = document.getElementById('prev-button');
+            nextButton = document.getElementById('next-button');
+            cardCounter = document.getElementById('card-counter');
+            progressFill = document.getElementById('progress-fill');
+
+            // Verify all elements exist
+            if (!flashcard || !kanjiCharacter || !hiragana || !bengaliMeaning || 
+                !englishMeaning || !prevButton || !nextButton || !cardCounter || !progressFill) {
+                console.error('Some DOM elements are missing!');
+                return;
+            }
+
+            console.log('All DOM elements found successfully');
+            console.log('Total flashcards:', flashcards.length);
+
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Initialize display
+            updateCardDisplay();
+            updateProgress();
+            updateNavigationButtons();
+            
+            // Prevent zoom on mobile
+            preventZoom();
+            
+            console.log('App initialization complete');
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            console.log('Setting up event listeners...');
+
+            // Flashcard flip functionality
+            flashcard.addEventListener('click', handleFlashcardClick);
+            flashcard.addEventListener('touchend', handleFlashcardTouch);
+
+            // Navigation button events
+            nextButton.addEventListener('click', handleNextClick);
+            nextButton.addEventListener('touchend', handleNextTouch);
+            
+            prevButton.addEventListener('click', handlePrevClick);
+            prevButton.addEventListener('touchend', handlePrevTouch);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', handleKeyPress);
+
+            // Swipe gestures
+            setupSwipeGestures();
+
+            console.log('Event listeners set up successfully');
+        }
+
+        // Handle flashcard click
+        function handleFlashcardClick(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Flashcard clicked');
+            flipCard();
+        }
+
+        // Handle flashcard touch
+        function handleFlashcardTouch(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Flashcard touched');
+            flipCard();
+        }
+
+        // Handle next button click - FIXED
+        function handleNextClick(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Next button clicked - Current index:', currentCardIndex);
+            
+            if (!nextButton.disabled && !isAnimating) {
+                goToNextCard();
+            } else {
+                console.log('Next button click ignored - disabled:', nextButton.disabled, 'animating:', isAnimating);
+            }
+        }
+
+        // Handle next button touch - FIXED
+        function handleNextTouch(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Next button touched - Current index:', currentCardIndex);
+            
+            if (!nextButton.disabled && !isAnimating) {
+                goToNextCard();
+            } else {
+                console.log('Next button touch ignored - disabled:', nextButton.disabled, 'animating:', isAnimating);
+            }
+        }
+
+        // Handle previous button click
+        function handlePrevClick(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Previous button clicked');
+            
+            if (!prevButton.disabled && !isAnimating) {
+                goToPreviousCard();
+            }
+        }
+
+        // Handle previous button touch
+        function handlePrevTouch(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Previous button touched');
+            
+            if (!prevButton.disabled && !isAnimating) {
+                goToPreviousCard();
+            }
+        }
+
+        // Go to next card - COMPLETELY REWRITTEN
+        function goToNextCard() {
+            console.log('goToNextCard called - currentCardIndex:', currentCardIndex, 'total cards:', flashcards.length);
+            
+            if (currentCardIndex >= flashcards.length - 1) {
+                console.log('Already at last card');
+                return;
+            }
+
+            if (isAnimating) {
+                console.log('Animation in progress, skipping');
+                return;
+            }
+
+            console.log('Moving to next card...');
+            isAnimating = true;
+            
+            // Increment the index
+            currentCardIndex++;
+            console.log('New currentCardIndex:', currentCardIndex);
+            
+            // Update the display
+            updateCardDisplay();
+            updateProgress();
+            updateNavigationButtons();
+            
+            // Add animation
+            flashcard.classList.add('slide-in-right');
+            
+            // Reset animation flag after animation completes
+            setTimeout(() => {
+                flashcard.classList.remove('slide-in-right');
+                isAnimating = false;
+                console.log('Animation complete, isAnimating reset to false');
+            }, 400);
+
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(30);
+            }
+
+            console.log('Successfully moved to card:', currentCardIndex + 1, 'of', flashcards.length);
+        }
+
+        // Go to previous card
+        function goToPreviousCard() {
+            console.log('goToPreviousCard called - currentCardIndex:', currentCardIndex);
+            
+            if (currentCardIndex <= 0) {
+                console.log('Already at first card');
+                return;
+            }
+
+            if (isAnimating) {
+                console.log('Animation in progress, skipping');
+                return;
+            }
+
+            console.log('Moving to previous card...');
+            isAnimating = true;
+            
+            // Decrement the index
+            currentCardIndex--;
+            console.log('New currentCardIndex:', currentCardIndex);
+            
+            // Update the display
+            updateCardDisplay();
+            updateProgress();
+            updateNavigationButtons();
+            
+            // Add animation
+            flashcard.classList.add('slide-in-left');
+            
+            // Reset animation flag after animation completes
+            setTimeout(() => {
+                flashcard.classList.remove('slide-in-left');
+                isAnimating = false;
+                console.log('Animation complete, isAnimating reset to false');
+            }, 400);
+
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(30);
+            }
+
+            console.log('Successfully moved to card:', currentCardIndex + 1, 'of', flashcards.length);
+        }
+
+        // Update card display - IMPROVED
+        function updateCardDisplay() {
+            if (currentCardIndex < 0 || currentCardIndex >= flashcards.length) {
+                console.error('Invalid card index:', currentCardIndex);
+                return;
+            }
+
+            const card = flashcards[currentCardIndex];
+            console.log('Updating display for card:', currentCardIndex + 1, '- Kanji:', card.kanji);
+            
+            // Update the content
+            kanjiCharacter.textContent = card.kanji;
+            hiragana.textContent = card.hiragana;
+            bengaliMeaning.textContent = card.bengali;
+            
+            if (card.english) {
+                englishMeaning.textContent = card.english;
+                englishMeaning.style.display = 'block';
+            } else {
+                englishMeaning.style.display = 'none';
+            }
+            
+            // Reset flip state
+            isFlipped = false;
+            flashcard.classList.remove('flipped');
+            
+            // Update accessibility
+            flashcard.setAttribute('aria-label', 
+                `Flashcard ${currentCardIndex + 1} of ${flashcards.length}: ${card.kanji} - tap to flip`);
+            
+            console.log('Card display updated successfully');
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentCardIndex + 1) / flashcards.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            cardCounter.textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
+            console.log('Progress updated:', Math.round(progress) + '%');
+        }
+
+        // Update navigation button states
+        function updateNavigationButtons() {
+            prevButton.disabled = (currentCardIndex === 0);
+            nextButton.disabled = (currentCardIndex === flashcards.length - 1);
+            
+            console.log('Navigation buttons updated - Prev disabled:', prevButton.disabled, 'Next disabled:', nextButton.disabled);
+        }
+
+        // Flip card functionality
+        function flipCard() {
+            if (isAnimating) {
+                console.log('Cannot flip card - animation in progress');
+                return;
+            }
+            
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flipped');
+            
+            console.log('Card flipped:', isFlipped ? 'showing back' : 'showing front');
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // Handle keyboard navigation
+        function handleKeyPress(event) {
+            console.log('Key pressed:', event.key);
+            
+            switch (event.key) {
+                case 'ArrowLeft':
+                    event.preventDefault();
+                    if (!prevButton.disabled) {
+                        goToPreviousCard();
+                    }
+                    break;
+                case 'ArrowRight':
+                    event.preventDefault();
+                    if (!nextButton.disabled) {
+                        goToNextCard();
+                    }
+                    break;
+                case ' ':
+                case 'Enter':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+            }
+        }
+
+        // Set up swipe gestures
+        function setupSwipeGestures() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            flashcard.addEventListener('touchstart', (event) => {
+                touchStartX = event.changedTouches[0].screenX;
+                touchStartY = event.changedTouches[0].screenY;
+            }, { passive: true });
+
+            flashcard.addEventListener('touchend', (event) => {
+                touchEndX = event.changedTouches[0].screenX;
+                touchEndY = event.changedTouches[0].screenY;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const swipeThreshold = 80;
+                const swipeDistanceX = touchEndX - touchStartX;
+                const swipeDistanceY = Math.abs(touchEndY - touchStartY);
+
+                // Only process horizontal swipes
+                if (Math.abs(swipeDistanceX) > swipeThreshold && swipeDistanceY < 100) {
+                    if (swipeDistanceX > 0 && !prevButton.disabled) {
+                        console.log('Swipe right - going to previous');
+                        goToPreviousCard();
+                    } else if (swipeDistanceX < 0 && !nextButton.disabled) {
+                        console.log('Swipe left - going to next');
+                        goToNextCard();
+                    }
+                }
+            }
+        }
+
+        // Prevent zoom on double tap
+        function preventZoom() {
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        }
+
+        // Start the application when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
+
+        console.log('Script loaded successfully');
+    </script>
+</body>
+</html>

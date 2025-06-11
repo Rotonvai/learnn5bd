@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JLPT N5 Exam Simulation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .exam-container {
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .exam-header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .exam-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .exam-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .level-badge {
+            background: #48bb78;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .section-info {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+            min-height: calc(100vh - 140px);
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Welcome Screen */
+        .welcome-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 0;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-content h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .welcome-content p {
+            font-size: 1.125rem;
+            color: #4a5568;
+            margin-bottom: 3rem;
+        }
+
+        .exam-details {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        /* Question Container */
+        .question-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .question-number {
+            font-size: 0.875rem;
+            color: #4a5568;
+            background: #f7fafc;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .question-content {
+            margin-bottom: 3rem;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700; /* Changed from 500 to 700 to make it bold */
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            color: #2d3748;
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+            transform: translateX(4px);
+        }
+
+        .option.selected {
+            border-color: #3ec4e5; /* Changed from #667eea to #e53e3e (red) */
+            background: rgba(229, 62, 62, 0.1); /* Light red background */
+            color: #e53e3e; /* Red text */
+            font-weight: 500;
+            box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.3); /* Red glow effect */
+            transform: translateX(8px); /* Slight indent when selected */
+        }
+
+        .option-number {
+            background: #e2e8f0;
+            color: #4a5568;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .option.selected .option-number {
+            background: #e53e3e; /* Changed from #667eea to #e53e3e (red) */
+            color: white;
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .nav-button {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 120px;
+        }
+
+        .nav-button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-button.primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button.secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .nav-button.secondary:hover:not(:disabled) {
+            background: #edf2f7;
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Results Screen */
+        .results-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .results-header {
+            margin-bottom: 3rem;
+        }
+
+        .results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .results-header h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .score-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .score-text {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .score-details {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
+            border: 1px solid #e2e8f0;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .score-item:last-child {
+            border-bottom: none;
+        }
+
+        .score-label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .score-value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .grade {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .grade.excellent { background: #48bb78; }
+        .grade.good { background: #4299e1; }
+        .grade.fair { background: #ed8936; }
+        .grade.poor { background: #f56565; }
+
+        .results-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .action-button {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .action-button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .action-button.secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Review Screen */
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .review-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .back-button {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #edf2f7;
+        }
+
+        .review-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .review-question {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .review-options {
+            display: grid;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-option {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .review-option.correct {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+
+        .review-option.incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+
+        .review-option.neutral {
+            background: #f7fafc;
+            color: #4a5568;
+        }
+
+        .review-status {
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .review-status.correct {
+            background: #48bb78;
+            color: white;
+        }
+
+        .review-status.incorrect {
+            background: #f56565;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .exam-container {
+                margin: 0;
+                min-height: 100vh;
+            }
+            
+            .screen {
+                padding: 1rem;
+            }
+            
+            .exam-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .exam-title {
+                font-size: 1.5rem;
+            }
+            
+            .exam-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .welcome-content {
+                padding: 2rem 0;
+            }
+            
+            .welcome-content h2 {
+                font-size: 2rem;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .question-text {
+                font-size: 1.125rem;
+                padding: 1rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+            
+            .score-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .score-text {
+                font-size: 2.5rem;
+            }
+            
+            .results-actions {
+                flex-direction: column;
+            }
+            
+            .action-button {
+                width: 100%;
+            }
+            
+            .review-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exam-title {
+                font-size: 1.25rem;
+            }
+            
+            .welcome-content h2 {
+                font-size: 1.75rem;
+            }
+            
+            .question-text {
+                font-size: 1rem;
+            }
+            
+            .option {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+            
+            .score-circle {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .score-text {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-container">
+        <!-- Header -->
+        <header class="exam-header">
+            <div class="header-content">
+                <h1 class="exam-title">JLPT N5 Exam Simulation</h1>
+                <div class="exam-info">
+                    <span class="level-badge">N5</span>
+                    <span class="section-info">Language Knowledge & Reading</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <div class="welcome-icon">📚</div>
+                <h2>Welcome to JLPT N5 Practice Exam</h2>
+                <p>This simulation contains 25 questions covering vocabulary, grammar, and reading comprehension.</p>
+                <div class="exam-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Questions:</span>
+                        <span class="detail-value">25</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Time Limit:</span>
+                        <span class="detail-value">No limit (Practice mode)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Format:</span>
+                        <span class="detail-value">Multiple Choice</span>
+                    </div>
+                </div>
+                <button id="start-exam" class="start-button">Start Exam</button>
+            </div>
+        </div>
+
+        <!-- Exam Screen -->
+        <div id="exam-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="current-question">1</span> / <span id="total-questions">25</span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-header">
+                    <span id="section-title" class="section-title">もんだい1</span>
+                    <span id="question-number" class="question-number">Question 1</span>
+                </div>
+                
+                <div class="question-content">
+                    <div id="question-text" class="question-text"></div>
+                    <div id="options-container" class="options-container"></div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button id="prev-button" class="nav-button secondary" disabled>Previous</button>
+                    <button id="next-button" class="nav-button primary">Next</button>
+                    <button id="finish-button" class="nav-button primary" style="display: none;">Finish Exam</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-content">
+                <div class="results-header">
+                    <div class="results-icon">🎯</div>
+                    <h2>Exam Complete!</h2>
+                </div>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <div class="score-text">
+                            <span id="score-percentage">0</span>%
+                        </div>
+                    </div>
+                    <div class="score-details">
+                        <div class="score-item">
+                            <span class="score-label">Correct Answers:</span>
+                            <span id="correct-count" class="score-value">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Total Questions:</span>
+                            <span class="score-value">25</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Grade:</span>
+                            <span id="grade" class="score-value grade">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button id="review-answers" class="action-button primary">Review Answers</button>
+                    <button id="restart-exam" class="action-button secondary">Take Again</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Screen -->
+        <div id="review-screen" class="screen">
+            <div class="review-header">
+                <h2>Answer Review</h2>
+                <button id="back-to-results" class="back-button">← Back to Results</button>
+            </div>
+            <div id="review-content" class="review-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // JLPT N5 Exam Questions Data
+        const examQuestions = [
+            // Section 1: Vocabulary Questions
+            {
+                section: "もんだい1",
+                question: "わたしはきのうデパートへ行きました。",
+                options: ["どこ", "だれ", "いつ", "なに"],
+                correct: 2,
+                explanation: "きのう (yesterday) indicates time, so いつ (when) is the correct question word."
+            },
+            {
+                section: "もんだい1",
+                question: "わたしは毎日コーヒーを飲みます。",
+                options: ["よく", "たくさん", "いつも", "ときどき"],
+                correct: 2,
+                explanation: "毎日 (every day) means いつも (always)."
+            },
+            {
+                section: "もんだい1",
+                question: "わたしはえいがをみました。とてもおもしろかったです。",
+                options: ["あまり", "ぜんぜん", "とても", "すこし"],
+                correct: 2,
+                explanation: "とても (very) is used to emphasize positive adjectives."
+            },
+            {
+                section: "もんだい1",
+                question: "わたしは日本語が少しわかります。",
+                options: ["じょうず", "できます", "ほしい", "すき"],
+                correct: 1,
+                explanation: "できます means 'can do' and is appropriate with languages."
+            },
+            {
+                section: "もんだい1",
+                question: "わたしは本を読みます。",
+                options: ["よく", "あまり", "ぜんぜん", "たいてい"],
+                correct: 0,
+                explanation: "よく (often) is commonly used with habitual actions."
+            },
+
+            // Section 2: Grammar Particles
+            {
+                section: "もんだい2",
+                question: "わたしは本（　）読みます。",
+                options: ["が", "を", "に", "で"],
+                correct: 1,
+                explanation: "を is the direct object particle used with 読む (to read)."
+            },
+            {
+                section: "もんだい2",
+                question: "わたしは友達と映画（　）見に行きます。",
+                options: ["が", "を", "に", "で"],
+                correct: 1,
+                explanation: "を is used to mark the direct object (映画)."
+            },
+            {
+                section: "もんだい2",
+                question: "わたしは学校（　）日本語を勉強します。",
+                options: ["が", "を", "に", "で"],
+                correct: 3,
+                explanation: "で indicates the location where an action takes place."
+            },
+            {
+                section: "もんだい2",
+                question: "わたしは毎日七時（　）起きます。",
+                options: ["が", "を", "に", "で"],
+                correct: 2,
+                explanation: "に is used to indicate specific time."
+            },
+            {
+                section: "もんだい2",
+                question: "わたしは明日友達（　）会います。",
+                options: ["が", "を", "に", "で"],
+                correct: 2,
+                explanation: "に is used with 会う (to meet) to indicate the person you meet."
+            },
+
+            // Section 3: Kanji and Vocabulary
+            {
+                section: "もんだい3",
+                question: "てんきがわるいですから、うちにいましょう。",
+                options: ["天汽", "矢気", "天気", "矢汽"],
+                correct: 2,
+                explanation: "天気 (tenki) means weather."
+            },
+            {
+                section: "もんだい3",
+                question: "あちらのそらをみてください。",
+                options: ["犬", "花", "山", "空"],
+                correct: 3,
+                explanation: "空 (sora) means sky."
+            },
+            {
+                section: "もんだい3",
+                question: "さとうさんもたってください。",
+                options: ["立って", "食って", "位って", "喰って"],
+                correct: 0,
+                explanation: "立って (tatte) means to stand."
+            },
+            {
+                section: "もんだい3",
+                question: "がくせいはなんにんいますか。",
+                options: ["先生", "学生", "学主", "先主"],
+                correct: 1,
+                explanation: "学生 (gakusei) means student."
+            },
+            {
+                section: "もんだい3",
+                question: "えいがの（　）を2まいかいました。",
+                options: ["ケーキ", "チケット", "ギター", "タクシー"],
+                correct: 1,
+                explanation: "チケット (ticket) is what you buy for movies."
+            },
+
+            // Section 4: Sentence Meaning
+            {
+                section: "もんだい4",
+                question: "けさ、はやしさんにあいました。",
+                options: [
+                    "きのうのあさ、はやしさんにあいました。",
+                    "きょうのひる、はやしさんにあいました。",
+                    "きょうのあさ、はやしさんにあいました。",
+                    "きのうのひる、はやしさんにあいました。"
+                ],
+                correct: 2,
+                explanation: "けさ means 'this morning' (きょうのあさ)."
+            },
+            {
+                section: "もんだい4",
+                question: "このかんじはかんたんです。",
+                options: [
+                    "このかんじはやさしいです。",
+                    "このかんじはむずかしいです。",
+                    "このかんじはおもしろいです。",
+                    "このかんじはつまらないです。"
+                ],
+                correct: 0,
+                explanation: "かんたん (simple) has the same meaning as やさしい (easy)."
+            },
+
+            // Section 5: Reading Comprehension
+            {
+                section: "もんだい5",
+                question: "私は一か月（　）2回、ギターを習っています。",
+                options: ["も", "が", "を", "に"],
+                correct: 3,
+                explanation: "に is used to indicate frequency per time period."
+            },
+            {
+                section: "もんだい5",
+                question: "日曜日に買い物（　）さんぽをします。",
+                options: ["へ", "も", "や", "は"],
+                correct: 2,
+                explanation: "や is used to list examples (shopping and walking)."
+            },
+            {
+                section: "もんだい5",
+                question: "私の母は銀行（　）はたらいています。",
+                options: ["が", "で", "を", "に"],
+                correct: 1,
+                explanation: "で indicates the place where someone works."
+            },
+            {
+                section: "もんだい5",
+                question: "私は新しいカメラ（　）ほしいです。",
+                options: ["で", "か", "に", "が"],
+                correct: 3,
+                explanation: "が is used with ほしい to mark what is desired."
+            },
+            {
+                section: "もんだい5",
+                question: "きのう私はデパートに行きましたが、（　）買いませんでした。",
+                options: ["何を", "何も", "何か", "何に"],
+                correct: 1,
+                explanation: "何も with negative form means 'nothing'."
+            },
+            {
+                section: "もんだい5",
+                question: "A食堂のラーメンは、大学の食堂のラーメンより（　）おいしいです。",
+                options: ["あまり", "すぐ", "ずっと", "いちばん"],
+                correct: 2,
+                explanation: "ずっと is used to emphasize comparative degree."
+            },
+            {
+                section: "もんだい5",
+                question: "このペンは（　）ですか。",
+                options: ["いくら", "いくつ", "どれ", "どうして"],
+                correct: 0,
+                explanation: "いくら is used to ask about price."
+            },
+            {
+                section: "もんだい5",
+                question: "きのうの夜、（　）に本を読みました。",
+                options: ["ねる", "ねて", "ねた", "ねている"],
+                correct: 1,
+                explanation: "ねて (te-form) is used to connect actions in sequence."
+            },
+            {
+                section: "もんだい5",
+                question: "森さん、にもつが多いですね。少し（　）。",
+                options: ["持っていませんか", "持たないでください", "持ちましたね", "持ちましょうか"],
+                correct: 3,
+                explanation: "持ちましょうか is an offer to help carry something."
+            }
+        ];
+
+        // Exam State Management
+        class ExamState {
+            constructor() {
+                this.currentQuestion = 0;
+                this.answers = new Array(examQuestions.length).fill(null);
+                this.startTime = null;
+                this.endTime = null;
+                this.isFinished = false;
+            }
+
+            selectAnswer(questionIndex, answerIndex) {
+                this.answers[questionIndex] = answerIndex;
+            }
+
+            getAnswer(questionIndex) {
+                return this.answers[questionIndex];
+            }
+
+            nextQuestion() {
+                if (this.currentQuestion < examQuestions.length - 1) {
+                    this.currentQuestion++;
+                    return true;
+                }
+                return false;
+            }
+
+            previousQuestion() {
+                if (this.currentQuestion > 0) {
+                    this.currentQuestion--;
+                    return true;
+                }
+                return false;
+            }
+
+            calculateScore() {
+                let correct = 0;
+                for (let i = 0; i < examQuestions.length; i++) {
+                    if (this.answers[i] === examQuestions[i].correct) {
+                        correct++;
+                    }
+                }
+                return {
+                    correct: correct,
+                    total: examQuestions.length,
+                    percentage: Math.round((correct / examQuestions.length) * 100)
+                };
+            }
+
+            getGrade(percentage) {
+                if (percentage >= 90) return { text: 'Excellent', class: 'excellent' };
+                if (percentage >= 75) return { text: 'Good', class: 'good' };
+                if (percentage >= 60) return { text: 'Fair', class: 'fair' };
+                return { text: 'Needs Improvement', class: 'poor' };
+            }
+
+            reset() {
+                this.currentQuestion = 0;
+                this.answers = new Array(examQuestions.length).fill(null);
+                this.startTime = null;
+                this.endTime = null;
+                this.isFinished = false;
+            }
+        }
+
+        // UI Controller
+        class ExamUI {
+            constructor() {
+                this.examState = new ExamState();
+                this.initializeElements();
+                this.bindEvents();
+                this.showScreen('welcome-screen');
+            }
+
+            initializeElements() {
+                // Screens
+                this.welcomeScreen = document.getElementById('welcome-screen');
+                this.examScreen = document.getElementById('exam-screen');
+                this.resultsScreen = document.getElementById('results-screen');
+                this.reviewScreen = document.getElementById('review-screen');
+
+                // Welcome screen elements
+                this.startButton = document.getElementById('start-exam');
+
+                // Exam screen elements
+                this.progressFill = document.getElementById('progress-fill');
+                this.currentQuestionSpan = document.getElementById('current-question');
+                this.totalQuestionsSpan = document.getElementById('total-questions');
+                this.sectionTitle = document.getElementById('section-title');
+                this.questionNumber = document.getElementById('question-number');
+                this.questionText = document.getElementById('question-text');
+                this.optionsContainer = document.getElementById('options-container');
+                this.prevButton = document.getElementById('prev-button');
+                this.nextButton = document.getElementById('next-button');
+                this.finishButton = document.getElementById('finish-button');
+
+                // Results screen elements
+                this.scorePercentage = document.getElementById('score-percentage');
+                this.correctCount = document.getElementById('correct-count');
+                this.grade = document.getElementById('grade');
+                this.reviewAnswersButton = document.getElementById('review-answers');
+                this.restartExamButton = document.getElementById('restart-exam');
+
+                // Review screen elements
+                this.backToResultsButton = document.getElementById('back-to-results');
+                this.reviewContent = document.getElementById('review-content');
+
+                // Set total questions
+                this.totalQuestionsSpan.textContent = examQuestions.length;
+            }
+
+            bindEvents() {
+                this.startButton.addEventListener('click', () => this.startExam());
+                this.prevButton.addEventListener('click', () => this.previousQuestion());
+                this.nextButton.addEventListener('click', () => this.nextQuestion());
+                this.finishButton.addEventListener('click', () => this.finishExam());
+                this.reviewAnswersButton.addEventListener('click', () => this.showReview());
+                this.restartExamButton.addEventListener('click', () => this.restartExam());
+                this.backToResultsButton.addEventListener('click', () => this.showScreen('results-screen'));
+            }
+
+            showScreen(screenId) {
+                // Hide all screens
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                
+                // Show target screen
+                document.getElementById(screenId).classList.add('active');
+            }
+
+            startExam() {
+                this.examState.reset();
+                this.examState.startTime = new Date();
+                this.showScreen('exam-screen');
+                this.displayQuestion();
+            }
+
+            displayQuestion() {
+                const question = examQuestions[this.examState.currentQuestion];
+                const questionNum = this.examState.currentQuestion + 1;
+
+                // Update progress
+                const progress = (questionNum / examQuestions.length) * 100;
+                this.progressFill.style.width = `${progress}%`;
+                this.currentQuestionSpan.textContent = questionNum;
+
+                // Update question info
+                this.sectionTitle.textContent = question.section;
+                this.questionNumber.textContent = `Question ${questionNum}`;
+                
+                // Set question text with bold formatting
+                this.questionText.innerHTML = `<strong>${question.question}</strong>`;
+
+                // Create options
+                this.optionsContainer.innerHTML = '';
+                question.options.forEach((option, index) => {
+                    const optionElement = this.createOptionElement(option, index);
+                    this.optionsContainer.appendChild(optionElement);
+                });
+
+                // Update navigation buttons
+                this.updateNavigationButtons();
+
+                // Restore selected answer if exists
+                const selectedAnswer = this.examState.getAnswer(this.examState.currentQuestion);
+                if (selectedAnswer !== null) {
+                    this.selectOption(selectedAnswer);
+                }
+            }
+
+            createOptionElement(optionText, index) {
+                const option = document.createElement('div');
+                option.className = 'option';
+                option.dataset.index = index;
+                option.setAttribute('role', 'option');
+                option.setAttribute('aria-selected', 'false');
+                
+                option.innerHTML = `
+                    <div class="option-number">${index + 1}</div>
+                    <div class="option-text">${optionText}</div>
+                `;
+
+                option.addEventListener('click', () => {
+                    this.selectOption(index);
+                    this.examState.selectAnswer(this.examState.currentQuestion, index);
+                });
+
+                return option;
+            }
+
+            selectOption(index) {
+                // Remove previous selection
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                    opt.setAttribute('aria-selected', 'false');
+                });
+
+                // Add selection to clicked option
+                const selectedOption = document.querySelector(`[data-index="${index}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                    selectedOption.setAttribute('aria-selected', 'true');
+                }
+            }
+
+            updateNavigationButtons() {
+                const isFirstQuestion = this.examState.currentQuestion === 0;
+                const isLastQuestion = this.examState.currentQuestion === examQuestions.length - 1;
+
+                this.prevButton.disabled = isFirstQuestion;
+                
+                if (isLastQuestion) {
+                    this.nextButton.style.display = 'none';
+                    this.finishButton.style.display = 'block';
+                } else {
+                    this.nextButton.style.display = 'block';
+                    this.finishButton.style.display = 'none';
+                }
+            }
+
+            previousQuestion() {
+                if (this.examState.previousQuestion()) {
+                    this.displayQuestion();
+                }
+            }
+
+            nextQuestion() {
+                if (this.examState.nextQuestion()) {
+                    this.displayQuestion();
+                }
+            }
+
+            finishExam() {
+                this.examState.endTime = new Date();
+                this.examState.isFinished = true;
+                this.showResults();
+            }
+
+            showResults() {
+                const score = this.examState.calculateScore();
+                const grade = this.examState.getGrade(score.percentage);
+
+                // Animate score
+                this.animateScore(score.percentage);
+                
+                this.correctCount.textContent = `${score.correct} / ${score.total}`;
+                this.grade.textContent = grade.text;
+                this.grade.className = `score-value grade ${grade.class}`;
+
+                this.showScreen('results-screen');
+            }
+
+            animateScore(targetPercentage) {
+                let currentPercentage = 0;
+                const increment = targetPercentage / 50; // Animation duration control
+                
+                const animation = setInterval(() => {
+                    currentPercentage += increment;
+                    if (currentPercentage >= targetPercentage) {
+                        currentPercentage = targetPercentage;
+                        clearInterval(animation);
+                    }
+                    this.scorePercentage.textContent = Math.round(currentPercentage);
+                }, 20);
+            }
+
+            showReview() {
+                this.generateReviewContent();
+                this.showScreen('review-screen');
+            }
+
+            generateReviewContent() {
+                this.reviewContent.innerHTML = '';
+                
+                examQuestions.forEach((question, index) => {
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = 'review-item';
+                    
+                    const userAnswer = this.examState.getAnswer(index);
+                    const isCorrect = userAnswer === question.correct;
+                    
+                    reviewItem.innerHTML = `
+                        <div class="review-question">
+                            <strong>Question ${index + 1}:</strong> ${question.question}
+                        </div>
+                        <div class="review-options">
+                            ${question.options.map((option, optIndex) => {
+                                let optionClass = 'neutral';
+                                if (optIndex === question.correct) {
+                                    optionClass = 'correct';
+                                } else if (optIndex === userAnswer && !isCorrect) {
+                                    optionClass = 'incorrect';
+                                }
+                                
+                                const marker = optIndex === question.correct ? '✓' : 
+                                             (optIndex === userAnswer && !isCorrect) ? '✗' : '';
+                                
+                                return `
+                                    <div class="review-option ${optionClass}">
+                                        ${optIndex + 1}. ${option} ${marker}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <span class="review-status ${isCorrect ? 'correct' : 'incorrect'}">
+                                ${isCorrect ? 'Correct' : 'Incorrect'}
+                            </span>
+                            ${question.explanation ? `<p style="margin-top: 0.5rem; color: #4a5568; font-size: 0.875rem;"><strong>Explanation:</strong> ${question.explanation}</p>` : ''}
+                        </div>
+                    `;
+                    
+                    this.reviewContent.appendChild(reviewItem);
+                });
+            }
+
+            restartExam() {
+                this.examState.reset();
+                this.showScreen('welcome-screen');
+            }
+        }
+
+        // Initialize the exam when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ExamUI();
+        });
+
+        // Add some smooth scrolling for better UX
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('option')) {
+                // Add a subtle click animation
+                e.target.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    e.target.style.transform = '';
+                }, 150);
+            }
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const examScreen = document.getElementById('exam-screen');
+            if (!examScreen.classList.contains('active')) return;
+
+            switch(e.key) {
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                    const optionIndex = parseInt(e.key) - 1;
+                    const option = document.querySelector(`[data-index="${optionIndex}"]`);
+                    if (option) {
+                        option.click();
+                    }
+                    break;
+                case 'ArrowLeft':
+                    document.getElementById('prev-button').click();
+                    break;
+                case 'ArrowRight':
+                    const nextBtn = document.getElementById('next-button');
+                    const finishBtn = document.getElementById('finish-button');
+                    if (nextBtn.style.display !== 'none') {
+                        nextBtn.click();
+                    } else {
+                        finishBtn.click();
+                    }
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

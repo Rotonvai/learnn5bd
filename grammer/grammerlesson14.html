@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Notes - Lesson 14</title>
+    <meta name="description" content="Interactive Japanese grammar notes for Minna no Nihongo Lesson 14 with verb groups and conjugations">
+    
+    <!-- Preload fonts for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #64748b;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --background-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--background-color) 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            padding-bottom: 0; /* Space for mobile navigation */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+            padding: 1rem 0;
+        }
+
+        .main-title {
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            color: var(--text-secondary);
+            font-weight: 400;
+            padding: 0 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 2s ease-out;
+            animation: progressAnimation 3s ease-out forwards;
+        }
+
+        .note-section {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .note-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .section-title {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .subsection-title {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: 500;
+            color: var(--primary-dark);
+            margin: 1rem 0 0.75rem 0;
+            padding-left: 0.75rem;
+            border-left: 3px solid var(--accent-color);
+            line-height: 1.4;
+        }
+
+        .content-text {
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .example-text {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+            margin: 1rem 0;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.6;
+        }
+
+        .interactive-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #0ea5e9;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .interactive-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Mobile-optimized table */
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .verb-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface-color);
+            min-width: 300px;
+        }
+
+        .verb-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            white-space: nowrap;
+        }
+
+        .verb-table td {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+            white-space: nowrap;
+        }
+
+        .verb-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Mobile-specific styles */
+        .mobile-only {
+            display: none;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in:nth-child(5) { animation-delay: 0.5s; }
+        .fade-in:nth-child(6) { animation-delay: 0.6s; }
+        .fade-in:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes progressAnimation {
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Mobile-first responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .note-section {
+                padding: 1.25rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .mobile-only {
+                display: block;
+            }
+            .interactive-card {
+                padding: 1rem;
+            }
+
+            .example-text {
+                padding: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .note-section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .nav-item {
+                font-size: 0.6rem;
+                min-height: 50px;
+                padding: 0.4rem 0.2rem;
+            }
+
+            .nav-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .verb-table th,
+            .verb-table td {
+                padding: 0.5rem 0.25rem;
+                font-size: 0.75rem;
+            }
+
+            .interactive-card {
+                padding: 0.875rem;
+            }
+
+            .example-text {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .note-section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+
+            .progress-bar {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for keyboard navigation */
+        .nav-item:focus,
+        .interactive-card:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Touch improvements */
+        .interactive-card,
+        .nav-item {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Better text selection */
+        .content-text,
+        .example-text {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Grammer Lesson 14</h1>
+            <p class="subtitle">ব্যাকরণ নোট (Lesson 14) - Interactive Grammar Guide</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </header>
+
+        <main>
+            <section id="verbs" class="note-section fade-in">
+                <h2 class="section-title">১. ক্রিয়া শ্রেণীবিভাগ (Verb Groups)</h2>
+                
+                <div class="interactive-card" tabindex="0" role="button" aria-label="Group I Verbs explanation">
+                    <h3 class="subsection-title">Group I Verbs</h3>
+                    <p class="content-text">ます ফর্মের শেষ অক্ষর い কলাম থেকে।</p>
+                    <div class="example-text">
+                        <strong>উদাহরণ:</strong> かきます (লিখি), のみます (পান করি), よみます (পড়ি)
+                    </div>
+                </div>
+
+                <div class="interactive-card" tabindex="0" role="button" aria-label="Group II Verbs explanation">
+                    <h3 class="subsection-title">Group II Verbs</h3>
+                    <p class="content-text">ます ফর্মের শেষ অক্ষর সাধারণত え কলাম থেকে।</p>
+                    <div class="example-text">
+                        <strong>উদাহরণ:</strong> たべます (খাই), みせます (দেখাই), みます (দেখি)
+                    </div>
+                </div>
+
+                <div class="interactive-card" tabindex="0" role="button" aria-label="Group III Verbs explanation">
+                    <h3 class="subsection-title">Group III Verbs</h3>
+                    <p class="content-text">します ও きます অন্তর্ভুক্ত।</p>
+                    <div class="example-text">
+                        <strong>উদাহরণ:</strong> さんぽします (হাঁটা), べんきょうします (পড়াশোনা)
+                    </div>
+                </div>
+            </section>
+
+            <section id="te-form" class="note-section fade-in">
+                <h2 class="section-title">২. て-Form</h2>
+                <p class="content-text">ক্রিয়া সংযোগ বা অনুরোধ বোঝাতে ব্যবহৃত হয়।</p>
+                
+                <h3 class="subsection-title">Group I Conjugation Rules</h3>
+                <div class="table-container">
+                    <table class="verb-table" role="table" aria-label="Group I verb conjugation rules">
+                        <thead>
+                            <tr>
+                                <th scope="col">শেষ অক্ষর</th>
+                                <th scope="col">রূপান্তর</th>
+                                <th scope="col">উদাহরণ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>い, ち, り</td>
+                                <td>→ って</td>
+                                <td>かいます → かって</td>
+                            </tr>
+                            <tr>
+                                <td>み, び, に</td>
+                                <td>→ んで</td>
+                                <td>のみます → のんで</td>
+                            </tr>
+                            <tr>
+                                <td>き</td>
+                                <td>→ いて</td>
+                                <td>かきます → かいて</td>
+                            </tr>
+                            <tr>
+                                <td>ぎ</td>
+                                <td>→ いで</td>
+                                <td>いそぎます → いそいで</td>
+                            </tr>
+                            <tr>
+                                <td>し</td>
+                                <td>→ して</td>
+                                <td>かします → かして</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="subsection-title">Group II & III</h3>
+                <div class="example-text">
+                    <strong>Group II:</strong> ます ফেলে তে যোগ হয়। যেমন: たべます → たべて<br>
+                    <strong>Group III:</strong> します → して, きます → きて
+                </div>
+            </section>
+
+            <section id="requests" class="note-section fade-in">
+                <h2 class="section-title">৩. Vてください (অনুরোধ/আদেশ)</h2>
+                <p class="content-text">ভদ্রভাবে কিছু করতে বলার জন্য ব্যবহৃত হয়।</p>
+                <div class="example-text">
+                    <strong>উদাহরণ:</strong><br>
+                    • かいてください (লিখুন)<br>
+                    • たくさんたべてください (অনেক খান)<br>
+                    • すみませんが、～てください (ভদ্রভাবে বলার জন্য)
+                </div>
+            </section>
+
+            <section id="continuous" class="note-section fade-in">
+                <h2 class="section-title">৪. Vて います (চলমান কাজ)</h2>
+                <p class="content-text">বর্তমানে চলমান কাজ বা অবস্থা বোঝাতে ব্যবহৃত হয়।</p>
+                <div class="example-text">
+                    <strong>উদাহরণ:</strong><br>
+                    • ミラーさんは でんわを かけています。(মি. মিলার ফোন করছেন)<br>
+                    • 雨が ふっています।(বৃষ্টি হচ্ছে)
+                </div>
+            </section>
+
+            <section id="shall" class="note-section fade-in">
+                <h2 class="section-title">৫. Vましょうか (Shall I...?)</h2>
+                <p class="content-text">কিছু করার প্রস্তাব দেওয়ার জন্য ব্যবহৃত হয়।</p>
+                <div class="example-text">
+                    <strong>উদাহরণ:</strong><br>
+                    • かさを かしましょうか。(Shall I lend you my umbrella?)
+                </div>
+            </section>
+
+            <section id="particles" class="note-section fade-in">
+                <h2 class="section-title">৬. N が V</h2>
+                <p class="content-text">অনুভব বা কোনো দৃশ্য/শব্দ বোঝাতে が ব্যবহার হয়।</p>
+                <div class="example-text">
+                    <strong>উদাহরণ:</strong><br>
+                    • 雨が ふっています (বৃষ্টি হচ্ছে)<br>
+                    • ミラーさんが いません (উনি নেই)
+                </div>
+            </section>
+
+            <section id="polite" class="note-section fade-in">
+                <h2 class="section-title">৭. すみませんが (ভদ্রভাবে শুরু করা)</h2>
+                <p class="content-text">কথোপকথন ভদ্রভাবে শুরু করার জন্য ব্যবহৃত হয়।</p>
+                <div class="example-text">
+                    <strong>উদাহরণ:</strong><br>
+                    • すみませんが、しおを とって ください (দয়া করে লবণ দিন)<br>
+                    • しつれいですが、おなまえは？ (মাফ করবেন, আপনার নাম কী?)
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Enhanced touch interactions for mobile
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            card.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+                card.style.transform = 'scale(0.98)';
+            });
+
+            card.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                card.style.transform = 'scale(1)';
+                
+                // Only trigger if it's a tap, not a scroll
+                if (Math.abs(touchEndY - touchStartY) < 10) {
+                    // Add visual feedback
+                    card.style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)';
+                    setTimeout(() => {
+                        card.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)';
+                    }, 200);
+                }
+            });
+
+            card.addEventListener('touchcancel', () => {
+                card.style.transform = 'scale(1)';
+            });
+
+            // Keyboard support
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                    }, 150);
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Performance optimization: Lazy load animations
+        if ('IntersectionObserver' in window) {
+            const lazyAnimations = document.querySelectorAll('.note-section');
+            const animationObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            });
+
+            lazyAnimations.forEach(el => {
+                animationObserver.observe(el);
+            });
+        }
+
+        // Add haptic feedback for supported devices
+        function addHapticFeedback(element) {
+            element.addEventListener('touchstart', () => {
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(10); // Very short vibration
+                }
+            });
+        }
+
+        // Apply haptic feedback to interactive elements
+        document.querySelectorAll('.interactive-card, .nav-item').forEach(addHapticFeedback);
+
+        // Optimize for mobile viewport
+        function setMobileViewport() {
+            const viewport = document.querySelector('meta[name=viewport]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            }
+        }
+
+        // Set mobile viewport on load
+        if (window.innerWidth <= 768) {
+            setMobileViewport();
+        }
+    </script>
+</body>
+</html>

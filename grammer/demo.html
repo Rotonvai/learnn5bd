@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Grammar Learning Platform - Lesson 15</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-tertiary: #374151;
+            --border-color: #374151;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .nav-bar {
+            background: var(--bg-primary);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            margin: 0 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .lesson-grid {
+            display: grid;
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .grammar-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grammar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .grammar-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .grammar-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .grammar-card.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: 'Noto Sans JP', sans-serif;
+            flex: 1;
+            margin-left: 1rem;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .expand-btn:hover {
+            background: var(--bg-tertiary);
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .card-content.expanded {
+            max-height: 1000px;
+        }
+
+        .grammar-description {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .meaning {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .examples-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .example {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .example {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+        }
+
+        .example:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .example::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .example:hover::before {
+            transform: translateX(100%);
+        }
+
+        .japanese-text {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        .translation {
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .translation::before {
+            content: '→';
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .audio-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .audio-btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .study-tools {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 50;
+        }
+
+        .tool-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .tool-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .floating-notes {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 300px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .floating-notes.visible {
+            transform: translateY(0);
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .notes-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .close-notes {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .notes-content {
+            min-height: 100px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            resize: vertical;
+            font-family: inherit;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            width: 100%;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .grammar-card {
+                padding: 1.5rem;
+            }
+            
+            .study-tools {
+                right: 1rem;
+            }
+            
+            .floating-notes {
+                right: 1rem;
+                width: calc(100% - 2rem);
+            }
+            
+            .nav-content {
+                padding: 0 1rem;
+            }
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--success-color);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .completion-badge.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .quiz-mode {
+            background: linear-gradient(135deg, var(--warning-color), #f97316);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-mode:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>Japanese Grammar Learning Platform</h1>
+            <p class="subtitle">Master Japanese Grammar with Interactive Lessons</p>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <span>Lesson 15 Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="quiz-mode" id="quizMode">
+            🎯 Switch to Quiz Mode
+        </div>
+
+        <div class="lesson-grid" id="lessonGrid">
+            <!-- Grammar Point 1 -->
+            <div class="grammar-card" data-card="1">
+                <div class="completion-badge">✓</div>
+                <div class="card-header">
+                    <div class="card-number">1</div>
+                    <h2 class="card-title">「Vて も いいです」 - Permission</h2>
+                    <button class="expand-btn">▼</button>
+                </div>
+                <div class="card-content">
+                    <div class="grammar-description">
+                        <div class="meaning">Meaning: You may do something / Asking or giving permission</div>
+                        <div class="form">Form: Verb (て-form) + も いいです</div>
+                    </div>
+                    <div class="examples-container">
+                        <div class="example" data-audio="photo">
+                            <div class="japanese-text">しゃしんを とっても いいです。</div>
+                            <div class="translation">তুমি ছবি তুলতে পারো।</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                        <div class="example" data-audio="smoke">
+                            <div class="japanese-text">たばこを すっても いいですか。</div>
+                            <div class="translation">আমি কি সিগারেট খেতে পারি?</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grammar Point 2 -->
+            <div class="grammar-card" data-card="2">
+                <div class="completion-badge">✓</div>
+                <div class="card-header">
+                    <div class="card-number">2</div>
+                    <h2 class="card-title">「Vて は いけません」 - Prohibition</h2>
+                    <button class="expand-btn">▼</button>
+                </div>
+                <div class="card-content">
+                    <div class="grammar-description">
+                        <div class="meaning">Meaning: You must not do something / Prohibition</div>
+                        <div class="form">Form: Verb (て-form) + は いけません</div>
+                    </div>
+                    <div class="examples-container">
+                        <div class="example" data-audio="nosmoking">
+                            <div class="japanese-text">ここで たばこを すっては いけません。</div>
+                            <div class="translation">এখানে ধূমপান করা যাবে না।</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grammar Point 3 -->
+            <div class="grammar-card" data-card="3">
+                <div class="completion-badge">✓</div>
+                <div class="card-header">
+                    <div class="card-number">3</div>
+                    <h2 class="card-title">「Vて います」 - Resulting State</h2>
+                    <button class="expand-btn">▼</button>
+                </div>
+                <div class="card-content">
+                    <div class="grammar-description">
+                        <div class="meaning">Meaning: An action has been completed, and its result remains</div>
+                        <div class="form">Form: Verb (て-form) + います</div>
+                    </div>
+                    <div class="examples-container">
+                        <div class="example" data-audio="married">
+                            <div class="japanese-text">わたしは けっこん して います。</div>
+                            <div class="translation">আমি বিবাহিত।</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                        <div class="example" data-audio="live">
+                            <div class="japanese-text">わたしは おおさかに すんで います。</div>
+                            <div class="translation">আমি ওসাকা-তে থাকি।</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grammar Point 4 -->
+            <div class="grammar-card" data-card="4">
+                <div class="completion-badge">✓</div>
+                <div class="card-header">
+                    <div class="card-number">4</div>
+                    <h2 class="card-title">「Vて います」 - Habitual Action</h2>
+                    <button class="expand-btn">▼</button>
+                </div>
+                <div class="card-content">
+                    <div class="grammar-description">
+                        <div class="meaning">Meaning: Regular or ongoing activity, such as a job or routine</div>
+                        <div class="form">Form: Verb (て-form) + います</div>
+                    </div>
+                    <div class="examples-container">
+                        <div class="example" data-audio="sell">
+                            <div class="japanese-text">スーパーで フィルムを うって います。</div>
+                            <div class="translation">সুপারমার্কেটে ফিল্ম বিক্রি হয়।</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                        <div class="example" data-audio="study">
+                            <div class="japanese-text">いもうとは だいがくで べんきょうして います。</div>
+                            <div class="translation">আমার ছোট বোন বিশ্ববিদ্যালয়ে পড়ছে।</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grammar Point 5 -->
+            <div class="grammar-card" data-card="5">
+                <div class="completion-badge">✓</div>
+                <div class="card-header">
+                    <div class="card-number">5</div>
+                    <h2 class="card-title">「しりません」 - Not Knowing</h2>
+                    <button class="expand-btn">▼</button>
+                </div>
+                <div class="card-content">
+                    <div class="grammar-description">
+                        <div class="meaning">Meaning: Not knowing something (opposite of しって います)</div>
+                        <div class="form">Form: しりません / しって います</div>
+                    </div>
+                    <div class="examples-container">
+                        <div class="example" data-audio="phone">
+                            <div class="japanese-text">しやくしょの でんわばんごうを しって いますか。</div>
+                            <div class="translation">তুমি কি সিটি হলের নম্বর জানো?</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                        <div class="example" data-audio="responses">
+                            <div class="japanese-text">はい、しって います。→ হ্যাঁ, জানি।<br/>いいえ、しりません。→ না, জানি না।</div>
+                            <div class="translation">Response examples for knowing/not knowing</div>
+                            <button class="audio-btn">🔊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Tools -->
+    <div class="study-tools">
+        <button class="tool-btn" id="notesBtn" title="Take Notes">📝</button>
+        <button class="tool-btn" id="highlightBtn" title="Highlight Mode">🖍️</button>
+        <button class="tool-btn" id="bookmarkBtn" title="Bookmark">🔖</button>
+        <button class="tool-btn" id="reviewBtn" title="Review Mode">🔄</button>
+    </div>
+
+    <!-- Floating Notes -->
+    <div class="floating-notes" id="floatingNotes">
+        <div class="notes-header">
+            <h3 class="notes-title">My Notes</h3>
+            <button class="close-notes" id="closeNotes">×</button>
+        </div>
+        <textarea class="notes-content" id="notesContent" placeholder="Write your notes here..."></textarea>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        // Card Expansion
+        const grammarCards = document.querySelectorAll('.grammar-card');
+        const progressFill = document.getElementById('progressFill');
+        let completedCards = 0;
+
+        grammarCards.forEach((card, index) => {
+            const expandBtn = card.querySelector('.expand-btn');
+            const content = card.querySelector('.card-content');
+            const completionBadge = card.querySelector('.completion-badge');
+
+            expandBtn.addEventListener('click', () => {
+                const isExpanded = content.classList.contains('expanded');
+                
+                // Close all other cards
+                grammarCards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.querySelector('.card-content').classList.remove('expanded');
+                        otherCard.querySelector('.expand-btn').textContent = '▼';
+                        otherCard.classList.remove('active');
+                    }
+                });
+
+                if (!isExpanded) {
+                    content.classList.add('expanded');
+                    expandBtn.textContent = '▲';
+                    card.classList.add('active');
+                    
+                    // Mark as completed
+                    setTimeout(() => {
+                        completionBadge.classList.add('visible');
+                        if (!card.dataset.completed) {
+                            card.dataset.completed = 'true';
+                            completedCards++;
+                            updateProgress();
+                        }
+                    }, 500);
+                } else {
+                    content.classList.remove('expanded');
+                    expandBtn.textContent = '▼';
+                    card.classList.remove('active');
+                }
+            });
+        });
+
+        // Progress Update
+        function updateProgress() {
+            const progress = (completedCards / grammarCards.length) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        // Audio Simulation
+        const audioButtons = document.querySelectorAll('.audio-btn');
+        audioButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.classList.add('pulse');
+                setTimeout(() => btn.classList.remove('pulse'), 1000);
+                
+                // Simulate audio feedback
+                btn.textContent = '🔊';
+                setTimeout(() => {
+                    btn.textContent = '🔊';
+                }, 1000);
+            });
+        });
+
+        // Study Tools
+        const notesBtn = document.getElementById('notesBtn');
+        const floatingNotes = document.getElementById('floatingNotes');
+        const closeNotes = document.getElementById('closeNotes');
+        const notesContent = document.getElementById('notesContent');
+
+        notesBtn.addEventListener('click', () => {
+            floatingNotes.classList.toggle('visible');
+        });
+
+        closeNotes.addEventListener('click', () => {
+            floatingNotes.classList.remove('visible');
+        });
+
+        // Save notes to localStorage
+        notesContent.addEventListener('input', () => {
+            localStorage.setItem('lesson15-notes', notesContent.value);
+        });
+
+        // Load saved notes
+        const savedNotes = localStorage.getItem('lesson15-notes');
+        if (savedNotes) {
+            notesContent.value = savedNotes;
+        }
+
+        // Highlight Mode
+        const highlightBtn = document.getElementById('highlightBtn');
+        let highlightMode = false;
+
+        highlightBtn.addEventListener('click', () => {
+            highlightMode = !highlightMode;
+            highlightBtn.style.background = highlightMode ? 'var(--warning-color)' : '';
+            highlightBtn.style.color = highlightMode ? 'white' : '';
+            
+            if (highlightMode) {
+                document.addEventListener('mouseup', handleHighlight);
+            } else {
+                document.removeEventListener('mouseup', handleHighlight);
+            }
+        });
+
+        function handleHighlight() {
+            const selection = window.getSelection();
+            if (selection.toString().length > 0) {
+                const range = selection.getRangeAt(0);
+                const span = document.createElement('span');
+                span.style.backgroundColor = '#fef3c7';
+                span.style.padding = '2px 4px';
+                span.style.borderRadius = '4px';
+                
+                try {
+                    range.surroundContents(span);
+                } catch (e) {
+                    // Handle cases where selection spans multiple elements
+                    console.log('Cannot highlight across multiple elements');
+                }
+                selection.removeAllRanges();
+            }
+        }
+
+        // Quiz Mode
+        const quizMode = document.getElementById('quizMode');
+        quizMode.addEventListener('click', () => {
+            alert('Quiz mode coming soon! 🎯\n\nThis feature will include:\n• Interactive exercises\n• Grammar practice\n• Progress tracking\n• Instant feedback');
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Touch gestures for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+
+            // Swipe gestures
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                if (deltaX > 0) {
+                    // Swipe right - previous card
+                    console.log('Swipe right detected');
+                } else {
+                    // Swipe left - next card
+                    console.log('Swipe left detected');
+                }
+            }
+        });
+
+        // Auto-expand first card on load
+        setTimeout(() => {
+            grammarCards[0].querySelector('.expand-btn').click();
+        }, 1000);
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0s';
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        grammarCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

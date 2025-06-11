@@ -26,6 +26,8 @@
       --kanji-color: #3f51b5;
       --listening-color: #039be5;
       --quiz-color: #5e35b1;
+      --interview-color: #ff6f00;
+      --previous-color: #8e24aa;
     }
     
     * {
@@ -179,7 +181,7 @@
     
     @media (min-width: 1024px) {
       .grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 1.5rem;
       }
       
@@ -278,6 +280,8 @@
     .kanji-header { background: linear-gradient(135deg, var(--kanji-color), #5c6bc0); }
     .listening-header { background: linear-gradient(135deg, var(--listening-color), #29b6f6); }
     .quiz-header { background: linear-gradient(135deg, var(--quiz-color), #7e57c2); }
+    .interview-header { background: linear-gradient(135deg, var(--interview-color), #ff8f00); }
+    .previous-header { background: linear-gradient(135deg, var(--previous-color), #ab47bc); }
     
     .japanese {
       font-size: 2.5rem;
@@ -327,6 +331,8 @@
     .kanji-title { color: var(--kanji-color); }
     .listening-title { color: var(--listening-color); }
     .quiz-title { color: var(--quiz-color); }
+    .interview-title { color: var(--interview-color); }
+    .previous-title { color: var(--previous-color); }
     
     .card-description {
       font-size: 0.85rem;
@@ -387,6 +393,8 @@
     .kanji-button { color: var(--kanji-color); }
     .listening-button { color: var(--listening-color); }
     .quiz-button { color: var(--quiz-color); }
+    .interview-button { color: var(--interview-color); }
+    .previous-button { color: var(--previous-color); }
     
     .progress-indicator {
       display: flex;
@@ -416,6 +424,8 @@
     .kanji-progress { background-color: var(--kanji-color); }
     .listening-progress { background-color: var(--listening-color); }
     .quiz-progress { background-color: var(--quiz-color); }
+    .interview-progress { background-color: var(--interview-color); }
+    .previous-progress { background-color: var(--previous-color); }
     
     .progress-text {
       font-size: 0.8rem;
@@ -472,6 +482,8 @@
     .card:nth-child(4) { animation-delay: 0.4s; }
     .card:nth-child(5) { animation-delay: 0.5s; }
     .card:nth-child(6) { animation-delay: 0.6s; }
+    .card:nth-child(7) { animation-delay: 0.7s; }
+    .card:nth-child(8) { animation-delay: 0.8s; }
   </style>
 </head>
 <body>
@@ -502,7 +514,7 @@
           </div>
           <div class="card-body">
             <h2 class="card-title kana-title">Kana</h2>
-            <p class="card-description"></p>
+            <p class="card-description">Master Hiragana and Katakana characters</p>
             <div class="progress-indicator">
               <div class="progress-bar">
                 <div class="progress-fill kana-progress"></div>
@@ -527,7 +539,7 @@
           </div>
           <div class="card-body">
             <h2 class="card-title vocab-title">Vocabulary</h2>
-            <p class="card-description"></p>
+            <p class="card-description">Essential words and phrases for N5 level</p>
             <div class="progress-indicator">
               <div class="progress-bar">
                 <div class="progress-fill vocab-progress"></div>
@@ -552,7 +564,7 @@
           </div>
           <div class="card-body">
             <h2 class="card-title grammar-title">Grammar</h2>
-            <p class="card-description"></p>
+            <p class="card-description">Basic grammar patterns and structures</p>
             <div class="progress-indicator">
               <div class="progress-bar">
                 <div class="progress-fill grammar-progress"></div>
@@ -577,7 +589,7 @@
           </div>
           <div class="card-body">
             <h2 class="card-title kanji-title">Kanji</h2>
-            <p class="card-description"></p>
+            <p class="card-description">Learn the 103 essential N5 kanji characters</p>
             <div class="progress-indicator">
               <div class="progress-bar">
                 <div class="progress-fill kanji-progress"></div>
@@ -602,7 +614,7 @@
           </div>
           <div class="card-body">
             <h2 class="card-title listening-title">Listening</h2>
-            <p class="card-description"></p>
+            <p class="card-description">Practice listening comprehension skills</p>
             <div class="progress-indicator">
               <div class="progress-bar">
                 <div class="progress-fill listening-progress"></div>
@@ -627,7 +639,7 @@
           </div>
           <div class="card-body">
             <h2 class="card-title quiz-title">Quiz</h2>
-            <p class="card-description"></p>
+            <p class="card-description">Test your knowledge with interactive quizzes</p>
             <div class="progress-indicator">
               <div class="progress-bar">
                 <div class="progress-fill quiz-progress"></div>
@@ -644,6 +656,57 @@
             </span>
           </div>
         </a>
+
+        <!-- Interview Card -->
+        <a href="./Interview/Interview_index.html" class="card">
+          <div class="card-header interview-header">
+            <div class="japanese">面接</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title interview-title">Interview</h2>
+            <p class="card-description">Prepare for Japanese School interviews and conversations</p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill interview-progress"></div>
+              </div>
+              <span class="progress-text">25%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button interview-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Previous Year Questions Card -->
+        <a href="./Previousquestions/July_2024.html" class="card">
+          <div class="card-header previous-header">
+            <div class="japanese">過去問</div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title previous-title">Previous Year Questions</h2>
+            <p class="card-description">Practice with real JLPT N5 exam papers</p>
+            <div class="progress-indicator">
+              <div class="progress-bar">
+                <div class="progress-fill previous-progress"></div>
+              </div>
+              <span class="progress-text">15%</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-button previous-button">
+              Start Learning
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>
